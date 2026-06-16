@@ -1,5 +1,20 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Long+Cang&family=Pixelify+Sans:wght@400..700&display=swap');
+
 body {
     margin: 0;
     padding: 0;
     background: radial-gradient(circle, #1e1e1e, #000);
+}
+
+#Label {
+    /*pixilfy sans as font?*/
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 3em;
+    color: #00000099;
+    text-align: center;
+    margin-top: 1%;
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
 }

@@ -1,0 +1,50 @@
+{
+    "grassgoober":{
+        "name":"Grass Goober",
+        "description":"A grass goober is a goober that lives in grassy areas. They cant jump because theyre plants but they are very happy lil goobers, and they dont like fire. Best friends of the brunk",
+        "filePath": "data/sprites/grassgoober.png",
+        "w":16,
+        "h":16,
+        "animations": {
+            "walk": {
+                "frames":4,
+                "frameRate": 8,
+                "row": 0
+            },
+            "attack": {
+                "frames":5,
+                "frameRate": 2,
+                "row": 1
+            },
+            "death": {
+                "frames":15,
+                "frameRate": 2,
+                "row": 2
+            }
+        }
+    },
+    "brunk":{
+        "name":"Brunk",
+        "description":"Brunk's are trees that have come alive. Most of the time, they are pretty chill, but when someone enters their territory or hurts their friends, they get angry and whip them. They are weak to fire. Best friend of the grass goober",
+        "filePath": "data/sprites/brunk.png",
+        "w":32,
+        "h":32,
+        "animations": {
+            "attack": {
+                "frames":8,
+                "frameRate": 4,
+                "row": 0
+            },
+            "idle": {
+                "frames":2,
+                "frameRate": 8,
+                "row": 1
+            },
+            "death": {
+                "frames":28,
+                "frameRate": 2,
+                "row": 2
+            }
+        }
+    }
+}

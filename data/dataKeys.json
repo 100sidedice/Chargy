@@ -6,5 +6,8 @@
     "player-base": "data/sprites/chargy.png",
     "player-charged": "data/sprites/chargyCharged.png",
     "phone": "data/sprites/phone.png",
-    "battery": "data/sprites/battery.png"
+    "battery": "data/sprites/battery.png",
+    "sprite-data": "data/descriptions.json",
+
+    "grassGoober": "data/sprites/grassgoober.png"
 }

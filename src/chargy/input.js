@@ -6,12 +6,20 @@ export default class Input {
         this.actionmap = {};
         this.keymap = {
             "Axis1": {
-                "positive": ["d", "arrowright", "#right"],
-                "negative": ["a", "arrowleft", "#left"]
+                "positive": ["arrowright", "#right"],
+                "negative": ["arrowleft", "#left"]
             },
             "Axis2": {
-                "positive": ["s", "arrowdown", "#down"],
-                "negative": ["w", "arrowup", "#up"]
+                "positive": ["arrowdown", "#down"],
+                "negative": ["arrowup", "#up"]
+            },
+            "Axis3": {
+                "positive": ["d"],
+                "negative": ["a"]
+            },
+            "Axis4": {
+                "positive": ["s"],
+                "negative": ["w"]
             }
         };
         this.convertKeymap();

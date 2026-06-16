@@ -1,51 +1,83 @@
 export class Camera {
     constructor(world) {
         this.world = world;
-        this.keyframes = [null];
+        this.keyframes = {};
+        this.head = 0;
+        this.tail = 0;
+        this.keyframeTypes = new Map();
         this.startTime = 0;
         this.runningTime = 0;
-        this.pushed = false;
+        this.playing = false;
+        this.toPop = [];
     }
     clearKeyframes() {
-        this.keyframes = [null];
+        this.keyframes = {};
+        this.head = 0;
+        this.tail = 0;
         this.startTime = 0;
         this.runningTime = 0;
         this.lastKeyframeIndex = 0;
     }
-    addKeyframe(duration, bezier, effects, onStart, onEnd) {
-        this.keyframes.push(new CameraKeyframe(duration, bezier, effects, onStart, onEnd));
+    addKeyframe(name, keyframe) {
+        this.keyframeTypes.set(name, keyframe);
+    }
+    addAnimation(...keyframeNames) {
+        keyframeNames.forEach(keyframeName => {
+            const keyframe = this.keyframeTypes.get(keyframeName);
+
+            if (!keyframe) {
+                throw new Error(`Unknown keyframe name: ${keyframeName}`);
+            }
+
+            this.keyframes[this.tail++] = new CameraKeyframe(
+                keyframe.duration,
+                keyframe.bezier,
+                keyframe.effects,
+                keyframe.onStart,
+                keyframe.onEnd
+            );
+        });
+    }
+    current() {
+        return this.keyframes[this.head];
+    }
+
+    next() {
+        return this.keyframes[this.head + 1];
     }
     pullQueue(){
-        if(this.keyframes.length < 2) return; // need at least 2 keyframes to transition
-        this.keyframes.shift();
+        while(this.keyframes[0] === null && this.keyframes.length > 0){
+            this.keyframes.shift();
+        }
     }
-    checkQueue(){
-        if (this.keyframes[0] === null) return false; // no keyframe to play
-        return this.keyframes.length >= 2;
+    checkQueue() {
+        return this.current() && this.next();
     }
-    playKeyframe(){
-        this.pullQueue();
-        if(!this.checkQueue()) return;
+    playKeyframe() {
+        if (!this.checkQueue()) return;
         this.startTime = performance.now();
-        const keyframeA = this.keyframes[0];
-        const keyframeB = this.keyframes[1];
+        const keyframeA = this.current();
+        const keyframeB = this.next().clone();
         keyframeA.ready(keyframeB, this.startTime);
         keyframeA.onStart();
+        this.playing = true;
+    }
+    finishCurrentKeyframe() {
+        const current = this.current();
+        if (!current) return;
+        const currClone = current.clone();
+        delete this.keyframes[this.head];
+        this.head++;
+        this.startTime = performance.now();
+        this.runningTime = 0;
+        this.playing = false;
+        currClone.onEnd();
     }
     push(ctx, effectSettings = {}) {
-        this.pushed = false;
         this.runningTime = performance.now();
+        if(!this.playing) return;
         if (!this.checkQueue()) return;
-        // if the current keyframe has ended, pull the queue and start the next keyframe
-        if (this.keyframes[0].isInBounds(this.runningTime) === 1) {
-            this.keyframes[0].onEnd();
-            this.keyframes[0] = null; // mark for deletion
-            return;
-        }
-
-        this.pushed = true;
-
-        const keyframeA = this.keyframes[0];
+        const current = this.current();
         const settings = {
             cameraX: 0,
             cameraY: 0,
@@ -55,12 +87,34 @@ export class Camera {
             trueTileSize: 32,
             ...effectSettings
         };
-        keyframeA.push(ctx, settings, this.runningTime);
+        if (current.isInBounds(this.runningTime) === 1) {
+            current.push(ctx, settings, this.runningTime);
+            this.toPop.push(current);
+            this.finishCurrentKeyframe();
+            return;
+        }
+        current.push(ctx, settings, this.runningTime);
+        this.toPop.push(current);
     }
+
     pop(ctx) {
-        if (!this.pushed) return;
-        const keyframeA = this.keyframes[0];
-        keyframeA.pop(ctx);
+        for (const keyframe of this.toPop) {
+            keyframe.pop(ctx);
+        }
+        this.toPop = [];
+    }
+}
+
+export class Keyframe {
+    constructor(duration, bezier, effects, onStart, onEnd){
+        this.duration = duration;
+        this.bezier = bezier;
+        this.effects = effects;
+        this.onStart = onStart;
+        this.onEnd = onEnd;
+    }
+    clone(){
+        return new Keyframe(this.duration, this.bezier, this.effects, this.onStart, this.onEnd);
     }
 }
 
@@ -74,6 +128,7 @@ export class CameraKeyframe {
         this.duration = duration;
         this.startTime = 0;
         this.running = false;
+        this.toPop = [];
     }
 
     ready(effectB, startTime) {
@@ -82,7 +137,7 @@ export class CameraKeyframe {
         for (const [effectName] of this.effectsA) {
             this.effectsB.set(
                 effectName,
-                effectB.effectsA.get(effectName) ?? new CameraEffect()
+                effectB.effectsA.get(effectName) ?? this.effectsA.get(effectName)
             );
         }
         this.running = true;
@@ -106,7 +161,7 @@ export class CameraKeyframe {
 
     push(ctx, effectSettings, runningTime) {
         this.runningTime = runningTime;
-        const t = this.getProgress();
+        const t = this.getProgress(runningTime);
 
         const ease = this.bezier.get(t).y;
         
@@ -119,7 +174,7 @@ export class CameraKeyframe {
             effectA.lerpValue = ease;
             effectSettings.linearValue = t;
             effectSettings.inverseValue = this.bezier.get(t, true).y; // optional second bezier for inverse easing
-            
+            this.toPop.push(effectA);
             effectA.push(ctx, effectSettings);
         }
         
@@ -127,13 +182,12 @@ export class CameraKeyframe {
 
     pop(ctx) {
         if (!this.running) return;
+        this.toPop.forEach(effect => effect.pop(ctx));
+        this.toPop = [];
+    }
 
-        const t = this.getProgress();
-        if (t <= 0 || t > 1) return;
-        for (const [effectName, effectA] of this.effectsA) {
-            const effectB = this.effectsB.get(effectName) || effectA; 
-            effectA.pop(ctx);
-        }
+    clone(){
+        return new CameraKeyframe(this.duration, this.bezier, this.effectsA, this.onStart, this.onEnd);
     }
 }
 
@@ -253,7 +307,7 @@ export class PosEffect extends CameraEffect {
         ctx.save();
 
         let [x, y] = this.params;
-        const [tx, ty] = this.lerpTo?.params ?? this.params;
+        let [tx, ty] = this.lerpTo?.params ?? this.params;
 
         const t = this.lerpValue;
 
@@ -271,6 +325,13 @@ export class PosEffect extends CameraEffect {
 
             x = tilesX / 2 - 0.5;
             y = tilesY / 2 - 0.5;
+        }
+        if (tx === -1 && ty === -1) {
+            const tilesX = screenW / trueTileSize;
+            const tilesY = screenH / trueTileSize;
+
+            tx = tilesX / 2 - 0.5;
+            ty = tilesY / 2 - 0.5;
         }
         if(this.linear){
             x = x + (tx - x) * effectSettings.linearValue;
@@ -303,6 +364,47 @@ export class PosEffect extends CameraEffect {
 
     pop(ctx) {
         ctx.restore();
+    }
+}
+export class TranslateEffect extends CameraEffect {
+    constructor(x, y, linear = false, invert = false) {
+        super(x, y);
+
+        this.linear = linear;
+        this.invert = invert;
+    }
+
+    push(ctx, effectSettings = {}) {
+        ctx.save();
+
+        let [x, y] = this.params;
+        let [tx, ty] = this.lerpTo?.params ?? this.params;
+
+        const t = this.lerpValue;
+
+        if (this.linear) {
+            x = x + (tx - x) * effectSettings.linearValue;
+            y = y + (ty - y) * effectSettings.linearValue;
+        } else if (this.invert) {
+            x = x + (tx - x) * effectSettings.inverseValue;
+            y = y + (ty - y) * effectSettings.inverseValue;
+        } else {
+            x = x + (tx - x) * t;
+            y = y + (ty - y) * t;
+        }
+
+        const trueTileSize = effectSettings.trueTileSize ?? 32;
+
+        const translateX = x * trueTileSize;
+        const translateY = y * trueTileSize;
+
+        ctx.translate(translateX, translateY);
+
+        effectSettings.translateX = translateX;
+        effectSettings.translateY = translateY;
+    }
+
+    pop(ctx) {
         ctx.restore();
     }
 }
@@ -354,7 +456,7 @@ export class FadeEffect extends CameraEffect {
     }
     push(ctx, effectSettings) {
         const [color] = this.params;
-        const distColor = this.lerpTo.params[0] ?? "#00000000";
+        const distColor = this.lerpTo.params[0] ?? color;
         const newColor = this.interpolateColor(color, distColor, this.lerpValue);
 
         ctx.fillStyle = newColor;
@@ -432,4 +534,40 @@ export function getEffect(name, ...params) {
         case "dither": return new DitherEffect(...params);
         default: throw new Error(`Unknown effect name: ${name}`);
     }
+}
+/**
+ * Creates a reusable camera keyframe definition.
+ *
+ * @param {Object} options
+ * @param {number} [options.duration=1000]
+ * Duration of the keyframe in milliseconds.
+ *
+ * @param {Bezier|null} [options.bezier=null]
+ * Bezier curve used to interpolate between this keyframe and the next.
+ *
+ * @param {Map<string, CameraEffect>|Object<string, CameraEffect>} [options.effects=new Map()]
+ * Effects applied during this keyframe. May be a Map or plain object.
+ *
+ * @param {Function} [options.onStart=() => {}]
+ * Called when the keyframe begins playing.
+ *
+ * @param {Function} [options.onEnd=() => {}]
+ * Called when the keyframe finishes playing.
+ *
+ * @returns {Keyframe}
+ */
+export function createKeyframe({
+    duration = 1000,
+    bezier = null,
+    effects = new Map(),
+    onStart = () => {},
+    onEnd = () => {}
+} = {}) {
+    return new Keyframe(
+        duration,
+        bezier,
+        effects,
+        onStart,
+        onEnd
+    );
 }

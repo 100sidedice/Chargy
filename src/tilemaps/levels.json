@@ -9,7 +9,8 @@
         ],
         "playerX": 2,
         "playerY": 5,
-        "startingCharge": 1
+        "startingCharge": 1,
+        "text":"Press Arrow keys or WASD to move."
     },
     "2": {
         "origin": [17, 0],
@@ -21,7 +22,8 @@
         ],
         "playerX": 2,
         "playerY": 5,
-        "startingCharge": 1
+        "startingCharge": 1,
+        "text":"Up to jump"
     },
     "3": {
         "origin": [34, 0],
@@ -36,7 +38,8 @@
         ],
         "playerX": 2,
         "playerY": 6,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Phones require charge to charge."
     },
     "4": {
         "origin": [0, 10],
@@ -51,7 +54,8 @@
         ],
         "playerX": 2,
         "playerY": 6,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"You can jump after falling off a block, but not after jumping."
     },
     "5": {
         "origin": [17, 10],
@@ -66,7 +70,8 @@
         ],
         "playerX": 2,
         "playerY": 6,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Foolery"
     },
     "6": {
         "origin": [34, 10],
@@ -81,7 +86,8 @@
         ],
         "playerX": 1,
         "playerY": 5,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Hold down to bounce off the ground and jump higher."
     },
     "7": {
         "origin": [0, 20],
@@ -97,7 +103,8 @@
         ],
         "playerX": 2,
         "playerY": 6,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Charge all phones to complete a level."
     },
     "8": {
         "origin": [17, 20],
@@ -110,9 +117,17 @@
         "batteries":[
             {"x":14, "y": 2}
         ],
+        "enemies":[
+            {"type": "grassgoober", "x": 7, "y": 7, "speed": 0.02, "path":[
+                {"x": 6, "y": 7},
+                {"x": 13, "y": 7}
+            ]}
+        ],
         "playerX": 2,
         "playerY": 7,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Goobers"
+
     },
     "9": {
         "origin": [34, 20],
@@ -125,8 +140,84 @@
         "batteries":[
             {"x":4, "y": 7}
         ],
+        "enemies":[
+            {"type": "grassgoober", "x": 4, "y": 7, "speed": 0.02, "path":[
+                {"x": 2, "y": 7},
+                {"x": 6, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 11, "y": 7, "speed": 0.02, "path":[
+                {"x": 9, "y": 7},
+                {"x": 13, "y": 7}
+            ]}
+        ],
         "playerX": 7,
         "playerY": 1,
-        "startingCharge": 0
+        "startingCharge": 0,
+        "text":"Pattern recognition"
+    },
+    "10": {
+        "origin": [0, 31],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":2, "y": 2, "maxCharge": 1}
+        ],
+        "batteries":[
+            {"x":1, "y": 2}
+        ],
+        "enemies":[
+            {"type": "brunk", "x": 6, "y": 3, "dir": -1},
+            {"type": "brunk", "x": 12, "y": 5, "dir": 1}
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"Brunks"
+    },
+    "11": {
+        "origin": [17, 31],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":14, "y": 7, "maxCharge": 1}
+        ],
+        "batteries":[
+            {"x":9, "y": 1}
+        ],
+        "enemies":[
+            {"type": "brunk", "x": 8, "y": 6, "dir": 1}
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"how to kill a brunk."
+    },
+    "12": {
+        "origin": [34, 31],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":1, "y": 2, "maxCharge": 1}
+        ],
+        "batteries":[
+            {"x":14, "y": 1}
+        ],
+        "enemies":[
+            {"type": "brunk", "x": 3, "y": 1, "dir": -1},
+            {"type": "brunk", "x": 9, "y": 0, "dir": -1},
+            {"type": "brunk", "x": 13, "y": 4, "dir": 1},
+            {"type": "brunk", "x": 9, "y": 6, "dir": 1},
+            {"type": "grassgoober", "x": 1, "y": 7, "speed": 0.02, "path":[
+                {"x": 1, "y": 7},
+                {"x": 4, "y": 7}
+            ]}
+        ],
+        "playerX": 7,
+        "playerY": 3,
+        "startingCharge": 0,
+        "text":"The overgrowth"
     }
 }

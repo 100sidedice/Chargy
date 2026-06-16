@@ -1,6 +1,6 @@
 import Geometry from "../tilemaps/Geometry.js";
 export default class Player {
-    constructor(world, x, y, w, h) {
+    constructor(world, x, y, w, h, name, inputMap, input) {
         this.x = x;
         this.y = y;
         this.w = w;
@@ -8,10 +8,12 @@ export default class Player {
         this.vx = 0;
         this.vy = 0;
         this.world = world;
-        this.input = world.input;
+        this.input = input;
         this.canJump = false;
         this.flip = false; 
         this.gravity = 0.008;
+        this.inputMap = inputMap;
+        this.name = name;
 
         this.charge = 1;
         this.charging = false; // 0 to 1, how much the player is currently charging
@@ -32,14 +34,16 @@ export default class Player {
         this.chargeCallback = (currCharge, amount)=>{
            // for phones to hook into and update display
         }; 
+        this.shrink = 0.05; // shrink player hitbox to tiles for better feeling collisions
+        this.buffer = 2/16;
     }
     update(){
         this.collide()
         this.x += this.vx;
         this.y += this.vy;
         // simple input handling for testing
-        const x = this.input.getAxis("Axis1");
-        const y = this.input.getAxis("Axis2");
+        const x = this.input.getAxis(this.inputMap.x);
+        const y = this.input.getAxis(this.inputMap.y);
         if (y < -0.5 && this.canJump) {
             this.vy = -0.15;
             this.canJump = false;
@@ -68,27 +72,47 @@ export default class Player {
         if (this.charge >= 1) {
             image = this.world.images["player-charged"];
         }
+        ctx.save();
+        ctx.translate(this.x + this.w * 0.5,this.y + this.h * 0.5);
+        // ctx.rotate(this.rotation);
+        ctx.scale(1-(this.shrink*2), 1-(this.shrink*2)); // scale up to tile size based on shrink amount
         if (this.flip) {
-            ctx.save();
             ctx.scale(-1, 1);
-            ctx.drawImage(image, -this.x - this.w, this.y, this.w, this.h);
-            ctx.restore();
-        } else{
-            ctx.drawImage(image, this.x, this.y, this.w, this.h);
         }
+        ctx.drawImage(
+            image,
+            -this.w * 0.5,
+            -this.h * 0.5,
+            this.w,
+            this.h
+        );
+
+        ctx.restore();
     }
     collide(){
-        for (let poly of this.world.collisions) {
+        for (let poly of this.world.getCollisions()) {
             let bounce = 0;
-            if (this.vy > 0.3 && this.input.getAxis("Axis2") > 0.5 && this.canJump) bounce = 1; // High bounce when fast falling
-            if (this.vy > 0.1 && this.input.getAxis("Axis2") > 0.5 && this.canJump) bounce = 1; // Small bounce if fast falling but not above threshold
-            const collision = Geometry.spriteToTile({x: this.x+0.1, y: this.y+0.1},{x: this.vx, y: this.vy}, {x: this.w-0.1, y: this.h-0.1}, {x: poly.x, y: poly.y}, {x: poly.w, y: poly.h}, 0.2, bounce);
+            let shrink = this.shrink;
+            let spawnParticles = false;
+            if (this.vy > 0.3 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump) {
+                bounce = 1
+                spawnParticles = true;
+            }; // High bounce when fast falling
+            if (this.vy > 0.1 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump) {
+                bounce = 1
+                spawnParticles = true;
+            }; // Small bounce if fast falling but not above threshold
+            const collision = Geometry.spriteToTile({x: this.x+shrink, y: this.y+shrink},{x: this.vx, y: this.vy}, {x: this.w-shrink*2, y: this.h-shrink*2}, {x: poly.x, y: poly.y}, {x: poly.w, y: poly.h}, this.buffer, bounce);
             if(!collision.collided) continue;
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
-            this.x = collision.pos.x-0.1;
-            this.y = collision.pos.y-0.1;
-            if(collision.collided.bottom) this.canJump = true;
+            this.x = collision.pos.x-shrink;
+            this.y = collision.pos.y-shrink;
+            if(collision.collided.bottom){
+                this.canJump = true;
+                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});
+                
+            }
         }
     }
     spawnChargeParticles(){
@@ -151,5 +175,12 @@ export default class Player {
             ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
         });
     }
-
+    getHitbox(){
+        return {
+            x: this.x+this.shrink,
+            y: this.y+this.shrink,
+            w: this.w-this.shrink*2,
+            h: this.h-this.shrink*2
+        }
+    }
 }

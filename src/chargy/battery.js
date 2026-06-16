@@ -12,14 +12,23 @@ export default class Battery {
         this.players = world.players; // reference to players for charging
         this.frameCount = 4; // number of frames in the battery animation
         this.slowFrameRate = 10; // how many updates before advancing the frame
+        this.attackHitbox = {
+            "shape": "circle",
+            "x": this.x + this.w/2,
+            "y": this.y + this.h/2,
+            "r": 0.25
+        }
     }
     update(){
         Object.keys(this.players).forEach(key => {
             const player = this.players[key];
-            const dx = player.x - this.x;
-            const dy = player.y - this.y;
+            const dx = (player.x+0.5) - (this.x + 0.5);
+            const dy = (player.y+0.5) - (this.y + 0.5);
             const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 0.5) {
+            if (dist < 0.75) {
+                if(player.charge < 1) {
+                    this.world.ParticleManager.spawnAt(this.x+0.5, this.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
+                }
                 player.charge = 1;
             }
         });

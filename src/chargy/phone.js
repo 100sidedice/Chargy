@@ -12,7 +12,13 @@ export default class Phone {
         this.players = world.players; // reference to players for charging
         this.charge = 0;
         this.maxCharge = maxCharge;
-        this.connectedPlayers = []
+        this.connectedPlayers = [];
+        this.attackHitbox = {
+            "shape": "circle",
+            "x": this.x + this.w/2,
+            "y": this.y + this.h/2,
+            "r": 0.5
+        }
     }
     update(){
         // if players close enough, start charging
@@ -26,10 +32,10 @@ export default class Phone {
                     player.chargeCallback = ()=>{};
                 }
             }; // already charging or connected, don't reconnect
-            const dx = player.x - this.x;
-            const dy = player.y - this.y;
+            const dx = (player.x + 0.5) - (this.x + 0.5);
+            const dy = (player.y + 0.5) - (this.y + 0.5);
             const dist = Math.sqrt(dx*dx + dy*dy);
-            if (dist < 1.5) { // adjust this distance as needed
+            if (dist < 1) { // adjust this distance as needed
                 this.charging = true;
                 player.charging = true;
                 // hook onto player's charge callback to update phone charge
