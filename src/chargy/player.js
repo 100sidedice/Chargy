@@ -38,12 +38,40 @@ export default class Player {
         this.buffer = 2/16;
     }
     update(){
-        this.collide()
-        this.x += this.vx;
-        this.y += this.vy;
+        // charge particles
+        this.updateChargeParticles();
+        if (this.charge < 0 && this.charging) {
+            this.charge = 0;
+            this.charging = false;
+        }
         // simple input handling for testing
         const x = this.input.getAxis(this.inputMap.x);
         const y = this.input.getAxis(this.inputMap.y);
+        if (x > 0) this.flip = false;
+        else if (x < 0) this.flip = true;
+        if (this.inWire) return; // skip normal movement if in wire, since wire handles movement
+        this.collide()
+        // if outside of world bounds, reset to spawn
+        if (this.x < 0) {
+            this.x = 0;
+            this.vx = 0;
+        }
+        if (this.y < 0) {
+            this.y = 0;
+            this.vy = 0;
+        }
+        if (this.x > this.world.region.width - this.w) {
+            this.x = this.world.region.width - this.w;
+            this.vx = 0;
+        }
+        if (this.y > this.world.region.height - this.h) {
+            this.y = this.world.region.height - this.h;
+            this.vy = 0;
+            this.canJump = true;
+        }
+        this.x += this.vx;
+        this.y += this.vy;
+        
         if (y < -0.5 && this.canJump) {
             this.vy = -0.15;
             this.canJump = false;
@@ -56,15 +84,9 @@ export default class Player {
         this.vx += x/60;
         // apply friction
         this.vx *= 0.8;
-        if (x > 0) this.flip = false;
-        else if (x < 0) this.flip = true;
+        
 
-        // charge particles
-        this.updateChargeParticles();
-        if (this.charge < 0 && this.charging) {
-            this.charge = 0;
-            this.charging = false;
-        }
+        
     }
     draw(ctx){
         this.drawChargeParticles(ctx);
@@ -89,8 +111,8 @@ export default class Player {
 
         ctx.restore();
     }
-    collide(){
-        for (let poly of this.world.getCollisions()) {
+    collide(extraCollisions = []){
+        for (let poly of this.world.getCollisions().concat(extraCollisions)){
             let bounce = 0;
             let shrink = this.shrink;
             let spawnParticles = false;
@@ -106,8 +128,8 @@ export default class Player {
             if(!collision.collided) continue;
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
-            this.x = collision.pos.x-shrink;
-            this.y = collision.pos.y-shrink;
+            if(!poly.ignoreX) this.x = collision.pos.x-shrink;
+            if(!poly.ignoreY) this.y = collision.pos.y-shrink;
             if(collision.collided.bottom){
                 this.canJump = true;
                 if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});

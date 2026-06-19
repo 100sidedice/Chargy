@@ -5,12 +5,13 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":12, "y": 5, "maxCharge": 1}
+            {"x":12, "y": 5, "maxCharge": 1, "goto": 2}
         ],
         "playerX": 2,
         "playerY": 5,
         "startingCharge": 1,
-        "text":"Press Arrow keys or WASD to move."
+        "text":"Press Arrow keys or WASD to move.",
+        "world": "world1"
     },
     "2": {
         "origin": [17, 0],
@@ -18,7 +19,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":12, "y": 3, "maxCharge": 1}
+            {"x":12, "y": 3, "maxCharge": 1, "goto": 3}
         ],
         "playerX": 2,
         "playerY": 5,
@@ -31,7 +32,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":13, "y": 5, "maxCharge": 1}
+            {"x":13, "y": 5, "maxCharge": 1, "goto": 4}
         ],
         "batteries":[
             {"x":14, "y": 1}
@@ -47,7 +48,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":14, "y": 4, "maxCharge": 1}
+            {"x":14, "y": 4, "maxCharge": 1, "goto": 5}
         ],
         "batteries":[
             {"x":7, "y": 1}
@@ -63,7 +64,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":1, "y": 4, "maxCharge": 1}
+            {"x":1, "y": 4, "maxCharge": 1, "goto": 6}
         ],
         "batteries":[
             {"x":14, "y": 2}
@@ -79,7 +80,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":14, "y": 1, "maxCharge": 1}
+            {"x":14, "y": 1, "maxCharge": 1, "goto": 7}
         ],
         "batteries":[
             {"x":1, "y": 1}
@@ -95,8 +96,8 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":2, "y": 2, "maxCharge": 1},
-            {"x":13, "y": 2, "maxCharge": 1}
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 8},
+            {"x":13, "y": 2, "maxCharge": 1, "goto": 8}
         ],
         "batteries":[
             {"x":14, "y": 5}
@@ -112,7 +113,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":1, "y": 2, "maxCharge": 1}
+            {"x":1, "y": 2, "maxCharge": 1, "goto": 9}
         ],
         "batteries":[
             {"x":14, "y": 2}
@@ -135,7 +136,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":11, "y": 7, "maxCharge": 1}
+            {"x":11, "y": 7, "maxCharge": 1, "goto": 10}
         ],
         "batteries":[
             {"x":4, "y": 7}
@@ -161,7 +162,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":2, "y": 2, "maxCharge": 1}
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 11}
         ],
         "batteries":[
             {"x":1, "y": 2}
@@ -181,7 +182,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":14, "y": 7, "maxCharge": 1}
+            {"x":14, "y": 7, "maxCharge": 1, "goto": 12}
         ],
         "batteries":[
             {"x":9, "y": 1}
@@ -200,7 +201,7 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":1, "y": 2, "maxCharge": 1}
+            {"x":1, "y": 2, "maxCharge": 1, "load":"spacestation", "goto": 13}
         ],
         "batteries":[
             {"x":14, "y": 1}
@@ -218,6 +219,59 @@
         "playerX": 7,
         "playerY": 3,
         "startingCharge": 0,
-        "text":"The overgrowth"
+        "text":"Goober world!"
+    },
+
+    "13":{
+        "world":"spacestation",
+        "origin": [0, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 5,
+        "playerY": 5,
+        "startingCharge": 0,
+        "text":"Welcome to the spacestation!",
+        "phones":[
+            {"x":2, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 1},
+            {"x":4, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 2},
+            {"x":6, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 3},
+            {"x":9, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 4},
+            {"x":11, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 5},
+            {"x":13, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 6},
+            {"x":2, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 7},
+            {"x":4, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 8},
+            {"x":6, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 9},
+            {"x":9, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 10},
+            {"x":11, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 11},
+            {"x":13, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 12}
+        ],
+        "batteries":[
+            {"x":7, "y": 5}
+        ],
+        "enemies":[
+            {"type": "wire", "x": 2, "y": 1, "nodes":
+                [
+                    {"x":2,"y":1,"down":{"x":2,"y":3}},
+                    {"x":4,"y":1,"down":{"x":4,"y":3}},
+                    {"x":6,"y":1,"down":{"x":6,"y":3}},
+                    {"x":9,"y":1,"down":{"x":9,"y":3}},
+                    {"x":11,"y":1,"down":{"x":11,"y":3}},
+                    {"x":13,"y":1,"down":{"x":13,"y":3}},
+                    {"x":2,"y":3,"up":{"x":2,"y":1}, "right":{"x":4,"y":3}},
+                    {"x":4,"y":3,"up":{"x":4,"y":1}, "right":{"x":6,"y":3}, "left":{"x":2,"y":3}},
+                    {"x":6,"y":3,"up":{"x":6,"y":1}, "right":{"x":9,"y":3}, "left":{"x":4,"y":3}},
+                    {"x":9,"y":3,"up":{"x":9,"y":1}, "right":{"x":11,"y":3}, "left":{"x":6,"y":3}},
+                    {"x":11,"y":3,"up":{"x"   :11,"y":1}, "right":{"x":13,"y":3}, "left":{"x":9,"y":3}},
+                    {"x":13,"y":3,"up":{"x":13,"y":1}, "left": {"x":11,"y":3}}
+                ]
+            },
+            {"type":"oneway", "x":2,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":4,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":6,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
+        ]
     }
 }

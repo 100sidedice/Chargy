@@ -46,5 +46,17 @@
                 "row": 2
             }
         }
+    },
+    "wire":{
+        "name":"Wire",
+        "description":"An object. Chargy is able to travel through wires.",
+        "filePath": null
+    },
+    "oneway":{
+        "name":"One Way",
+        "description":"A block that can only be passed through in one direction.",
+        "filePath": "data/sprites/oneway.png",
+        "w":16,
+        "h":16
     }
 }

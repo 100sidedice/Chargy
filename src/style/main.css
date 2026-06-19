@@ -18,3 +18,21 @@ body {
     -moz-osx-font-smoothing: grayscale;
     font-synthesis-weight: none;
 }
+/* Settings button */
+#settings {
+    position: absolute;
+    background-color: transparent;
+    background-image: url("../../data/sprites/settings.png");
+    background-size: cover;
+    /*make it pixelated*/
+    image-rendering: pixelated;
+    width: 5em;
+    height: 5em;
+    border: none;
+    cursor: pointer;
+    right: 5%;
+    top: 5%;
+}
+#settings:hover {
+    background-image: url("../../data/sprites/settings:hover.png");
+}

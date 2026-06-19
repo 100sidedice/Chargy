@@ -1,11 +1,14 @@
 export default class Phone {
-    constructor(world, x, y, w, h, maxCharge = 5) {
+    constructor(world, x, y, w, h, maxCharge = 5, goto = 1, load = null){
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.vx = 0;
         this.vy = 0;
+        this.goto = goto;
+        this.load = load;
+
         this.world = world;
         this.frame = 0;
         this.charging = false;
@@ -78,6 +81,13 @@ export default class Phone {
         if(this.charge<=0) ctx.drawImage(image, 0 * frameWidth, 0, frameWidth, image.height, this.x, this.y, this.w, this.h);
         if(this.charge>=this.maxCharge) ctx.drawImage(image, 11 * frameWidth, 0, frameWidth, image.height, this.x, this.y, this.w, this.h);
         
+        // if goto is set to a level, display level number on phone
+        if (this.load) {
+            ctx.fillStyle = "white";
+            ctx.font = "0.02rem Pixelify Sans, sans-serif";
+            ctx.textAlign = "center";
+            ctx.fillText(this.goto, this.x + this.w/2, this.y + this.h/2+0.1);
+        }
     }
 
 }

@@ -1,13 +1,11 @@
 {
     "levels": "src/tilemaps/levels.json",
     "tilesets-root": "data/levels",
-    "tilesets-tmx":"data/levels/world1/spritesheet.tmx",
-    "tilesets-image":"data/levels/world1/spritesheet.tileset.png",
+    "tilesets-tmx":"data/levels/#/spritesheet.tmx",
+    "tilesets-image":"data/levels/#/spritesheet.tileset.png",
     "player-base": "data/sprites/chargy.png",
     "player-charged": "data/sprites/chargyCharged.png",
     "phone": "data/sprites/phone.png",
     "battery": "data/sprites/battery.png",
-    "sprite-data": "data/descriptions.json",
-
-    "grassGoober": "data/sprites/grassgoober.png"
+    "sprite-data": "data/descriptions.json"
 }

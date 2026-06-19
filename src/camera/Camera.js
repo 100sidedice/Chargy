@@ -9,6 +9,8 @@ export class Camera {
         this.runningTime = 0;
         this.playing = false;
         this.toPop = [];
+
+        this.hasPushed = false;
     }
     clearKeyframes() {
         this.keyframes = {};
@@ -30,6 +32,7 @@ export class Camera {
             }
 
             this.keyframes[this.tail++] = new CameraKeyframe(
+                keyframeName,
                 keyframe.duration,
                 keyframe.bezier,
                 keyframe.effects,
@@ -68,14 +71,15 @@ export class Camera {
         const currClone = current.clone();
         delete this.keyframes[this.head];
         this.head++;
-        this.startTime = performance.now();
-        this.runningTime = 0;
         this.playing = false;
-        currClone.onEnd();
+
+        this.fillFrames = true;
+        currClone.onEnd().then(() => {
+            this.fillFrames = false;
+        }).catch(() => {});
     }
     push(ctx, effectSettings = {}) {
         this.runningTime = performance.now();
-        if(!this.playing) return;
         if (!this.checkQueue()) return;
         const current = this.current();
         const settings = {
@@ -87,10 +91,10 @@ export class Camera {
             trueTileSize: 32,
             ...effectSettings
         };
-        if (current.isInBounds(this.runningTime) === 1) {
-            current.push(ctx, settings, this.runningTime);
+        if (this.runningTime - current.startTime >= current.duration || this.fillFrames) {
+            current.push(ctx, settings, this.runningTime, this.fillFrames);
             this.toPop.push(current);
-            this.finishCurrentKeyframe();
+            if (!this.fillFrames) this.finishCurrentKeyframe();
             return;
         }
         current.push(ctx, settings, this.runningTime);
@@ -106,7 +110,8 @@ export class Camera {
 }
 
 export class Keyframe {
-    constructor(duration, bezier, effects, onStart, onEnd){
+    constructor(name, duration, bezier, effects, onStart, onEnd){
+        this.name = name;
         this.duration = duration;
         this.bezier = bezier;
         this.effects = effects;
@@ -114,25 +119,27 @@ export class Keyframe {
         this.onEnd = onEnd;
     }
     clone(){
-        return new Keyframe(this.duration, this.bezier, this.effects, this.onStart, this.onEnd);
+        return new Keyframe(this.name, this.duration, this.bezier, this.effects, this.onStart, this.onEnd);
     }
 }
 
 export class CameraKeyframe {
-    constructor(duration, bezier, effectsA = new Map(), onStart = () => {}, onEnd = () => {}) {
+    constructor(name, duration, bezier, effectsA = new Map(), onStart = () => {}, onEnd = () => {}) {
+        this.name = name;
         this.bezier = bezier;
         this.effectsA = effectsA;
         this.effectsB = new Map();
         this.onStart = onStart;
         this.onEnd = onEnd;
         this.duration = duration;
-        this.startTime = 0;
+        this.startTime = performance.now();
         this.running = false;
         this.toPop = [];
     }
 
     ready(effectB, startTime) {
         this.startTime = startTime;
+        this.effectB = effectB;
         this.effectsB = new Map();
         for (const [effectName] of this.effectsA) {
             this.effectsB.set(
@@ -143,34 +150,33 @@ export class CameraKeyframe {
         this.running = true;
     }
 
-    getProgress(runningTime = this.runningTime) {
+    getProgress(runningTime) {
         if (!this.startTime || !this.duration) return -1;
         return Math.min(1, Math.max(0, (runningTime - this.startTime) / this.duration));
     }
 
-    isInBounds(runningTime = this.runningTime) {
-        if (runningTime < this.startTime){
-            return -1;
-        };
-        if (runningTime > this.startTime + this.duration){
-            return 1;
-        };
-        return 0;
-    }
-
-
-    push(ctx, effectSettings, runningTime) {
+    push(ctx, effectSettings, runningTime, fillFrames = false) {
         this.runningTime = runningTime;
-        const t = this.getProgress(runningTime);
-
+        let t = this.getProgress(runningTime);
+        if (fillFrames) {
+            if (t === -1) t = 1;
+            if (t >= 1) t = 0.99; // prevent overshooting due to timing issues
+        }
         const ease = this.bezier.get(t).y;
         
         for (const [name, effectA] of this.effectsA) {
             const effectB = this.effectsB.get(name);
-            
-            if (!effectA || !effectB) continue;
-            
+
+            // was a condition here where if effectB doesn't exist, we should just use effectA's params as target (handled in effect push).
+            // removing that crashed when there was a gap
             effectA.lerpTo = effectB;
+            if (fillFrames) {
+                effectA.lerpTo = effectA;
+                effectA.lerpValue = 0;
+                effectSettings.linearValue = 1;
+                effectSettings.inverseValue = 0;
+            }
+
             effectA.lerpValue = ease;
             effectSettings.linearValue = t;
             effectSettings.inverseValue = this.bezier.get(t, true).y; // optional second bezier for inverse easing
@@ -187,7 +193,8 @@ export class CameraKeyframe {
     }
 
     clone(){
-        return new CameraKeyframe(this.duration, this.bezier, this.effectsA, this.onStart, this.onEnd);
+        const newKey = new CameraKeyframe(this.name, this.duration, this.bezier, this.effectsA, this.onStart, this.onEnd);
+        return newKey;
     }
 }
 
@@ -456,7 +463,7 @@ export class FadeEffect extends CameraEffect {
     }
     push(ctx, effectSettings) {
         const [color] = this.params;
-        const distColor = this.lerpTo.params[0] ?? color;
+        const distColor = this.lerpTo.params[0];
         const newColor = this.interpolateColor(color, distColor, this.lerpValue);
 
         ctx.fillStyle = newColor;
@@ -479,8 +486,9 @@ export class FadeEffect extends CameraEffect {
         const r = Math.round(cA.r + (cB.r - cA.r) * t);
         const g = Math.round(cA.g + (cB.g - cA.g) * t);
         const b = Math.round(cA.b + (cB.b - cA.b) * t);
-        const a = cA.a + (cB.a - cA.a) * t;
-
+        let a = cA.a + (cB.a - cA.a) * t;
+        if (a > 1) a = 1;
+        if (a < 0) a = 0;
         return `rgba(${r}, ${g}, ${b}, ${a})`;
     }
 }
@@ -557,6 +565,7 @@ export function getEffect(name, ...params) {
  * @returns {Keyframe}
  */
 export function createKeyframe({
+    name = "keyframe",
     duration = 1000,
     bezier = null,
     effects = new Map(),
@@ -564,6 +573,7 @@ export function createKeyframe({
     onEnd = () => {}
 } = {}) {
     return new Keyframe(
+        name,
         duration,
         bezier,
         effects,

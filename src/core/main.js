@@ -14,6 +14,26 @@ class Main {
         window.addEventListener("resize", () => {
             const canvas = document.getElementById("canvas");
             resizeCanvas(canvas);
+
+            if (window.world) {
+                const ui = document.getElementById("UI");
+                if (ui) {
+                    const scale = Math.min(
+                        this.canvas.width / (16 * 16),
+                        this.canvas.height / (9 * 16)
+                    );
+                    const trueTileSize = 16 * scale;
+                    const renderWidth = 16 * trueTileSize;
+                    const renderHeight = 9 * trueTileSize;
+                    const xOffset = (this.canvas.width - renderWidth) / 2;
+                    const yOffset = (this.canvas.height - renderHeight) / 2;
+                    ui.style.position = "absolute";
+                    ui.style.left = `${xOffset}px`;
+                    ui.style.top = `${yOffset}px`;
+                    ui.style.width = `${renderWidth}px`;
+                    ui.style.height = `${renderHeight}px`;
+                }
+            }
         });
         window.saver = new Saver("chargy-save");
         await window.saver.load("data/defaultData.json");
@@ -21,6 +41,7 @@ class Main {
         
         
         this.world = new World(this.canvas, this.ctx);
+        window.world = this.world; // for debugging
         await this.world.preload("data/dataKeys.json");
         this.draw(this.ctx);
     }

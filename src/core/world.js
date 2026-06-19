@@ -20,20 +20,11 @@ export default class World {
         this.ParticleManager = new ParticleManager();
         this.collisions = [];
 
-        this.level = 1;
+        this.level = 13;
 
 
         this.levelTransition = {
             active: false,
-            progress: 0,
-            duration: 1000,
-            targetTileX: 0,
-            targetTileY: 0,
-
-            startZoom: 1,
-            endZoom: 50,
-            startRot: 0,
-            endRot: Math.PI / 6 // 30 degrees max tilt
         };
     }
     async preload(dataKey){
@@ -41,10 +32,6 @@ export default class World {
         this.data = data;
         // load tilemap
         this.tilemap = new Tilemap();
-        await this.tilemap.preload(
-            await fetch(data["tilesets-tmx"].replace(/{#}/g, "1")).then(res => res.text()),
-            await fetch(data["tilesets-image"].replace(/{#}/g, "1")).then(res => res.blob())
-        );
         // load entity images
         const phone = await fetch(data["phone"]).then(res => res.blob());
         this.images["phone"] = await createImageBitmap(phone);
@@ -56,15 +43,18 @@ export default class World {
         const playerCharged = await fetch(data["player-charged"]).then(res => res.blob());
         this.images["player-base"] = await createImageBitmap(playerBase);
         this.images["player-charged"] = await createImageBitmap(playerCharged);
-
+        
         // load level data
         const levelData = await fetch(data["levels"]).then(res => res.json());
         this.levelData = levelData;
         // create phones based on level data
-  
+        
         this.spriteData = await fetch(data["sprite-data"]).then(res => res.json());
         for (let key in this.spriteData) {
             const sprite = this.spriteData[key];
+            if(!sprite.filePath) {
+                continue;
+            };
             const imgBlob = await fetch(sprite.filePath).then(res => res.blob());
             this.images[key] = await createImageBitmap(imgBlob);
         }
@@ -74,8 +64,7 @@ export default class World {
         this.players[1] = new Player(this, 5, 5, 1, 1, "player1", {"x":"Axis1", "y":"Axis2"}, this.input);  
 
         this.Camera = new Camera(this.canvas);
-
-        this.switchLevel(this.level);
+        await this.switchLevel(this.level, null, "spacestation");
         this.lastChargeSteal = performance.now();
         this.chargeStealCooldown = 500; 
         this.bgParticles = 0;
@@ -157,7 +146,6 @@ export default class World {
             Object.values(this.entities).forEach(entity => entity.draw(ctx, this.images));
             this.ParticleManager.draw(ctx);
             if(window.showHitboxes){
-                
                 // show ememy attack hitboxes
                 Object.values(this.entities).concat(Object.values(this.phones)).forEach(entity => {
                     if(entity.attackHitbox) {
@@ -206,6 +194,23 @@ export default class World {
                         ctx.fill();
                     }
                 });
+                // show wire hitboxes
+                Object.values(this.entities).forEach(entity => {
+                    if(entity.type && entity.type === "wire"){
+                        ctx.strokeStyle = "blue";
+                        ctx.lineWidth = 0.05;
+                        entity.hitboxes.forEach(hitbox => {
+                            if(hitbox.shape === "circle"){
+                                ctx.beginPath();
+                                ctx.arc(hitbox.x+0.5, hitbox.y+0.5, hitbox.radius, 0, 2 * Math.PI);
+                                ctx.stroke();
+                            } else {
+                                ctx.strokeRect(hitbox.x, hitbox.y, hitbox.w, hitbox.h);
+                            }
+                        });
+                    }
+                });
+
                 // show player hitboxes
                 ctx.strokeStyle = "green";
                 ctx.lineWidth = 0.05;
@@ -252,18 +257,48 @@ export default class World {
         this.Camera.pop(ctx);
     }
     update(){
-        if(window.level){
-            if(window.level !== -1){
-                this.switchLevel(window.level);
-                window.level = -1;
+        if (window.switchLevel){
+            queueMicrotask(() => {
+                this.switchLevel(window.switchLevel[0]??1, window.switchLevel[0]??1, window.switchLevel[1]??"world1");
+                window.switchLevel = null;
+            });
+        }
+        if (window.displayLevels){
+            // display all levels available in level data as a grid in the console, with current level highlighted
+            console.log("Available levels:");
+            const levelNumbers = Object.keys(this.levelData).map(num => parseInt(num));
+            const maxLevel = Math.max(...levelNumbers);
+            let output = "";
+            for (let i = 1; i <= maxLevel; i++) {
+                if (this.levelData[i] && this.levelData[i].world) {
+                    output += "\n";
+                    output += `${this.levelData[i].world}`.toWellFormed().padStart(6) + "\n";
+                }
+                if (i === this.level) {
+                    output += `[${i}] `.padStart(6);
+                } else if (levelNumbers.includes(i)) {
+                    output += `${i} `.padStart(6);
+                } else {
+                    output += `- `.padStart(6);
+                }
             }
+            console.log(output);
+            window.displayLevels = undefined;
+        }
+        if (window.debug){
+            console.log("All debug commands");
+            console.log("- window.switchLevel = [levelNum, loadWorld?]  | Goes to specified level");
+            console.log("- window.displayLevels = true  | Displays all levels in console");
+            console.log("- window.testCamera = 1  | test phone transition effect");
+            console.log("- window.showHitboxes = true/false  | toggle hitbox display");
+            window.debug = undefined;
         }
         this.ParticleManager.update();
         Object.values(this.players).forEach(player => player.update());
         Object.values(this.entities).forEach(entity => entity.update());
         Object.values(this.phones).forEach(phone => phone.update());
 
-        // check all phones - if all are fully charged, start level transition
+        // option 1,check all phones - if all are fully charged, start level transition
         const allCharged = Object.values(this.phones)
             .filter(e => e instanceof Phone)
             .every(phone => phone.charge >= phone.maxCharge);
@@ -274,6 +309,15 @@ export default class World {
             const firstPhone = this.phones["phone0"];
 
             this.startPhoneTransition(firstPhone);
+        }
+        // option 2, if a phone has 'load', then start transition immediately on charge, and load the specified world instead of next level
+        if (!this.levelTransition.active) {
+            Object.values(this.phones).forEach(phone => {
+                if(phone.charge >= phone.maxCharge && phone.load) {
+                    this.levelTransition.active = true;
+                    this.startPhoneTransition(phone);
+                }
+            });
         }
 
         // if multiple players, if they are close enough to each other, steal charge from the one with more charge to the one with less charge
@@ -323,8 +367,36 @@ export default class World {
         // Test particle effect
         if(window.testCamera === 1) window.testCamera = 0; // so no spamming in console
     }
-    switchLevel(levelNum) {
+    async switchLevel(levelNum, goto=null, load=null) {
         this.level = levelNum;
+        if (goto) this.level = goto;
+        if (load){
+            // reset tilemap
+            this.tilemap = new Tilemap();
+            await this.tilemap.preload(
+                await fetch(this.data["tilesets-tmx"].replace(/#/g, load)).then(res => res.text()),
+                await fetch(this.data["tilesets-image"].replace(/#/g, load)).then(res => res.blob())
+            )
+        }
+        // now we set the main region's pos & size to the level's offset and size to make UI is clean
+        const ui =document.getElementById("UI")
+        if (ui) {
+            const scale = Math.min(
+                this.canvas.width / (16 * 16),
+                this.canvas.height / (9 * 16)
+            );
+            const trueTileSize = 16 * scale;
+            const renderWidth = 16 * trueTileSize;
+            const renderHeight = 9 * trueTileSize;
+            const xOffset = (this.canvas.width - renderWidth) / 2;
+            const yOffset = (this.canvas.height - renderHeight) / 2;
+            ui.style.position = "absolute";
+            ui.style.left = `${xOffset}px`;
+            ui.style.top = `${yOffset}px`;
+            ui.style.width = `${renderWidth}px`;
+            ui.style.height = `${renderHeight}px`;
+        }
+
         if(this.level > Object.keys(this.levelData).length) {
             this.level = 1; // loop back to level 1 if level number exceeds available levels
         }
@@ -346,13 +418,16 @@ export default class World {
             player.charging = false;
             player.chargeCallback = ()=>{};
             player.chargeParticles = [];
+            player.inWire = false;
+            player.wireHash = null;
+            player.wireHitbox = null;
         });
         this.entities = {};
         this.phones = {};
         // create phones based on level data
         // add to entities so they get drawn and updated
         this.levelData[this.level].phones.forEach((phoneData, index) => {
-            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge);
+            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge, phoneData.goto ?? this.level+1, phoneData.load ?? null);
         });
         // create enemies based on level data
         if(this.levelData[this.level].enemies){
@@ -371,10 +446,14 @@ export default class World {
             });
         }
         this.updateCollisions();
+        
+
+        
     }
     startPhoneTransition(phone) {
         this.Camera.clearKeyframes();
         this.Camera.addKeyframe("start", createKeyframe({
+            "name": "start",
             "duration": 1000,
             "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 1, 'y': 0}, {'x': 1, 'y': 1}]),
             "effects": new Map()
@@ -383,25 +462,27 @@ export default class World {
             .set("scale", getEffect("scale", 1, 1))
             .set("pos", getEffect("pos", -1, -1, false, true))
             ,
-            "onEnd": () => {
-                this.switchLevel(this.level+1);
+            "onEnd": async () => {
+                await this.switchLevel(this.level+1, phone.goto, phone.load);
                 this.Camera.playKeyframe();
             }
         }));
         this.Camera.addKeyframe("phone", createKeyframe({
-            "duration":0,
-            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 1, 'y': 0}, {'x': 1, 'y': 1}]), // starts slow then goes fast.
+            "name": "phone",
+            "duration":10,
+            "bezier": new Bezier([{'x': 0.0, 'y': 1.0}, {'x': 1, 'y': 1}]), // starts slow then goes fast.
             "effects": new Map()
             .set("fade", getEffect("fade", "#000000FF"))
             .set("rotate", getEffect("rotate", 30))
             .set("scale", getEffect("scale", 5, 5))
             .set("pos", getEffect("pos", phone.x, phone.y))
             ,
-            "onEnd": () => {
+            "onEnd": async () => {
                 this.Camera.playKeyframe();
             }
         }))
         this.Camera.addKeyframe("center", createKeyframe({
+            "name": "center",
             "duration":1000, // 1 second duration
             "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 1, 'y': 0}, {'x': 1, 'y': 1}]), // starts slow then goes fast.
             "effects": new Map()
@@ -410,12 +491,13 @@ export default class World {
             .set("scale", getEffect("scale", 1.2, 1.2))
             .set("pos", getEffect("pos", -1, -1))
             ,
-            "onEnd": () => {
+            "onEnd": async () => {
                 this.Camera.playKeyframe();
                 this.levelTransition.active = false;
             }
         }))
         this.Camera.addKeyframe("fadeIn", createKeyframe({
+            "name": "fadeIn",
             "duration": 1000,
             "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 1, 'y': 0}, {'x': 1, 'y': 1}]),
             "effects": new Map()
@@ -431,8 +513,8 @@ export default class World {
     }
     shakeCamera() {
         this.Camera.clearKeyframes();
-        console.log("Starting camera transition test...");
         this.Camera.addKeyframe( // the starting keyframe
+            "shake",
             300, // 1 second duration
             new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}],[{'x': 0, 'y': 1.0}, {'x': 0.494, 'y': 1}, {'x': 0.504, 'y': 0}, {'x': 1, 'y': 0}]), // starts slow then goes fast.
             new Map()
@@ -463,5 +545,33 @@ export default class World {
     }
     getCollisions(){
         return [...this.collisions]
+    }
+}
+// add ctrl+c to stop tracking player in console
+let timer;
+window.addEventListener("keydown", (e) => {
+    if (e.ctrlKey && e.key === "c" && timer) {
+        console.log("Stopped tracking player.");
+        clearInterval(timer);
+        timer = null;
+    }
+});
+window.trackPlayer = (playery="player1")=>{
+    // every 100ms, log player position, velocity, and charge
+    if (!timer){
+        timer = setInterval(() => {
+            const player = Object.values(window.world.players).find(p => p.name === playery);
+
+            console.table({
+                x: player.x,
+                y: player.y,
+                vx: player.vx,
+                vy: player.vy,
+                charge: player.charge
+            });
+        }, 500);
+    }else{
+        clearInterval(timer);
+        timer = null;
     }
 }
