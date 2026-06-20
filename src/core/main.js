@@ -1,5 +1,4 @@
 import resizeCanvas from "../canvas/helpers.js";
-import Tilemap from "../tilemaps/Tilemap.js";
 import Saver from "./saver.js";
 import World from "./world.js";
 

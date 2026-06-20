@@ -28,6 +28,7 @@ export default class Battery {
             if (dist < 0.75) {
                 if(player.charge < 1) {
                     this.world.ParticleManager.spawnAt(this.x+0.5, this.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
+                    window.soundMan.play("battery", 0.5);
                 }
                 player.charge = 1;
             }

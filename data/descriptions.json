@@ -47,6 +47,35 @@
             }
         }
     },
+    "roboGoober":{
+        "name":"Robo Goober",
+        "description":"A robot mimicking a goober. Unlike the peaceful grass goober, it will charge at and procede to destroy anything in its line of sight.",
+        "filePath": "data/sprites/roboGoober.png",
+        "w":16,
+        "h":16,
+        "animations": {
+            "walk": {
+                "frames":3,
+                "frameRate": 8,
+                "row": 2
+            },
+            "attack": {
+                "frames":4,
+                "frameRate": 2,
+                "row": 1
+            },
+            "compute": {
+                "frames":4,
+                "frameRate": 8,
+                "row": 0
+            },
+            "death": {
+                "frames":10,
+                "frameRate": 2,
+                "row": 3
+            }
+        }
+    },
     "wire":{
         "name":"Wire",
         "description":"An object. Chargy is able to travel through wires.",
@@ -58,5 +87,38 @@
         "filePath": "data/sprites/oneway.png",
         "w":16,
         "h":16
+    },
+    "button":{
+        "name":"Button",
+        "description":"A simple trigger. When pressed, changes states of some objects, for example reversing the direction of one way blocks.",
+        "filePath": "data/sprites/button.png",
+        "w":16,
+        "h":16,
+        "animations": {
+            "unpressed": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 0
+            },
+            "pressed": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 0
+            }
+        }
+    },
+    "gooberworld":{
+        "name":"Goober World",
+        "description":"Goober world. A planet that has existed for eons, and has had many different major civilizations rise and fall on it. Some of the civilizations were very technologically advanced, many of which had left this world for a better home, others were very primitive, and had either died or evolved into different forms. Orbits the Black Void, a black hole that will eventually consume it in the far future. Half of the planet is a giant forest, the other half is a giant factory, the most efficient factory in the universe, and the only one capable of using plasma as a power source without major consequences.",
+        "filePath": "data/sprites/gooberworld.png",
+        "w":96,
+        "h":96,
+        "animations": {
+            "static": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 0
+            }
+        }
     }
 }

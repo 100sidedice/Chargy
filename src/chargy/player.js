@@ -36,6 +36,7 @@ export default class Player {
         }; 
         this.shrink = 0.05; // shrink player hitbox to tiles for better feeling collisions
         this.buffer = 2/16;
+        this.bounced = false; // whether the player has bounced on the current jump
     }
     update(){
         // charge particles
@@ -111,30 +112,65 @@ export default class Player {
 
         ctx.restore();
     }
-    collide(extraCollisions = []){
-        for (let poly of this.world.getCollisions().concat(extraCollisions)){
+    collide(extraCollisions = [], onCollide = ()=>{}) {
+        for (let poly of this.world.getCollisions()){
             let bounce = 0;
             let shrink = this.shrink;
             let spawnParticles = false;
-            if (this.vy > 0.3 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump) {
+            if (this.vy > 0.3 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump && (!this.bounced || this.charge >= 1)) {
                 bounce = 1
                 spawnParticles = true;
+                // play sound
             }; // High bounce when fast falling
-            if (this.vy > 0.1 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump) {
+            if (this.vy > 0.1 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump && (!this.bounced || this.charge >= 1)) {
                 bounce = 1
                 spawnParticles = true;
             }; // Small bounce if fast falling but not above threshold
             const collision = Geometry.spriteToTile({x: this.x+shrink, y: this.y+shrink},{x: this.vx, y: this.vy}, {x: this.w-shrink*2, y: this.h-shrink*2}, {x: poly.x, y: poly.y}, {x: poly.w, y: poly.h}, this.buffer, bounce);
             if(!collision.collided) continue;
-            this.vx = collision.vlos.x;
-            this.vy = collision.vlos.y;
             if(!poly.ignoreX) this.x = collision.pos.x-shrink;
             if(!poly.ignoreY) this.y = collision.pos.y-shrink;
             if(collision.collided.bottom){
+                if (this.vy > 0.05){
+                    if (window.soundMan) window.soundMan.play("land", Math.min(1, this.vy/0.3)); // play land sound with volume based on fall speed
+                }
+                if (bounce === 1 && !this.bounced) this.bounced = true;
+                else if (!this.input.getAxis(this.inputMap.y) > 0.5) this.bounced = false; // If a player has charge they can keep bouncing to gain height
                 this.canJump = true;
                 if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});
-                
             }
+            this.vx = collision.vlos.x;
+            this.vy = collision.vlos.y;
+        }
+        for (let poly of extraCollisions){
+            let bounce = 0;
+            let shrink = this.shrink;
+            let spawnParticles = false;
+            if (this.vy > 0.3 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump && (!this.bounced || this.charge >= 1)) {
+                bounce = 1
+                spawnParticles = true;
+                // play sound
+            }; // High bounce when fast falling
+            if (this.vy > 0.1 && this.input.getAxis(this.inputMap.y) > 0.5 && this.canJump && (!this.bounced || this.charge >= 1)) {
+                bounce = 1
+                spawnParticles = true;
+            }; // Small bounce if fast falling but not above threshold
+            const collision = Geometry.spriteToTile({x: this.x+shrink, y: this.y+shrink},{x: this.vx, y: this.vy}, {x: this.w-shrink*2, y: this.h-shrink*2}, {x: poly.x, y: poly.y}, {x: poly.w, y: poly.h}, this.buffer, bounce);
+            if(!collision.collided) continue;
+            if(!poly.ignoreX) this.x = collision.pos.x-shrink;
+            if(!poly.ignoreY) this.y = collision.pos.y-shrink;
+            if(collision.collided.bottom){
+                if (this.vy > 0.05){
+                    if (window.soundMan) window.soundMan.play("land", Math.min(1, this.vy/0.3)); // play land sound with volume based on fall speed
+                }
+                if (bounce === 1 && !this.bounced) this.bounced = true;
+                else if (!this.input.getAxis(this.inputMap.y) > 0.5) this.bounced = false; // If a player has charge they can keep bouncing to gain height
+                this.canJump = true;
+                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});
+            }
+            this.vx = collision.vlos.x;
+            this.vy = collision.vlos.y;
+            onCollide(collision);
         }
     }
     spawnChargeParticles(){

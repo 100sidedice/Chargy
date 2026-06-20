@@ -44,6 +44,7 @@ export default class Phone {
                 // hook onto player's charge callback to update phone charge
                 player.chargeCallback = (currCharge, amount)=>{
                     this.charge += amount;
+                    window.soundMan.play("pop", 0.2, Math.max(0.2, Math.min(0.8, this.charge / this.maxCharge / 2)));
                     if (this.charge > this.maxCharge) this.charge = this.maxCharge;
                 };
                 player.chargeX = this.x;
@@ -76,6 +77,9 @@ export default class Phone {
     }
     draw(ctx){
         let image = this.world.images["phone"];
+        if (this.load === "world1") image = this.world.images["greenphone"];
+        if (this.load === "spacestation") image = this.world.images["purplephone"];
+        if (this.load === "factory") image = this.world.images["orangephone"];
         const frameWidth = image.width / 12; // assuming 11 frames in a row
         if(this.charge>0) ctx.drawImage(image, this.frame * frameWidth, 0, frameWidth, image.height, this.x, this.y, this.w, this.h);
         if(this.charge<=0) ctx.drawImage(image, 0 * frameWidth, 0, frameWidth, image.height, this.x, this.y, this.w, this.h);

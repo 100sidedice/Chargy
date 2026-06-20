@@ -88,6 +88,7 @@ export default class Brunk {
         }
     }
     collide(){
+        if (this.currentAnimation === "death") return; // don't collide if dying
         Object.values(this.world.players).forEach(player => {
             const buffer = 0; // Small buffer to make collision feel more fair
             const playerHitbox = player.getHitbox();
@@ -99,6 +100,7 @@ export default class Brunk {
                     // keyframe shake effect
                     if(this.frame === 0)this.frame = 1;
                     this.currentAnimation = "attack";
+                    if(this.frame === 1 && !this.isPlatform) window.soundMan.play("brunkLift", 0.5);
                     if (this.frame === this.animations["attack"].frames - 2) {
                         // only kill player on second to last frame of attack animation, so they have a chance to react, and they can stand onto the hitbox without instantly dying
                         this.world.shakeCamera();
@@ -108,6 +110,7 @@ export default class Brunk {
                         // kill self
                         this.currentAnimation = "death";
                         this.frame = 1;
+                        window.soundMan.play("brunkKill", 0.5);
                     }
             }
         });

@@ -1,5 +1,3 @@
-import Geometry from "../../tilemaps/Geometry.js";
-
 export default class Oneway {
     constructor(world, img, spriteData, data){
         this.world = world;
@@ -24,7 +22,14 @@ export default class Oneway {
         }
     }
     draw(ctx){
-        const dir = this.data.dir;
+        let dir = this.data.dir;
+        // if button state is active (mod 2 === 1), reverse the direction of the one-way
+        if (this.world.buttonState % 2 === 1) {
+            if (dir === "up") dir = "down";
+            else if (dir === "down") dir = "up";
+            else if (dir === "left") dir = "right";
+            else if (dir === "right") dir = "left";
+        }
         let rot=0;
         if (dir === "up") rot = 0;
         else if (dir === "down") rot = Math.PI;
@@ -37,7 +42,14 @@ export default class Oneway {
         ctx.restore();
     }
     collide(player){
-        const dir = this.data.dir;
+        let dir = this.data.dir;
+        // if button state is active (mod 2 === 1), reverse the direction of the one-way
+        if (this.world.buttonState % 2 === 1) {
+            if (dir === "up") dir = "down";
+            else if (dir === "down") dir = "up";
+            else if (dir === "left") dir = "right";
+            else if (dir === "right") dir = "left";
+        }
         const hitbox = this.attackHitbox;
         if (player.vy > 0 && dir === "down") {
             return; 

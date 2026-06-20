@@ -6,6 +6,23 @@
     "player-base": "data/sprites/chargy.png",
     "player-charged": "data/sprites/chargyCharged.png",
     "phone": "data/sprites/phone.png",
+    "greenphone": "data/sprites/green_phone.png",
+    "purplephone": "data/sprites/purple_phone.png",
+    "orangephone": "data/sprites/orange_phone.png",
     "battery": "data/sprites/battery.png",
-    "sprite-data": "data/descriptions.json"
+    "sprite-data": "data/descriptions.json",
+
+    "world1-soundtrack": "sounds/reganati-chillcalming-chiptune-loop-527182.mp3",
+    "factory-soundtrack": "sounds/reflextunes-game-zone-320262.mp3",
+    "spacestation-soundtrack": "sounds/the_mountain-space-data-140450.mp3",
+    "land-sound": "sounds/land.mp3",
+    "battery-sound": "sounds/battery.mp3",
+    "death-sound": "sounds/death.mp3",
+    "brunk-kill-sound": "sounds/brunkKill.mp3",
+    "pop-sound": "sounds/pop.mp3",
+    "transition-sound": "sounds/transition.mp3",
+    "ding-sound": "sounds/ding.mp3",
+    "compute-sound": "sounds/compute.mp3",
+    "cling-sound": "sounds/cling.mp3",
+    "brunk-lift-sound": "sounds/brunkLift.mp3"
 }

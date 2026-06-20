@@ -34,8 +34,6 @@ export default class Wire {
             player.vx *=0.8;
             if (!player.inWire) continue;
             if (player.wireHash !== this.hash) continue;
-            player.canJump = false;
-            let hitbox = player.wireHitbox;
             let yAxis = player.input.getAxis(player.inputMap.y);
             let xAxis = player.input.getAxis(player.inputMap.x);
             if (yAxis === 0 && xAxis === 0) continue;
@@ -75,16 +73,18 @@ export default class Wire {
             const dy = player.y+0.5 - hitbox.y-0.5;
             const distance = Math.sqrt(dx * dx + dy * dy);
             if (distance < hitbox.radius + 0.5){
-                player.inWire = true;
-                player.wireHash = this.hash;
-                player.wireHitbox = hitbox;
-
+                let speed = 0.001;
                 // adjust player vlos to target the center of the hitbox
                 const angle = Math.atan2(dy, dx);
                 const targetX = hitbox.x + 0.5 + Math.cos(angle) * (hitbox.radius - 0.5);
                 const targetY = hitbox.y + 0.5 + Math.sin(angle) * (hitbox.radius - 0.5);
-                player.vx += (targetX - (player.x + 0.5)) * 0.01;
-                player.vy += (targetY - (player.y + 0.5)) * 0.01;
+                player.vx += (targetX - (player.x + 0.5)) * speed;
+                player.vy += (targetY - (player.y + 0.5)) * speed;
+                if(!player.inWire) window.soundMan.play("cling", 0.8, 0.7);
+
+                player.inWire = true;
+                player.wireHash = this.hash;
+                player.wireHitbox = hitbox;
                 break;
             }
         }

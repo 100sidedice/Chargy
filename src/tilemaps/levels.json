@@ -162,7 +162,8 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":2, "y": 2, "maxCharge": 1, "goto": 11}
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 11},
+            {"x":15, "y": 7, "maxCharge": 1, "goto": 13, "load":"spacestation"}
         ],
         "batteries":[
             {"x":1, "y": 2}
@@ -201,7 +202,8 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":1, "y": 2, "maxCharge": 1, "load":"spacestation", "goto": 13}
+            {"x":1, "y": 2, "maxCharge": 1, "load":"spacestation", "goto": 13},
+            {"x":-5, "y": 2, "maxCharge": 1, "goto": 13}
         ],
         "batteries":[
             {"x":14, "y": 1}
@@ -228,11 +230,12 @@
         "size": [16, 9],
         "tileSize": 16,
         "collisionLayer": "blocks",
-        "playerX": 5,
+        "playerX": 7,
         "playerY": 5,
         "startingCharge": 0,
-        "text":"Welcome to the spacestation!",
+        "text":"Goober world",
         "phones":[
+            {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
             {"x":2, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 1},
             {"x":4, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 2},
             {"x":6, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 3},
@@ -244,7 +247,8 @@
             {"x":6, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 9},
             {"x":9, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 10},
             {"x":11, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 11},
-            {"x":13, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 12}
+            {"x":13, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 12},
+            {"x":14, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 14}
         ],
         "batteries":[
             {"x":7, "y": 5}
@@ -273,5 +277,258 @@
             {"type":"oneway", "x":11,"y":6,"dir":"up", "allowFall": true},
             {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
         ]
+    },
+    "14":{
+        "world":"spacestation",
+        "origin": [0, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 7,
+        "playerY": 5,
+        "startingCharge": 0,
+        "text":"Goober world [Dark side]",
+        "phones":[
+            {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
+            {"x":2, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 20},
+            {"x":4, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 21},
+            {"x":6, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 22},
+            {"x":9, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 23},
+            {"x":11, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 24},
+            {"x":13, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 25},
+            {"x":2, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 26},
+            {"x":4, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 27},
+            {"x":6, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 28},
+            {"x":9, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 29},
+            {"x":11, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 30},
+            {"x":13, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 31},
+            {"x":1, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 13}
+        ],
+        "batteries":[
+            {"x":7, "y": 5}
+        ],
+        "enemies":[
+            {"type": "wire", "x": 2, "y": 1, "nodes":
+                [
+                    {"x":2,"y":1,"down":{"x":2,"y":3}},
+                    {"x":4,"y":1,"down":{"x":4,"y":3}},
+                    {"x":6,"y":1,"down":{"x":6,"y":3}},
+                    {"x":9,"y":1,"down":{"x":9,"y":3}},
+                    {"x":11,"y":1,"down":{"x":11,"y":3}},
+                    {"x":13,"y":1,"down":{"x":13,"y":3}},
+                    {"x":2,"y":3,"up":{"x":2,"y":1}, "right":{"x":4,"y":3}},
+                    {"x":4,"y":3,"up":{"x":4,"y":1}, "right":{"x":6,"y":3}, "left":{"x":2,"y":3}},
+                    {"x":6,"y":3,"up":{"x":6,"y":1}, "right":{"x":9,"y":3}, "left":{"x":4,"y":3}},
+                    {"x":9,"y":3,"up":{"x":9,"y":1}, "right":{"x":11,"y":3}, "left":{"x":6,"y":3}},
+                    {"x":11,"y":3,"up":{"x"   :11,"y":1}, "right":{"x":13,"y":3}, "left":{"x":9,"y":3}},
+                    {"x":13,"y":3,"up":{"x":13,"y":1}, "left": {"x":11,"y":3}}
+                ]
+            },
+            {"type":"oneway", "x":2,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":4,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":6,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":6,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
+        ]
+    },
+    "20": {
+        "world":"factory",
+        "origin": [0, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 1,
+        "playerY": 6,
+        "startingCharge": 1,
+        "phones":[
+            {"x":1, "y": 2, "maxCharge": 1, "goto": 21}
+        ],
+         "batteries":[
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 10, "y": 7}
+            ]},
+            {"type": "wire", "x": 5, "y": 5, "nodes":
+                [
+                    {"x":5,"y":5,"right":{"x":12,"y":5}},
+                    {"x":12,"y":5,"left":{"x":5,"y":5}}
+                ]
+            },
+            {"type": "wire", "x": 14, "y": 4, "nodes":
+                [
+                    {"x":14,"y":4,"up":{"x":14,"y":1}},
+                    {"x":14,"y":1,"left":{"x":12,"y":1}, "down":{"x":14,"y":4}},
+                    {"x":12,"y":1,"right":{"x":14,"y":1}}
+                ]
+
+            }
+        ],
+        "text":"The factory"
+    },
+    "21": {
+        "world":"factory",
+        "origin": [17, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 22}
+        ],
+         "batteries":[
+            {"x":4, "y": 7}
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 11, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 7, "y": 7},
+                {"x": 14, "y": 7}
+            ]}
+        ],
+        "text":"RoboGoobers"
+    },
+    "22": {
+        "world":"factory",
+        "origin": [0, 10],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":3, "y": 4, "maxCharge": 1, "goto": 23}
+        ],
+         "batteries":[
+            {"x":7, "y": 4}
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 8, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 5, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "oneway", "x": 4,"y":6,"dir":"right", "allowFall": false},
+            {"type": "oneway", "x": 5,"y":5,"dir":"down", "allowFall": false},
+            {"type": "oneway", "x": 7,"y":5,"dir":"up", "allowFall": true},
+            {"type": "oneway", "x": 7,"y":3,"dir":"up", "allowFall": true},
+            {"type": "oneway", "x": 8,"y":5,"dir":"down", "allowFall": false},
+            {"type": "oneway", "x": 9,"y":5,"dir":"down", "allowFall": false},
+            {"type": "oneway", "x": 10,"y":5,"dir":"down", "allowFall": false},
+            {"type": "oneway", "x": 1,"y":3,"dir":"down", "allowFall": false}
+        ],
+        "text":"Oneways"
+    },
+    "23": {
+        "world":"factory",
+        "origin": [17, 10],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 8,
+        "playerY": 3,
+        "startingCharge": 0,
+        "phones":[
+            {"x":9, "y": 3, "maxCharge": 1, "goto": 24}
+        ],
+         "batteries":[
+            {"x":14, "y": 3}
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 1, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 0.95, "y": 7},
+                {"x": 1.05, "y": 7}
+            ]},
+            {"type": "roboGoober", "x": 4, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 3, "y": 7},
+                {"x": 7, "y": 7}
+            ]},
+            {"type": "roboGoober", "x": 12, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 10, "y": 7},
+                {"x": 14, "y": 7}
+            ]},
+            {"type": "oneway", "x": 1,"y":5,"dir":"down", "allowFall": false},
+            {"type": "oneway", "x": 6,"y":1,"dir":"left", "allowFall": false},
+            {"type": "oneway", "x": 6,"y":2,"dir":"left", "allowFall": false},
+            {"type": "oneway", "x": 6,"y":3,"dir":"left", "allowFall": false},
+            {"type": "oneway", "x": 10,"y":1,"dir":"left", "allowFall": false},
+            {"type": "oneway", "x": 10,"y":2,"dir":"left", "allowFall": false},
+            {"type": "oneway", "x": 10,"y":3,"dir":"left", "allowFall": false}
+        ],
+        "text":"A Circular path"
+    },
+    "24": {
+        "world":"factory",
+        "origin": [34, 10],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 3,
+        "playerY": 6,
+        "startingCharge": 0,
+        "phones":[
+            {"x":14, "y": 4, "maxCharge": 1, "goto": 25}
+        ],
+         "batteries":[
+            {"x":3, "y": 6}
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 7, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 14, "y": 7}
+            ]}
+        ],
+        "text":"A Trampoline effect"
+    },
+    "25": {
+        "world":"factory",
+        "origin": [0, 20],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 3,
+        "playerY": 6,
+        "startingCharge": 1,
+        "phones":[
+            {"x":14, "y": 5, "maxCharge": 1, "goto": 26}
+        ],
+         "batteries":[
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 9, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 7, "y": 7},
+                {"x": 14, "y": 7}
+            ]},
+            {"type": "oneway", "x": 12,"y":5,"dir":"up", "allowFall": false}
+        ],
+        "text":"High-bounces"
+    },
+    "26": {
+        "world":"factory",
+        "origin": [34, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":7, "y": 3, "maxCharge": 1, "goto": 25}
+        ],
+         "batteries":[
+            {"x":3, "y": 3}
+        ],
+        "enemies":[
+            {"type": "oneway", "x": 5,"y":1,"dir":"right", "allowFall": false},
+            {"type": "oneway", "x": 5,"y":2,"dir":"right", "allowFall": false},
+            {"type": "oneway", "x": 5,"y":3,"dir":"right", "allowFall": false},
+            {"type": "oneway", "x": 7,"y":6,"dir":"right", "allowFall": false},
+            {"type": "oneway", "x": 7,"y":5,"dir":"right", "allowFall": false},
+            {"type": "button", "x":14, "y":2, "state": 0}
+        ],
+        "text":"Turn of events"
     }
 }

@@ -6,6 +6,8 @@ import Battery from "../chargy/battery.js";
 import {Camera, Bezier, getEffect, createKeyframe} from "../camera/Camera.js";
 import createMonsters from "../chargy/monsters/monsters.js";
 import ParticleManager from "./particles.js";
+import musicMan from "./musicman.js";
+import SFXMan from "./SFXMan.js";
 
 export default class World {
     constructor(canvas, ctx){
@@ -21,6 +23,7 @@ export default class World {
         this.collisions = [];
 
         this.level = 13;
+        this.buttonState = 0; // button entity state
 
 
         this.levelTransition = {
@@ -35,6 +38,12 @@ export default class World {
         // load entity images
         const phone = await fetch(data["phone"]).then(res => res.blob());
         this.images["phone"] = await createImageBitmap(phone);
+        const greenphone = await fetch(data["greenphone"]).then(res => res.blob());
+        this.images["greenphone"] = await createImageBitmap(greenphone);
+        const purplephone = await fetch(data["purplephone"]).then(res => res.blob());
+        this.images["purplephone"] = await createImageBitmap(purplephone);
+        const orangephone = await fetch(data["orangephone"]).then(res => res.blob());
+        this.images["orangephone"] = await createImageBitmap(orangephone);
         const battery = await fetch(data["battery"]).then(res => res.blob());
         this.images["battery"] = await createImageBitmap(battery);
         
@@ -64,12 +73,45 @@ export default class World {
         this.players[1] = new Player(this, 5, 5, 1, 1, "player1", {"x":"Axis1", "y":"Axis2"}, this.input);  
 
         this.Camera = new Camera(this.canvas);
-        await this.switchLevel(this.level, null, "spacestation");
         this.lastChargeSteal = performance.now();
         this.chargeStealCooldown = 500; 
         this.bgParticles = 0;
         this.bgParticleCooldown = 200;// 1 second cooldown for spawning a new bg particle, to prevent spamming too many particles at start
         this.lastBgParticle = performance.now();
+        
+        
+        // music
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        this.musicMan = new musicMan({
+            world1: data["world1-soundtrack"],
+            factory: data["factory-soundtrack"],
+            spacestation: data["spacestation-soundtrack"]
+        }, audioContext);
+        this.sfxMan = new SFXMan({
+            land: data["land-sound"],
+            battery: data["battery-sound"],
+            death: data["death-sound"],
+            brunkKill: data["brunk-kill-sound"],
+            pop: data["pop-sound"],
+            transition: data["transition-sound"],
+            ding: data["ding-sound"],
+            compute: data["compute-sound"],
+            cling: data["cling-sound"],
+            brunkLift: data["brunk-lift-sound"]
+        }, audioContext);
+        
+        await this.musicMan.preload();
+        await this.sfxMan.preload();
+        
+        document.addEventListener("click", async () => {
+            await this.musicMan.unlock();
+            this.musicMan.start("spacestation", 0.1);
+        }, { once:true });
+        
+        await this.switchLevel(this.level, null, "spacestation");
+        // im exposing musicMan and sfxMan to window to allow entities and phones to play music and sfx without needing a reference to the world object
+        window.musicMan = this.musicMan;
+        window.soundMan = this.sfxMan; 
         
     }
     getBaseCamera() {
@@ -127,6 +169,46 @@ export default class World {
             regionWidth: this.region.width*trueTileSize,
             regionHeight: this.region.height*trueTileSize
         })
+        // draw goober world background if we're in level 13
+        if (this.level === 13) {
+            ctx.save();
+
+            const gooberImg = this.images["gooberworld"];
+            const worldX = xOffset + 6 * trueTileSize;
+            const worldY = yOffset + -0.5 * trueTileSize;
+            const worldW = 10 * trueTileSize;
+            const worldH = 10 * trueTileSize;
+            ctx.translate(worldX + worldW/2, worldY + worldH/2);
+            ctx.rotate(Math.PI)// upside down? (light side of planet)
+            ctx.drawImage(
+                gooberImg,
+                0, 0,
+                gooberImg.width, gooberImg.height,
+                -worldW/2, -worldH/2,
+                worldW, worldH
+            );
+
+            ctx.restore();
+        }
+        if (this.level === 14) {
+            ctx.save();
+
+            const gooberImg = this.images["gooberworld"];
+            const worldX = xOffset + 6 * trueTileSize;
+            const worldY = yOffset + -1 * trueTileSize;
+            const worldW = 10 * trueTileSize;
+            const worldH = 10 * trueTileSize;
+
+            ctx.drawImage(
+                gooberImg,
+                0, 0,
+                gooberImg.width, gooberImg.height,
+                worldX, worldY,
+                worldW, worldH
+            );
+
+            ctx.restore();
+        }
         // draw tilemap (bg + main layer)
         this.tilemap.drawRegion(
             ctx,
@@ -240,6 +322,7 @@ export default class World {
                 });
             }
         ctx.restore();
+        
             
         // draw tilemap (overlay layer)
         if (!window.showHitboxes){
@@ -301,6 +384,7 @@ export default class World {
         // option 1,check all phones - if all are fully charged, start level transition
         const allCharged = Object.values(this.phones)
             .filter(e => e instanceof Phone)
+            .filter(phone => phone.load === null) // since phones with 'load' are more for secret/level-select purposes
             .every(phone => phone.charge >= phone.maxCharge);
 
         if (allCharged && !this.levelTransition.active) {
@@ -377,7 +461,18 @@ export default class World {
                 await fetch(this.data["tilesets-tmx"].replace(/#/g, load)).then(res => res.text()),
                 await fetch(this.data["tilesets-image"].replace(/#/g, load)).then(res => res.blob())
             )
+            if (load === "world1" && this.musicMan.currentTrack !== "world1") {
+                // if we're loading world1, also reset the music to world1's soundtrack, in case we were in the factory world before
+                this.musicMan.fadeTo("world1", 500, 0.2);
+            } 
+            if (load === "factory" && this.musicMan.currentTrack !== "factory"){
+                this.musicMan.fadeTo("factory", 500, 0.1);
+            }
+            if (load === "spacestation" && this.musicMan.currentTrack !== "spacestation"){
+                this.musicMan.fadeTo("spacestation", 500, 0.1);
+            }
         }
+        this.buttonState = 0; // reset button state on level switch
         // now we set the main region's pos & size to the level's offset and size to make UI is clean
         const ui =document.getElementById("UI")
         if (ui) {
@@ -396,10 +491,6 @@ export default class World {
             ui.style.width = `${renderWidth}px`;
             ui.style.height = `${renderHeight}px`;
         }
-
-        if(this.level > Object.keys(this.levelData).length) {
-            this.level = 1; // loop back to level 1 if level number exceeds available levels
-        }
         if (!this.levelData[this.level]) {
             console.error(`Level ${this.level} not found in level data!`);
             this.level = 1;
@@ -407,6 +498,9 @@ export default class World {
         }
         // update text
         document.getElementById("Label").innerText = this.levelData[this.level]["text"];
+
+        if (this.levelData[this.level].world === "spacestation") document.getElementById("Label").style.color = "#FFFFFF55";
+        else document.getElementById("Label").style.color = "#00000055";
         const nextX = this.levelData[this.level].origin[0];
         const nextY = this.levelData[this.level].origin[1];
         this.region = this.tilemap.pushRegion([nextX, nextY], [16, 9], 16, ['bg', 'bgdecor', 'blocks'], true, true);
@@ -465,6 +559,7 @@ export default class World {
             "onEnd": async () => {
                 await this.switchLevel(this.level+1, phone.goto, phone.load);
                 this.Camera.playKeyframe();
+                window.soundMan.play("transition", 0.5);
             }
         }));
         this.Camera.addKeyframe("phone", createKeyframe({
@@ -494,6 +589,7 @@ export default class World {
             "onEnd": async () => {
                 this.Camera.playKeyframe();
                 this.levelTransition.active = false;
+                window.soundMan.play("land", 0.5, 0.2);
             }
         }))
         this.Camera.addKeyframe("fadeIn", createKeyframe({
@@ -510,26 +606,35 @@ export default class World {
 
         this.Camera.addAnimation("start", "phone", "center", "fadeIn");
         this.Camera.playKeyframe();
+        window.soundMan.play("transition", 0.5);
     }
     shakeCamera() {
+        // reset level transition in case it's already active, so we can replay the shake effect
+        this.levelTransition.active = false;
+        window.soundMan.play("death", 0.5);
         this.Camera.clearKeyframes();
-        this.Camera.addKeyframe( // the starting keyframe
-            "shake",
-            300, // 1 second duration
-            new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}],[{'x': 0, 'y': 1.0}, {'x': 0.494, 'y': 1}, {'x': 0.504, 'y': 0}, {'x': 1, 'y': 0}]), // starts slow then goes fast.
-            new Map()
+        this.Camera.addKeyframe("shake", createKeyframe({ // the starting keyframe
+            "name":"shake",
+            "duration":300, // 1 second duration
+            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}],[{'x': 0, 'y': 1.0}, {'x': 0.494, 'y': 1}, {'x': 0.504, 'y': 0}, {'x': 1, 'y': 0}]), // starts slow then goes fast.
+            "effects": new Map()
             .set("shake", getEffect("shake", 0.1, 0.2))
             .set("fade", getEffect("fade", "#FF000000"))
             ,
-        );
-        this.Camera.addKeyframe(
-            100, // 1 second duration
-            new Bezier(), // starts slow then goes fast.
-            new Map()
+            "onEnd": async () => {
+               
+            }
+        }));
+        this.Camera.addKeyframe("red", createKeyframe({
+            "name": "red",
+            "duration": 100, // 1 second duration
+            "bezier": new Bezier(), // starts slow then goes fast.
+            "effects": new Map()
             .set("shake", getEffect("shake", 10, 5))
             .set("fade", getEffect("fade", "#FF000066"))
             ,
-        );
+        }));
+        this.Camera.addAnimation("shake", "red");
         this.Camera.playKeyframe();
     }
     updateCollisions(){
