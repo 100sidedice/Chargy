@@ -4,7 +4,7 @@ export default class Saver {
         this.saveHooks = {};
         this.postSaveHooks = {};
         this.data = {};
-        this.autoSaveInterval = 30 * 1000; // Default to 30 seconds
+        this.autoSaveInterval = 10 * 1000; // Default to 10 seconds
 
         this.debugSave = false; // Set to true to enable console logs for when saving occurs and what data is being saved
     }
@@ -64,7 +64,7 @@ export default class Saver {
         }
     }
 
-    hook(when = null, key, callback) {
+    hook(when = "before", key, callback) {
         switch (when) {
             case "before":
                 this.saveHooks[key] = callback;

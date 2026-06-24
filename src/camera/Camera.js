@@ -12,7 +12,15 @@ export class Camera {
 
         this.hasPushed = false;
     }
-    clearKeyframes() {
+    async clearKeyframes() { 
+        if (this.current()) {
+            await this.current().onEnd();
+            this.reset();
+        } else {
+            this.reset();
+        }
+    }
+    reset() {
         this.keyframes = {};
         this.head = 0;
         this.tail = 0;
@@ -76,9 +84,14 @@ export class Camera {
         this.fillFrames = true;
         currClone.onEnd().then(() => {
             this.fillFrames = false;
+            this.startTime = performance.now();
         }).catch(() => {});
     }
     push(ctx, effectSettings = {}) {
+        // if index is last keyframe, no need to fill frames
+        if (this.head === this.tail - 1) {
+            this.fillFrames = false;
+        }
         this.runningTime = performance.now();
         if (!this.checkQueue()) return;
         const current = this.current();
@@ -159,8 +172,7 @@ export class CameraKeyframe {
         this.runningTime = runningTime;
         let t = this.getProgress(runningTime);
         if (fillFrames) {
-            if (t === -1) t = 1;
-            if (t >= 1) t = 0.99; // prevent overshooting due to timing issues
+            t = 1;
         }
         const ease = this.bezier.get(t).y;
         
@@ -288,6 +300,8 @@ export class Bezier {
             segmentIndex === this.segments.length - 1 && t === 1
                 ? 1
                 : scaledT - segmentIndex;
+
+        if (!this.segments[segmentIndex]) return { x: 0, y: 0 };
 
         return this.segments[segmentIndex].get(localT);
     }
@@ -465,18 +479,19 @@ export class FadeEffect extends CameraEffect {
         const [color] = this.params;
         const distColor = this.lerpTo.params[0];
         const newColor = this.interpolateColor(color, distColor, this.lerpValue);
-
+        ctx.save();
         ctx.fillStyle = newColor;
         ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     }
     pop(ctx) {
+        ctx.restore();
     }
     interpolateColor(colorA, colorB, t) {
         const parseColor = (color) => {
             const r = parseInt(color.slice(1, 3), 16);
             const g = parseInt(color.slice(3, 5), 16);
             const b = parseInt(color.slice(5, 7), 16);
-            const a = parseInt(color.slice(7, 9) || "FF", 16) / 255;
+            const a = parseInt(color.slice(7, 9), 16) / 255;
             return { r, g, b, a };
         };
 

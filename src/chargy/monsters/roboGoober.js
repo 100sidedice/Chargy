@@ -103,17 +103,18 @@ export default class RoboGoober {
                 playerHitbox.y < this.attackHitbox.y + this.attackHitbox.h &&
                 playerHitbox.y + playerHitbox.h > this.attackHitbox.y){
                 // keyframe shake effect
-                this.world.shakeCamera()
-                this.attackDir = player.x < this.x ? -1 : 1;
-                this.attackedPlayer = player;
-                // reset phones
-                Object.values(this.world.phones).forEach(phone => {
-                    phone.charge = 0;
-                    phone.charging = false;
+                this.world.shakeCamera().then(() => {
+                    this.attackDir = player.x < this.x ? -1 : 1;
+                    this.attackedPlayer = player;
+                    // reset phones
+                    Object.values(this.world.phones).forEach(phone => {
+                        phone.charge = 0;
+                        phone.charging = false;
+                    });
+                    this.attackedPlayer.x = this.world.levelData[this.world.level].playerX;
+                    this.attackedPlayer.y = this.world.levelData[this.world.level].playerY;
+                    this.attackedPlayer = null;
                 });
-                this.attackedPlayer.x = this.world.levelData[this.world.level].playerX;
-                this.attackedPlayer.y = this.world.levelData[this.world.level].playerY;
-                this.attackedPlayer = null;
             }
             // if a player touches the roboGoober's path, switch to compute animation
             if(rectTouchesPath(playerHitbox.x, playerHitbox.y, playerHitbox.w, playerHitbox.h, this.path)){

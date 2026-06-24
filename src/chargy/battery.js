@@ -31,6 +31,17 @@ export default class Battery {
                     window.soundMan.play("battery", 0.5);
                 }
                 player.charge = 1;
+                // give other players charge as well
+                Object.keys(this.players).forEach(otherKey => {
+                    if (otherKey !== key) {
+                        const otherPlayer = this.players[otherKey];
+                        if (otherPlayer.charge < 1) {
+                            otherPlayer.charge = 1;
+                            this.world.ParticleManager.spawnAt(otherPlayer.x+0.5, otherPlayer.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
+                            window.soundMan.play("battery", 0.5);
+                        }
+                    }
+                });
             }
         });
         this.timer++;

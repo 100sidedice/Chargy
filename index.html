@@ -10,11 +10,12 @@
 
 </head>
 <body>
-    <h1 style="color:White; left:50%; position:absolute; top: 50%; transform: translate(-50%, -50%); z-index: -1; font-family: 'Pixelify Sans', sans-serif;">Loading!!!</h1>
+    <h1 style="color:White; left:50%; position:absolute; top: 50%; transform: translate(-50%, -50%); z-index: -1; font-family: 'Pixelify Sans', sans-serif;" id="loading-text">Loading!!!</h1>
     <canvas id="canvas" width="800" height="600"></canvas>
     <main id="UI">
         <h1 id="Label">Welcome, Chargy!</h1>
-        <button id="settings" onclick="window.switchLevel = [13, 'spacestation']"></button>
+        <button id="settings" onclick="window.switchLevel = [101, 'spacestation']"></button>
+        <div id="message"></div>
     </main>
     <script type="module" src="src/core/main.js"></script>
 </body>

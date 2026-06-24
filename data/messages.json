@@ -1,0 +1,26 @@
+{
+    "start":[
+        {"who":"???" ,"text":"<span class='chargy'>Chargy</span>, you have yet to complete your task", "timeout": 500},
+        {"who":"<span class='chargy'>Chargy</span>" ,"text":"Right; I still need to <span class='goal'>charge all the devices</span> in goober world", "timeout": 500},
+        {"who":"???" ,"text":"Teleporting you there now", "timeout": 750}
+    ],
+    "out of battery":[
+        {"who":"<span class='chargy'>Chargy</span>" ,"text":"I've run out of charge...", "timeout": 500},
+        {"who":"???" ,"text":"Really? Just, go to the battery and refill. How many times have you done this?", "timeout": 500},
+        {"who":"???" ,"text":"Zero?", "timeout": 750}
+    ],
+    "Goobers?":[
+        {"who":"<span class='chargy'>Chargy</span>" ,"text":"What are those things?", "timeout": 500},
+        {"who":"???" ,"text":"Those are Goobers. More specifically, <span class='goal'>Grass Goobers</span>. They are the main inhabitants of this world.", "timeout": 750},
+        {"who":"???" ,"text":"They are very friendly, but they can be a bit... aggressive when provoked.", "timeout": 1000}
+    ],
+    "Unusual activity":[
+        {"who":"???" ,"text":"Chargy, I have gotten reports of unusual activity in the rainbow roads", "timeout": 700},
+        {"who":"<span class='chargy'>Chargy</span>" ,"text":"Like what?", "timeout": 300},
+        {"who":"???" ,"text": "There is a forming black hole. ", "timeout": 500},
+        {"who":"???" ,"text": "If we don't stop it, it may be the end of this world.", "timeout": 700},
+        {"who":"<span class='chargy'>Chargy</span>" ,"text":"Powery, we don't even have the equipment for that. Litterally how?!", "timeout": 800},
+        {"who":"<span class='powery'>Powery</span>" ,"text":"We'll figure something out.", "timeout": 500},
+        {"who":"<span class='powery'>Powery</span>" ,"text":"Head to the spacestation and we'll talk there.", "timeout": 1000}
+    ]
+}

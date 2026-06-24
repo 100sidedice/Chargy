@@ -36,3 +36,43 @@ body {
 #settings:hover {
     background-image: url("../../data/sprites/settings:hover.png");
 }
+#message {
+    color: white;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 1.5em;
+    /*grid*/
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    grid-auto-rows: auto;
+    gap: 1em;
+    padding: 1em;
+    z-index: 100;
+}
+.leftMessage, .centerMessage {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.leftMessage.visible, .centerMessage.visible {
+    opacity: 1;
+}
+.leftMessage {
+    text-align: left;
+    grid-column: 1;
+    border-right: 1px solid #ffffff33;
+}
+.centerMessage {
+    text-align: left;
+    grid-column: 2;
+}
+span.chargy {
+    color: #00ffff;
+}
+span.goal {
+    color: #00FF00;
+}
+span.dark {
+    color: #333333FF;
+}
+span.powery {
+    color: #FF00FF;
+}

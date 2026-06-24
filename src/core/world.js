@@ -8,6 +8,7 @@ import createMonsters from "../chargy/monsters/monsters.js";
 import ParticleManager from "./particles.js";
 import musicMan from "./musicman.js";
 import SFXMan from "./SFXMan.js";
+import Texting from "./texting.js";
 
 export default class World {
     constructor(canvas, ctx){
@@ -22,16 +23,25 @@ export default class World {
         this.ParticleManager = new ParticleManager();
         this.collisions = [];
 
-        this.level = 13;
+        this.level = 1;
+        this.world = "world1";
         this.buttonState = 0; // button entity state
 
 
         this.levelTransition = {
             active: false,
         };
+        this.updateHandlers = {}; // for things like messages that need to attach to the update loop
     }
     async preload(dataKey){
+        this.level = window.saver.getData("info", "level") ?? 1;
+        this.world = window.saver.getData("info", "world") ?? "world1";
         const data = await fetch(dataKey).then(res => res.json());
+        console.log(this.level)
+        window.saver.hook("before", "levelSave", () => {
+            window.saver.setData(this.level, "info", "level");
+            window.saver.setData(this.world, "info", "world");
+        });
         this.data = data;
         // load tilemap
         this.tilemap = new Tilemap();
@@ -48,11 +58,7 @@ export default class World {
         this.images["battery"] = await createImageBitmap(battery);
         
         // load player images
-        const playerBase = await fetch(data["player-base"]).then(res => res.blob());
-        const playerCharged = await fetch(data["player-charged"]).then(res => res.blob());
-        this.images["player-base"] = await createImageBitmap(playerBase);
-        this.images["player-charged"] = await createImageBitmap(playerCharged);
-        
+        await preloadImageArray(this.images, data["player-images"]);
         // load level data
         const levelData = await fetch(data["levels"]).then(res => res.json());
         this.levelData = levelData;
@@ -70,7 +76,8 @@ export default class World {
 
         // create player1
         this.input = new Input();
-        this.players[1] = new Player(this, 5, 5, 1, 1, "player1", {"x":"Axis1", "y":"Axis2"}, this.input);  
+        this.players[1] = new Player(this, 5, 5, 1, 1, "chargy", {"x":"Axis1", "y":"Axis2"}, this.input);  
+        //this.players[2] = new Player(this, 5, 5, 1, 1, "powery", {"x":"Axis3", "y":"Axis4"}, this.input);  
 
         this.Camera = new Camera(this.canvas);
         this.lastChargeSteal = performance.now();
@@ -97,7 +104,8 @@ export default class World {
             ding: data["ding-sound"],
             compute: data["compute-sound"],
             cling: data["cling-sound"],
-            brunkLift: data["brunk-lift-sound"]
+            brunkLift: data["brunk-lift-sound"],
+            rocket: data["rocket-sound"]
         }, audioContext);
         
         await this.musicMan.preload();
@@ -105,13 +113,19 @@ export default class World {
         
         document.addEventListener("click", async () => {
             await this.musicMan.unlock();
-            this.musicMan.start("spacestation", 0.1);
         }, { once:true });
-        
-        await this.switchLevel(this.level, null, "spacestation");
+
+        // texting system
+        this.texting = new Texting(this);
+        await this.texting.preload(data["messages"]);
+        // turn off loading text
+        const loadingText = document.getElementById("loading-text");
+        if (loadingText) loadingText.style.display = "none";
+        await this.switchLevel(this.level, this.level, this.world, true);
         // im exposing musicMan and sfxMan to window to allow entities and phones to play music and sfx without needing a reference to the world object
         window.musicMan = this.musicMan;
         window.soundMan = this.sfxMan; 
+        
         
     }
     getBaseCamera() {
@@ -169,8 +183,8 @@ export default class World {
             regionWidth: this.region.width*trueTileSize,
             regionHeight: this.region.height*trueTileSize
         })
-        // draw goober world background if we're in level 13
-        if (this.level === 13) {
+        // draw goober world background if we're in level 101
+        if (this.level === 101) {
             ctx.save();
 
             const gooberImg = this.images["gooberworld"];
@@ -190,7 +204,7 @@ export default class World {
 
             ctx.restore();
         }
-        if (this.level === 14) {
+        if (this.level === 102) {
             ctx.save();
 
             const gooberImg = this.images["gooberworld"];
@@ -339,13 +353,16 @@ export default class World {
         this.Camera.push(ctx);
         this.Camera.pop(ctx);
     }
-    update(){
+    update(){ 
+        // debug commands
+        // instant level switch
         if (window.switchLevel){
             queueMicrotask(() => {
-                this.switchLevel(window.switchLevel[0]??1, window.switchLevel[0]??1, window.switchLevel[1]??"world1");
+                this.switchLevel(window.switchLevel[0]??1, window.switchLevel[0]??1, window.switchLevel[1]??"world1", true);
                 window.switchLevel = null;
             });
         }
+        // displays all levels
         if (window.displayLevels){
             // display all levels available in level data as a grid in the console, with current level highlighted
             console.log("Available levels:");
@@ -368,6 +385,7 @@ export default class World {
             console.log(output);
             window.displayLevels = undefined;
         }
+        // show all debug commands
         if (window.debug){
             console.log("All debug commands");
             console.log("- window.switchLevel = [levelNum, loadWorld?]  | Goes to specified level");
@@ -376,6 +394,9 @@ export default class World {
             console.log("- window.showHitboxes = true/false  | toggle hitbox display");
             window.debug = undefined;
         }
+        
+
+
         this.ParticleManager.update();
         Object.values(this.players).forEach(player => player.update());
         Object.values(this.entities).forEach(entity => entity.update());
@@ -391,15 +412,31 @@ export default class World {
             this.levelTransition.active = true;
 
             const firstPhone = this.phones["phone0"];
-
-            this.startPhoneTransition(firstPhone);
+            queueMicrotask(() => {
+                this.startPhoneTransition(firstPhone);
+            });
         }
         // option 2, if a phone has 'load', then start transition immediately on charge, and load the specified world instead of next level
         if (!this.levelTransition.active) {
+            let phoneGroup = this.phones;
+            phoneGroup = Object.values(phoneGroup).filter(phone => phone.load);
             Object.values(this.phones).forEach(phone => {
-                if(phone.charge >= phone.maxCharge && phone.load) {
-                    this.levelTransition.active = true;
-                    this.startPhoneTransition(phone);
+                if (phone.chargeable){
+                    // if the phone was charged, and has a hash + saveUntil, save state to window.saver
+                    if (phone.charge >= phone.maxCharge && phone.otherData?.hash && phone.otherData?.saveUntil) {
+                        let savedPhones = window.saver.getData("phones") ?? {};
+                        savedPhones[phone.otherData.hash] = {
+                            charge: phone.charge,
+                            saveUntil: phone.otherData.saveUntil
+                        };
+                        window.saver.setData(savedPhones, "phones");
+                    }
+                    if(phone.charge >= phone.maxCharge) {
+                        this.levelTransition.active = true;
+                        queueMicrotask(() => {
+                            this.startPhoneTransition(phone);
+                        });
+                    }
                 }
             });
         }
@@ -444,17 +481,20 @@ export default class World {
             this.bgParticles++;
         }
 
-
+        // update handlers
+        Object.values(this.updateHandlers).forEach(handler => handler());
 
         // Camera test
         if (!window.testCamera) return; // only run if testCamera is set to true (for testing purposes, so we can easily turn it on and off without deleting code)
         // Test particle effect
         if(window.testCamera === 1) window.testCamera = 0; // so no spamming in console
     }
-    async switchLevel(levelNum, goto=null, load=null) {
+    async switchLevel(levelNum, goto=null, load=null, instant=false) {
+        const prevLevel = this.level;
         this.level = levelNum;
         if (goto) this.level = goto;
         if (load){
+            this.world = load;
             // reset tilemap
             this.tilemap = new Tilemap();
             await this.tilemap.preload(
@@ -471,6 +511,14 @@ export default class World {
             if (load === "spacestation" && this.musicMan.currentTrack !== "spacestation"){
                 this.musicMan.fadeTo("spacestation", 500, 0.1);
             }
+        }
+        // if previous level has a postMessage key, play the message after completing the level
+        if (this.levelData[prevLevel]?.postMessage && !instant) {
+            await this.texting.playMessage(this.levelData[prevLevel].postMessage);
+        }
+        // if a level has a 'message' key, play the message
+        if (this.levelData[this.level]?.message) {
+            await this.texting.playMessage(this.levelData[this.level].message);
         }
         this.buttonState = 0; // reset button state on level switch
         // now we set the main region's pos & size to the level's offset and size to make UI is clean
@@ -496,11 +544,24 @@ export default class World {
             this.level = 1;
             return;
         }
+        // reset phones saved if we reach their saveUntil level
+        const savedPhones = window.saver.getData("phones") ?? {};
+        for (let phoneKey in savedPhones) {
+            const phoneData = savedPhones[phoneKey];
+            if (phoneData.saveUntil) {
+                phoneData.saveUntil.forEach(saveLevel => {
+                    if (this.level === saveLevel) {
+                        delete savedPhones[phoneKey];
+                    }
+                });
+            }
+        }
+        //window.saver.setData(savedPhones, "phones");
         // update text
         document.getElementById("Label").innerText = this.levelData[this.level]["text"];
 
         if (this.levelData[this.level].world === "spacestation") document.getElementById("Label").style.color = "#FFFFFF55";
-        else document.getElementById("Label").style.color = "#00000055";
+        else document.getElementById("Label").style.color = "#000000AA";
         const nextX = this.levelData[this.level].origin[0];
         const nextY = this.levelData[this.level].origin[1];
         this.region = this.tilemap.pushRegion([nextX, nextY], [16, 9], 16, ['bg', 'bgdecor', 'blocks'], true, true);
@@ -521,7 +582,7 @@ export default class World {
         // create phones based on level data
         // add to entities so they get drawn and updated
         this.levelData[this.level].phones.forEach((phoneData, index) => {
-            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge, phoneData.goto ?? this.level+1, phoneData.load ?? null);
+            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge, phoneData.goto ?? this.level+1, phoneData.load ?? null, {hash:phoneData.hash ?? null, saveUntil:phoneData.saveUntil ?? null});
         });
         // create enemies based on level data
         if(this.levelData[this.level].enemies){
@@ -540,12 +601,38 @@ export default class World {
             });
         }
         this.updateCollisions();
-        
 
+        // if a level has a miniMessage key, play the message when the player gets close to the specified coordinates
+        if (this.levelData[this.level]?.miniMessage) {
+            console.log("Setting up mini message with key '" + this.levelData[this.level].miniMessage.message + "'");
+            const miniMessage = this.levelData[this.level].miniMessage;
+            const checkProximity = async () => {
+                for (let playerId in this.players) {
+                    const player = this.players[playerId];
+                    const dx = player.x - miniMessage.x;
+                    const dy = player.y - miniMessage.y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < miniMessage.radius) {
+                        // set gap to 0.2 to condense message
+                        const messageDiv = document.getElementById("message");
+                        messageDiv.setAttribute("style", "gap: 0.1em;");
+                        console.log(`Playing mini message with key '${miniMessage.message}'`);
+                        await this.texting.playMessage(miniMessage.message);
+                        // remove this event listener after triggering the message, so it doesn't spam
+                        delete this.updateHandlers[`miniMessage${miniMessage.message}`];
+                        messageDiv.setAttribute("style", "gap: 1em;");
+                    }
+                }
+            };
+            this.updateHandlers[`miniMessage${miniMessage.message}`] = checkProximity;
+        }
         
     }
-    startPhoneTransition(phone) {
-        this.Camera.clearKeyframes();
+    addCameraKeyframes(){
+
+    }
+    async startPhoneTransition(phone) {
+        await this.Camera.clearKeyframes();
         this.Camera.addKeyframe("start", createKeyframe({
             "name": "start",
             "duration": 1000,
@@ -608,11 +695,11 @@ export default class World {
         this.Camera.playKeyframe();
         window.soundMan.play("transition", 0.5);
     }
-    shakeCamera() {
+    async shakeCamera() {
         // reset level transition in case it's already active, so we can replay the shake effect
         this.levelTransition.active = false;
         window.soundMan.play("death", 0.5);
-        this.Camera.clearKeyframes();
+        await this.Camera.clearKeyframes();
         this.Camera.addKeyframe("shake", createKeyframe({ // the starting keyframe
             "name":"shake",
             "duration":300, // 1 second duration
@@ -635,6 +722,65 @@ export default class World {
             ,
         }));
         this.Camera.addAnimation("shake", "red");
+        this.Camera.playKeyframe();
+    }
+    async shakeRocket() {
+        // reset level transition in case it's already active, so we can replay the shake effect
+        this.levelTransition.active = false;
+        window.soundMan.play("rocket", 1);
+        await this.Camera.clearKeyframes();
+        this.Camera.addKeyframe("shake", createKeyframe({ // the starting keyframe
+            "name":"shake",
+            "duration":5000, // 1 second duration
+            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}],[{'x': 0, 'y': 1.0}, {'x': 0.494, 'y': 1}, {'x': 0.504, 'y': 0}, {'x': 1, 'y': 0}]), // starts slow then goes fast.
+            "effects": new Map()
+            .set("shake", getEffect("shake", 0.1, 0.2))
+            ,
+            "onEnd": async () => {
+               this.Camera.playKeyframe(); 
+            }
+        }));
+        this.Camera.addKeyframe("red", createKeyframe({
+            "name": "red",
+            "duration": 500, // 1 second duration
+            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}]), // starts slow then goes fast.
+            "effects": new Map()
+            .set("shake", getEffect("shake", 10, 5))
+            .set("fade", getEffect("fade", "#00000000"))
+            ,
+            "onEnd": async () => {
+                // play message
+                await this.texting.playMessage("Unusual activity");
+                
+                await this.switchLevel(101, null, "spacestation"); 
+                window.soundMan.play("transition", 0.5); 
+                this.Camera.playKeyframe(); 
+            }
+        }));
+        this.Camera.addKeyframe("fade", createKeyframe({
+            "name": "fade",
+            "duration": 1000, // 1 second duration
+            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.896, 'y': 0.88}, {'x': 1.0, 'y': 1.0}]), // starts fast then goes slow.
+            "effects": new Map()
+            .set("shake", getEffect("shake", 0, 0))
+            .set("fade", getEffect("fade", "#000000FF"))
+            ,
+            "onEnd": async () => {
+                Object.values(this.players).forEach(player => {
+                    player.visible = true;
+                })
+            }
+        }));
+        this.Camera.addKeyframe("end", createKeyframe({
+            "name": "end",
+            "duration": 1000, // 1 second duration
+            "bezier": new Bezier([{'x': 0.0, 'y': 0.0}, {'x': 0.104, 'y': 0.978}, {'x': 1.0, 'y': 1.0}]), // starts slow then goes fast.
+            "effects": new Map()
+            .set("shake", getEffect("shake", 0, 0))
+            .set("fade", getEffect("fade", "#00000000"))
+            ,
+        }));
+        this.Camera.addAnimation("shake", "red", "fade", "end");
         this.Camera.playKeyframe();
     }
     updateCollisions(){
@@ -679,4 +825,13 @@ window.trackPlayer = (playery="player1")=>{
         clearInterval(timer);
         timer = null;
     }
+}
+
+async function preloadImageArray(obj, imagePaths) {
+    const promises = Object.keys(imagePaths).map(async key => {
+        const path = imagePaths[key];
+        const blob = await fetch(path).then(res => res.blob());
+        obj[key] = await createImageBitmap(blob);
+    });
+    await Promise.all(promises);
 }

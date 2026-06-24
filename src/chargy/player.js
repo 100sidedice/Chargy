@@ -34,11 +34,13 @@ export default class Player {
         this.chargeCallback = (currCharge, amount)=>{
            // for phones to hook into and update display
         }; 
-        this.shrink = 0.05; // shrink player hitbox to tiles for better feeling collisions
+        this.shrink = 2/16; // shrink player hitbox to tiles for better feeling collisions
         this.buffer = 2/16;
         this.bounced = false; // whether the player has bounced on the current jump
+        this.visible = true; // whether the player is visible (used for rocket countdown)
     }
     update(){
+        if(this.world.levelTransition.active) return; // skip update if level transition is active
         // charge particles
         this.updateChargeParticles();
         if (this.charge < 0 && this.charging) {
@@ -90,11 +92,24 @@ export default class Player {
         
     }
     draw(ctx){
+        if (!this.visible) return;
         this.drawChargeParticles(ctx);
-        let image = this.world.images["player-base"];
+        let player = "chargy";
+        if (this.name === "powery") player = "powery";
+        let image = this.world.images[`${player}`];
         if (this.charge >= 1) {
-            image = this.world.images["player-charged"];
+            image = this.world.images[`${player}_charged`];
         }
+        let dir = "_eye";
+        // if vy < 0, show eye up
+        if (this.vy < -0.05) {
+            dir = "_eye_up";
+        }
+        // if holding down, show eye down
+        if (this.input.getAxis(this.inputMap.y) > 0.5 || this.vy > 0.05) {
+            dir = "_eye_down";
+        }
+        let eyeImage = this.world.images[`${player}${dir}`];
         ctx.save();
         ctx.translate(this.x + this.w * 0.5,this.y + this.h * 0.5);
         // ctx.rotate(this.rotation);
@@ -109,10 +124,18 @@ export default class Player {
             this.w,
             this.h
         );
+        ctx.drawImage(
+            eyeImage,
+            -this.w * 0.5,
+            -this.h * 0.5,
+            this.w,
+            this.h
+        );
 
         ctx.restore();
     }
     collide(extraCollisions = [], onCollide = ()=>{}) {
+        this.collidingSides = {top: false, bottom: false, left: false, right: false};
         for (let poly of this.world.getCollisions()){
             let bounce = 0;
             let shrink = this.shrink;
@@ -141,6 +164,9 @@ export default class Player {
             }
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
+            for (let side in collision.collided) {
+                if (collision.collided[side]) this.collidingSides[side] = true;
+            }
         }
         for (let poly of extraCollisions){
             let bounce = 0;
@@ -170,8 +196,43 @@ export default class Player {
             }
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
+            for (let side in collision.collided) {
+                if (collision.collided[side]) this.collidingSides[side] = true;
+            }
             onCollide(collision);
-        }
+        } 
+
+        // check for collisions with other players 
+        Object.keys(this.world.players).forEach(key => {
+            const otherPlayer = this.world.players[key];
+            if (otherPlayer === this) return; // skip self
+            const collision = Geometry.spriteToTile({x: this.x+this.shrink, y: this.y+this.shrink},{x: this.vx, y: this.vy}, {x: this.w-this.shrink*2, y: this.h-this.shrink*2}, {x: otherPlayer.x+otherPlayer.shrink, y: otherPlayer.y+otherPlayer.shrink}, {x: otherPlayer.w-otherPlayer.shrink*2, y: otherPlayer.h-otherPlayer.shrink*2}, this.buffer, 0.2);
+            if(!collision.collided) return;
+            // treat other player as a solid object
+            this.x = collision.pos.x-this.shrink;
+            this.y = collision.pos.y-this.shrink;
+            // conservation of momentum
+            if (!this.collidingSides.bottom && collision.collided.top && otherPlayer.vy > 0) {
+                this.vy = otherPlayer.vy;
+            } else if (!this.collidingSides.top && collision.collided.bottom && otherPlayer.vy < 0) {
+                this.vy = otherPlayer.vy;
+            }  else {
+                this.vy = collision.vlos.y;
+            }
+            if (!this.collidingSides.top && collision.collided.bottom) {
+                this.canJump = true; // allow jump if player is on top of another player
+            }
+            if (!this.collidingSides.right && collision.collided.left && otherPlayer.vx > 0) {
+                this.vx = otherPlayer.vx;
+            } else if (!this.collidingSides.left && collision.collided.right && otherPlayer.vx < 0) {
+                this.vx = otherPlayer.vx;
+            } else {
+                this.vx = collision.vlos.x;
+            }
+            for (let side in collision.collided) {
+                if (collision.collided[side]) this.collidingSides[side] = true;
+            } 
+        });
     }
     spawnChargeParticles(){
         if (this.chargeParticles.length >= this.chargeParticleSettings.count) return;

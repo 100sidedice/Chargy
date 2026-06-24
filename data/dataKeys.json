@@ -12,6 +12,20 @@
     "battery": "data/sprites/battery.png",
     "sprite-data": "data/descriptions.json",
 
+    "player-images": {
+        "chargy_charged": "data/sprites/players/chargy_charged.png",
+        "chargy_eye_down": "data/sprites/players/chargy_eye_down.png",
+        "chargy_eye": "data/sprites/players/chargy_eye.png",
+        "chargy_eye_up": "data/sprites/players/chargy_eye_up.png",
+        "chargy": "data/sprites/players/chargy.png",
+        "powery_charged": "data/sprites/players/powery_charged.png",
+        "powery_eye_down": "data/sprites/players/powery_eye_down.png",
+        "powery_eye": "data/sprites/players/powery_eye.png",
+        "powery_eye_up": "data/sprites/players/powery_eye_up.png",
+        "powery": "data/sprites/players/powery.png"
+    },
+    "messages": "data/messages.json",
+
     "world1-soundtrack": "sounds/reganati-chillcalming-chiptune-loop-527182.mp3",
     "factory-soundtrack": "sounds/reflextunes-game-zone-320262.mp3",
     "spacestation-soundtrack": "sounds/the_mountain-space-data-140450.mp3",
@@ -24,5 +38,6 @@
     "ding-sound": "sounds/ding.mp3",
     "compute-sound": "sounds/compute.mp3",
     "cling-sound": "sounds/cling.mp3",
+    "rocket-sound": "sounds/rocket.mp3",
     "brunk-lift-sound": "sounds/brunkLift.mp3"
 }

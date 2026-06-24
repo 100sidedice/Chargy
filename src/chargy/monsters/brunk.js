@@ -103,8 +103,9 @@ export default class Brunk {
                     if(this.frame === 1 && !this.isPlatform) window.soundMan.play("brunkLift", 0.5);
                     if (this.frame === this.animations["attack"].frames - 2) {
                         // only kill player on second to last frame of attack animation, so they have a chance to react, and they can stand onto the hitbox without instantly dying
-                        this.world.shakeCamera();
-                        this.attackedPlayer = player;
+                        this.world.shakeCamera().then(() => {
+                            this.attackedPlayer = player;
+                        });
                     }
                     if(this.frame === this.animations["attack"].frames - 1 && (player.charge||0) >= 1){
                         // kill self

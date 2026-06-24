@@ -1,5 +1,5 @@
 export default class Phone {
-    constructor(world, x, y, w, h, maxCharge = 5, goto = 1, load = null){
+    constructor(world, x, y, w, h, maxCharge = 5, goto = 1, load = null, other){
         this.x = x;
         this.y = y;
         this.w = w;
@@ -21,6 +21,21 @@ export default class Phone {
             "x": this.x + this.w/2,
             "y": this.y + this.h/2,
             "r": 0.5
+        }
+        // spill params into dictionary for future use, e.g. hash, saveUntil, etc.
+        this.otherData = other;
+
+        // multi-part levels: if the phone has already been charged, it should not be chargeable again until player goes back to setup level part, see level 12: 12,12.1,12.2 are setup, then 12.3 + 12.4 + 12.5 are the sections.
+        this.chargeable = true;
+        if (window.saver && this.otherData && this.otherData.hash && this.otherData.saveUntil) {
+            const savedCharge = window.saver.getData("phones")?.[this.otherData.hash]?.charge;
+            if (savedCharge !== undefined) {
+                this.charge = savedCharge;
+                if (this.charge >= this.maxCharge) {
+                    this.charge = this.maxCharge;
+                    this.chargeable = false; // for things like multi-part levels
+                }
+            }
         }
     }
     update(){
@@ -87,10 +102,12 @@ export default class Phone {
         
         // if goto is set to a level, display level number on phone
         if (this.load) {
+            ctx.save();
             ctx.fillStyle = "white";
             ctx.font = "0.02rem Pixelify Sans, sans-serif";
             ctx.textAlign = "center";
             ctx.fillText(this.goto, this.x + this.w/2, this.y + this.h/2+0.1);
+            ctx.restore();
         }
     }
 

@@ -120,5 +120,29 @@
                 "row": 0
             }
         }
+    },
+    "rocket":{
+        "name":"Rocket",
+        "description":"A rocket. Used to travel to different planets.",
+        "filePath": "data/sprites/large/rocket.png",
+        "w":64,
+        "h":64,
+        "animations": {
+            "static": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 2
+            },
+            "active": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 1
+            },
+            "takeoff": {
+                "frames":2,
+                "frameRate": 4,
+                "row": 0
+            }
+        }
     }
 }

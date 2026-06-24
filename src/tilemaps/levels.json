@@ -11,7 +11,8 @@
         "playerY": 5,
         "startingCharge": 1,
         "text":"Press Arrow keys or WASD to move.",
-        "world": "world1"
+        "world": "world1",
+        "message": "start"
     },
     "2": {
         "origin": [17, 0],
@@ -40,7 +41,8 @@
         "playerX": 2,
         "playerY": 6,
         "startingCharge": 0,
-        "text":"Phones require charge to charge."
+        "text":"Phones require charge to charge.",
+        "message": "out of battery"
     },
     "4": {
         "origin": [0, 10],
@@ -127,8 +129,8 @@
         "playerX": 2,
         "playerY": 7,
         "startingCharge": 0,
-        "text":"Goobers"
-
+        "text":"Goobers",
+        "postMessage": "Goobers?"
     },
     "9": {
         "origin": [34, 20],
@@ -202,29 +204,176 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":1, "y": 2, "maxCharge": 1, "load":"spacestation", "goto": 13},
-            {"x":-5, "y": 2, "maxCharge": 1, "goto": 13}
+            {"x":14, "y": 5, "maxCharge": 1, "goto": 12.1}
         ],
         "batteries":[
-            {"x":14, "y": 1}
         ],
         "enemies":[
-            {"type": "brunk", "x": 3, "y": 1, "dir": -1},
-            {"type": "brunk", "x": 9, "y": 0, "dir": -1},
-            {"type": "brunk", "x": 13, "y": 4, "dir": 1},
-            {"type": "brunk", "x": 9, "y": 6, "dir": 1},
-            {"type": "grassgoober", "x": 1, "y": 7, "speed": 0.02, "path":[
-                {"x": 1, "y": 7},
-                {"x": 4, "y": 7}
+
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 1,
+        "text":"Onward"
+    },
+    "12.1": {
+        "origin": [0, 41],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":14, "y": 5, "maxCharge": 1, "goto": 12.2}
+        ],
+        "batteries":[
+        ],
+        "enemies":[
+
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 1,
+        "text":"Into the skys!"
+    },
+    "12.2": {
+        "origin": [17, 41],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":14, "y": 5, "maxCharge": 1, "goto": 12.3}
+        ],
+        "batteries":[
+        ],
+        "enemies":[
+
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 1,
+        "text":"Countdown..."
+    },
+    "12.3": {
+        "origin": [34, 41],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":-5, "y": 3, "maxCharge": 1, "goto": 12.3},
+            {"x":3, "y": 3, "maxCharge": 1, "goto": 12.4, "saveUntil":[12], "load":"world1", "hash":"dae136182c7ac0c03710998eff49d1ef"},
+            {"x":13, "y": 5, "maxCharge": 1, "goto": 12.5, "saveUntil":[12], "load":"world1", "hash":"78dbf48cc45f6dedd7b1700895546cd9"}
+        ],
+        "batteries":[
+            {"x":1, "y": 2}
+        ],
+        "enemies":[
+            {"type": "brunk", "x": 9, "y": 3, "dir": -1},
+            {"type": "grassgoober", "x": 4, "y": 1, "speed": 0.02, "path":[
+                {"x": 4, "y": 1},
+                {"x": 5, "y": 1}
+            ]},
+            {"type":"rocket", "x": 7, "y": 1}
+        ],
+        "playerX": 11,
+        "playerY": 3,
+        "startingCharge": 1,
+        "text":"Upper atmosphere"
+    },
+    "12.4": {
+        "origin": [0, 51],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":5, "y": 1, "maxCharge": 1, "goto": 12.3}
+        ],
+        "batteries":[
+            {"x":1, "y": 1}
+        ],
+        "enemies":[
+            {"type": "grassgoober", "x": 4, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 5, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 6, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 7, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 8, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 9, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 10, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 11, "y": 7, "speed": 0.02, "path":[
+                {"x": 4, "y": 7},
+                {"x": 11, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 13, "y": 7, "speed": 0.02, "path":[
+                {"x": 13, "y": 7},
+                {"x": 14, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 14, "y": 7, "speed": 0.02, "path":[
+                {"x": 13, "y": 7},
+                {"x": 14, "y": 7}
+            ]},
+            {"type": "grassgoober", "x": 6, "y": 4, "speed": 0.01, "path":[
+                {"x": 5.8, "y": 4},
+                {"x": 6.2, "y": 4}
+            ]},
+            {"type": "grassgoober", "x": 8, "y": 4, "speed": 0.02, "path":[
+                {"x": 8, "y": 4},
+                {"x": 12, "y": 4}
+            ]},
+            {"type": "grassgoober", "x": 2, "y": 2, "speed": 0.02, "path":[
+                {"x": 2, "y": 2},
+                {"x": 3, "y": 2}
             ]}
         ],
-        "playerX": 7,
-        "playerY": 3,
+        "playerX": 1,
+        "playerY": 7,
         "startingCharge": 0,
-        "text":"Goober world!"
+        "text":"Goober nest"
+    },
+    "12.5": {
+        "origin": [17, 51],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":8, "y": 2, "maxCharge": 1, "goto": 12.3}
+        ],
+        "batteries":[
+            {"x":1, "y": 1},
+            {"x":9, "y": 2}
+        ],
+        "enemies":[
+            {"type": "brunk", "x": 10, "y": 1, "dir": -1},
+            {"type": "brunk", "x": 7, "y": 1, "dir": -1},
+            {"type": "brunk", "x": 6, "y": 6, "dir": 1},
+            {"type": "brunk", "x": 1, "y": 4, "dir": -1},
+            {"type": "brunk", "x": 0, "y": 0, "dir": -1}
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"The forest"
     },
 
-    "13":{
+    "101":{
         "world":"spacestation",
         "origin": [0, 0],
         "size": [16, 9],
@@ -248,7 +397,7 @@
             {"x":9, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 10},
             {"x":11, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 11},
             {"x":13, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 12},
-            {"x":14, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 14}
+            {"x":14, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 102}
         ],
         "batteries":[
             {"x":7, "y": 5}
@@ -278,7 +427,7 @@
             {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
         ]
     },
-    "14":{
+    "102":{
         "world":"spacestation",
         "origin": [0, 0],
         "size": [16, 9],
@@ -290,19 +439,19 @@
         "text":"Goober world [Dark side]",
         "phones":[
             {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
-            {"x":2, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 20},
-            {"x":4, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 21},
-            {"x":6, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 22},
-            {"x":9, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 23},
-            {"x":11, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 24},
-            {"x":13, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 25},
-            {"x":2, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 26},
-            {"x":4, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 27},
-            {"x":6, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 28},
-            {"x":9, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 29},
-            {"x":11, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 30},
-            {"x":13, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 31},
-            {"x":1, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 13}
+            {"x":2, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 13},
+            {"x":4, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 14},
+            {"x":6, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 15},
+            {"x":9, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 16},
+            {"x":11, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 17},
+            {"x":13, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 18},
+            {"x":2, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 19},
+            {"x":4, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 20},
+            {"x":6, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 21},
+            {"x":9, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 22},
+            {"x":11, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 23},
+            {"x":13, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 24},
+            {"x":1, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 101}
         ],
         "batteries":[
             {"x":7, "y": 5}
@@ -332,7 +481,7 @@
             {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
         ]
     },
-    "20": {
+    "13": {
         "world":"factory",
         "origin": [0, 0],
         "size": [16, 9],
@@ -368,7 +517,7 @@
         ],
         "text":"The factory"
     },
-    "21": {
+    "14": {
         "world":"factory",
         "origin": [17, 0],
         "size": [16, 9],
@@ -391,7 +540,7 @@
         ],
         "text":"RoboGoobers"
     },
-    "22": {
+    "15": {
         "world":"factory",
         "origin": [0, 10],
         "size": [16, 9],
@@ -422,7 +571,7 @@
         ],
         "text":"Oneways"
     },
-    "23": {
+    "16": {
         "world":"factory",
         "origin": [17, 10],
         "size": [16, 9],
@@ -460,7 +609,7 @@
         ],
         "text":"A Circular path"
     },
-    "24": {
+    "17": {
         "world":"factory",
         "origin": [34, 10],
         "size": [16, 9],
@@ -483,7 +632,7 @@
         ],
         "text":"A Trampoline effect"
     },
-    "25": {
+    "18": {
         "world":"factory",
         "origin": [0, 20],
         "size": [16, 9],
@@ -506,7 +655,7 @@
         ],
         "text":"High-bounces"
     },
-    "26": {
+    "19": {
         "world":"factory",
         "origin": [34, 0],
         "size": [16, 9],

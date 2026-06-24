@@ -86,15 +86,16 @@ export default class GrassGoober {
                 playerHitbox.y < this.attackHitbox.y + this.attackHitbox.h &&
                 playerHitbox.y + playerHitbox.h > this.attackHitbox.y){
                 // keyframe shake effect
-                this.world.shakeCamera()
-                this.currentAnimation = "attack"
-                this.attackDir = player.x < this.x ? -1 : 1;
-                this.attackedPlayer = player;
-                this.frame = 1; // so it does not reset to 0 immediately and switch back to walk right away
-                // reset phones
-                Object.values(this.world.phones).forEach(phone => {
-                    phone.charge = 0;
-                    phone.charging = false;
+                this.world.shakeCamera().then(() => {
+                    this.currentAnimation = "attack"
+                    this.attackDir = player.x < this.x ? -1 : 1;
+                    this.attackedPlayer = player;
+                    this.frame = 1; // so it does not reset to 0 immediately and switch back to walk right away
+                    // reset phones
+                    Object.values(this.world.phones).forEach(phone => {
+                        phone.charge = 0;
+                        phone.charging = false;
+                    });
                 });
             }
         });
