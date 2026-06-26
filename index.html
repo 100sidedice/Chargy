@@ -17,6 +17,13 @@
         <button id="settings" onclick="window.switchLevel = [101, 'spacestation']"></button>
         <div id="message"></div>
     </main>
+    <fieldset id="mobileDpad">
+        <legend>Mobile controls</legend>
+        <button id="up" class="mobile-dpad", onClick="window.keyDown('ArrowUp')"></button>
+        <button id="down" class="mobile-dpad", onClick="window.keyDown('ArrowDown')"></button>
+        <button id="left" class="mobile-dpad", onClick="window.keyDown('ArrowLeft')"></button>
+        <button id="right" class="mobile-dpad", onClick="window.keyDown('ArrowRight')"></button>
+    </fieldset>
     <script type="module" src="src/core/main.js"></script>
 </body>
 </html>

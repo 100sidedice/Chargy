@@ -27,6 +27,25 @@ export default class musicMan {
         this.unlocked = true;
         console.log("Audio unlocked");
     }
+    stop() {
+        if (!this.source) return;
+
+        try {
+            this.source.stop();
+        } catch (e) {
+            // Source may already be stopped.
+        }
+
+        this.source.disconnect();
+
+        if (this.gain) {
+            this.gain.disconnect();
+        }
+
+        this.source = null;
+        this.gain = null;
+        this.current = null;
+    }
 
     start(name, volume = 1) {
         if (!this.unlocked) {

@@ -9,6 +9,7 @@ import ParticleManager from "./particles.js";
 import musicMan from "./musicman.js";
 import SFXMan from "./SFXMan.js";
 import Texting from "./texting.js";
+import CutsceneManager from "../camera/CutsceneManager.js";
 
 export default class World {
     constructor(canvas, ctx){
@@ -34,8 +35,11 @@ export default class World {
         this.updateHandlers = {}; // for things like messages that need to attach to the update loop
     }
     async preload(dataKey){
+        const loading = document.getElementById("loading-text");
+        loading.innerHTML = "Loading!!! <br> 1.Setup"
         this.level = window.saver.getData("info", "level") ?? 1;
         this.world = window.saver.getData("info", "world") ?? "world1";
+        loading.innerHTML = "Loading!!! <br> Getting file paths"
         const data = await fetch(dataKey).then(res => res.json());
         console.log(this.level)
         window.saver.hook("before", "levelSave", () => {
@@ -43,9 +47,11 @@ export default class World {
             window.saver.setData(this.world, "info", "world");
         });
         this.data = data;
+        this.CutsceneManager = new CutsceneManager(data);
         // load tilemap
         this.tilemap = new Tilemap();
         // load entity images
+        loading.innerHTML = "Loading!!! <br> Getting phone images"
         const phone = await fetch(data["phone"]).then(res => res.blob());
         this.images["phone"] = await createImageBitmap(phone);
         const greenphone = await fetch(data["greenphone"]).then(res => res.blob());
@@ -54,18 +60,23 @@ export default class World {
         this.images["purplephone"] = await createImageBitmap(purplephone);
         const orangephone = await fetch(data["orangephone"]).then(res => res.blob());
         this.images["orangephone"] = await createImageBitmap(orangephone);
+        loading.innerHTML = "Loading!!! <br> Getting battery"
         const battery = await fetch(data["battery"]).then(res => res.blob());
         this.images["battery"] = await createImageBitmap(battery);
         
         // load player images
+        loading.innerHTML = "Loading!!! <br> Getting players"
         await preloadImageArray(this.images, data["player-images"]);
         // load level data
+        loading.innerHTML = "Loading!!! <br> Getting level data"
         const levelData = await fetch(data["levels"]).then(res => res.json());
         this.levelData = levelData;
         // create phones based on level data
         
+        loading.innerHTML = "Loading!!! <br> Getting sprite data"
         this.spriteData = await fetch(data["sprite-data"]).then(res => res.json());
         for (let key in this.spriteData) {
+            loading.innerHTML = "Loading!!! <br> Getting sprite: " + key;
             const sprite = this.spriteData[key];
             if(!sprite.filePath) {
                 continue;
@@ -73,12 +84,11 @@ export default class World {
             const imgBlob = await fetch(sprite.filePath).then(res => res.blob());
             this.images[key] = await createImageBitmap(imgBlob);
         }
-
+        
         // create player1
         this.input = new Input();
         this.players[1] = new Player(this, 5, 5, 1, 1, "chargy", {"x":"Axis1", "y":"Axis2"}, this.input);  
-        //this.players[2] = new Player(this, 5, 5, 1, 1, "powery", {"x":"Axis3", "y":"Axis4"}, this.input);  
-
+        
         this.Camera = new Camera(this.canvas);
         this.lastChargeSteal = performance.now();
         this.chargeStealCooldown = 500; 
@@ -88,6 +98,7 @@ export default class World {
         
         
         // music
+        loading.innerHTML = "Loading!!! <br> Loading music and sound effects";
         const audioContext = new (window.AudioContext || window.webkitAudioContext)();
         this.musicMan = new musicMan({
             world1: data["world1-soundtrack"],
@@ -116,11 +127,13 @@ export default class World {
         }, { once:true });
 
         // texting system
+        loading.innerHTML = "Loading!!! <br> Loading message cutscenes";
         this.texting = new Texting(this);
         await this.texting.preload(data["messages"]);
         // turn off loading text
         const loadingText = document.getElementById("loading-text");
         if (loadingText) loadingText.style.display = "none";
+        loading.innerHTML = "Loading!!! <br> Heading to level " + this.level + "!";
         await this.switchLevel(this.level, this.level, this.world, true);
         // im exposing musicMan and sfxMan to window to allow entities and phones to play music and sfx without needing a reference to the world object
         window.musicMan = this.musicMan;
@@ -725,6 +738,8 @@ export default class World {
         this.Camera.playKeyframe();
     }
     async shakeRocket() {
+        // start preloading the cutscene
+        this.CutsceneManager.preload("toSpacestation");
         // reset level transition in case it's already active, so we can replay the shake effect
         this.levelTransition.active = false;
         window.soundMan.play("rocket", 1);
@@ -749,9 +764,9 @@ export default class World {
             .set("fade", getEffect("fade", "#00000000"))
             ,
             "onEnd": async () => {
-                // play message
-                await this.texting.playMessage("Unusual activity");
-                
+                // play cutscene
+                this.musicMan.stop();
+                await this.CutsceneManager.play("toSpacestation");
                 await this.switchLevel(101, null, "spacestation"); 
                 window.soundMan.play("transition", 0.5); 
                 this.Camera.playKeyframe(); 

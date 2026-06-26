@@ -39,5 +39,9 @@
     "compute-sound": "sounds/compute.mp3",
     "cling-sound": "sounds/cling.mp3",
     "rocket-sound": "sounds/rocket.mp3",
-    "brunk-lift-sound": "sounds/brunkLift.mp3"
+    "brunk-lift-sound": "sounds/brunkLift.mp3",
+
+    "cutscenes": {
+        "toSpacestation": "cutscenes/toSpacestation.mp4"
+    }
 }

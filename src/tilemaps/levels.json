@@ -491,7 +491,7 @@
         "playerY": 6,
         "startingCharge": 1,
         "phones":[
-            {"x":1, "y": 2, "maxCharge": 1, "goto": 21}
+            {"x":1, "y": 2, "maxCharge": 1, "goto": 14}
         ],
          "batteries":[
         ],
@@ -527,7 +527,7 @@
         "playerY": 7,
         "startingCharge": 0,
         "phones":[
-            {"x":2, "y": 2, "maxCharge": 1, "goto": 22}
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 15}
         ],
          "batteries":[
             {"x":4, "y": 7}
@@ -550,7 +550,7 @@
         "playerY": 7,
         "startingCharge": 0,
         "phones":[
-            {"x":3, "y": 4, "maxCharge": 1, "goto": 23}
+            {"x":3, "y": 4, "maxCharge": 1, "goto": 16}
         ],
          "batteries":[
             {"x":7, "y": 4}
@@ -581,7 +581,7 @@
         "playerY": 3,
         "startingCharge": 0,
         "phones":[
-            {"x":9, "y": 3, "maxCharge": 1, "goto": 24}
+            {"x":9, "y": 3, "maxCharge": 1, "goto": 17}
         ],
          "batteries":[
             {"x":14, "y": 3}
@@ -619,7 +619,7 @@
         "playerY": 6,
         "startingCharge": 0,
         "phones":[
-            {"x":14, "y": 4, "maxCharge": 1, "goto": 25}
+            {"x":14, "y": 4, "maxCharge": 1, "goto": 18}
         ],
          "batteries":[
             {"x":3, "y": 6}
@@ -642,7 +642,7 @@
         "playerY": 6,
         "startingCharge": 1,
         "phones":[
-            {"x":14, "y": 5, "maxCharge": 1, "goto": 26}
+            {"x":14, "y": 5, "maxCharge": 1, "goto": 19}
         ],
          "batteries":[
         ],
@@ -665,7 +665,7 @@
         "playerY": 7,
         "startingCharge": 0,
         "phones":[
-            {"x":7, "y": 3, "maxCharge": 1, "goto": 25}
+            {"x":7, "y": 3, "maxCharge": 1, "goto": 102, "load":"spacestation"}
         ],
          "batteries":[
             {"x":3, "y": 3}

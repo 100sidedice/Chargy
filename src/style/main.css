@@ -6,7 +6,9 @@ body {
     padding: 0;
     background: #000000;
 }
-
+html, body {
+    overscroll-behavior-y: contain;
+}
 #Label {
     /*pixilfy sans as font?*/
     font-family: "Pixelify Sans", sans-serif;
@@ -75,4 +77,70 @@ span.dark {
 }
 span.powery {
     color: #FF00FF;
+}
+.cutscene {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain;
+    background: black;
+    z-index: 9999;
+}
+#mobileDpad {
+    position: fixed;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+
+    display: grid;
+    grid-template-columns: 70px 20px 70px 70px;
+    grid-template-rows: 70px 70px;
+
+    grid-template-areas:
+        "up . . ."
+        "down . left right";
+
+    gap: 10px;
+}
+#mobileDpad legend {
+    color: white;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+.mobile-dpad {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: rgb(34, 34, 34);
+    border: 2px solid #00FFFF;
+    user-select: none;
+}
+
+#up    { grid-area: up; }
+#left  { grid-area: left; }
+#right { grid-area: right; }
+#down  { grid-area: down; }
+@media (max-width: 600px) {
+    #Label {
+        font-size: 0.8em;
+    }
+    #settings {
+        width: 2em;
+        height: 2em;
+    }
+    #message {
+        font-size: 0.8em;
+        gap: 0.5em;
+        padding: 0.5em;
+    }
+    .mobile-dpad {
+        display: block;
+    }
+    #loading-text {
+        font-size: 0.5em;
+    }
 }
