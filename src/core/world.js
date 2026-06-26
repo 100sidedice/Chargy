@@ -139,6 +139,18 @@ export default class World {
         window.musicMan = this.musicMan;
         window.soundMan = this.sfxMan; 
         
+
+        // connect reset level button to reset the current level
+        // it throws a resetLevel event
+        window.addEventListener("resetLevel", () => {
+            this.switchLevel(this.level, this.level);
+        })
+        // connect to exitLevel
+        window.addEventListener("exitLevel", () => {
+            // relevant spacestation level
+            if (this.world === "world1") this.switchLevel(101, 101, "spacestation");
+            if (this.world === "factory") this.switchLevel(102, 102, "spacestation");
+        })
         
     }
     getBaseCamera() {
@@ -418,7 +430,7 @@ export default class World {
         // option 1,check all phones - if all are fully charged, start level transition
         const allCharged = Object.values(this.phones)
             .filter(e => e instanceof Phone)
-            .filter(phone => phone.load === null) // since phones with 'load' are more for secret/level-select purposes
+            .filter(phone => phone.load === null || phone.load === undefined) // since phones with 'load' are more for secret/level-select purposes
             .every(phone => phone.charge >= phone.maxCharge);
 
         if (allCharged && !this.levelTransition.active) {
@@ -516,13 +528,13 @@ export default class World {
             )
             if (load === "world1" && this.musicMan.currentTrack !== "world1") {
                 // if we're loading world1, also reset the music to world1's soundtrack, in case we were in the factory world before
-                this.musicMan.fadeTo("world1", 500, 0.2);
+                this.musicMan.fadeTo("world1", 500, 0.3);
             } 
             if (load === "factory" && this.musicMan.currentTrack !== "factory"){
-                this.musicMan.fadeTo("factory", 500, 0.1);
+                this.musicMan.fadeTo("factory", 500, 0.3);
             }
             if (load === "spacestation" && this.musicMan.currentTrack !== "spacestation"){
-                this.musicMan.fadeTo("spacestation", 500, 0.1);
+                this.musicMan.fadeTo("spacestation", 500, 0.3);
             }
         }
         // if previous level has a postMessage key, play the message after completing the level

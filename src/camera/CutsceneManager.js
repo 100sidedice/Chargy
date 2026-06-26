@@ -37,6 +37,8 @@ export default class CutsceneManager {
 
             video.src = URL.createObjectURL(blob);
             video.preload = "auto";
+            // up video volume
+            video.volume = 1;
 
             // Wait until the browser says it can play.
             await new Promise((resolve, reject) => {

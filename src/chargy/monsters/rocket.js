@@ -2,6 +2,21 @@ export default class Rocket {
     constructor(world, img, spriteData, data){
         this.world = world;
         this.img = img;
+        // img is bit dark - let's brighten it up a bit
+        const tempCanvas = document.createElement("canvas");
+        tempCanvas.width = img.width;
+        tempCanvas.height = img.height;
+        const tempCtx = tempCanvas.getContext("2d");
+        tempCtx.drawImage(img, 0, 0);
+        const imageData = tempCtx.getImageData(0, 0, img.width, img.height);
+        for (let i = 0; i < imageData.data.length; i += 4) {
+            imageData.data[i] = Math.min(255, imageData.data[i] * 1.2); // R
+            imageData.data[i + 1] = Math.min(255, imageData.data[i + 1] * 1.2); // G
+            imageData.data[i + 2] = Math.min(255, imageData.data[i + 2] * 1.4); // B
+        }
+        tempCtx.putImageData(imageData, 0, 0);
+        this.img = new Image();
+        this.img.src = tempCanvas.toDataURL();
         this.spriteData = spriteData;
         this.data = data;
         this.anim = "static"

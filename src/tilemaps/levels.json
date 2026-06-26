@@ -267,15 +267,11 @@
         ],
         "enemies":[
             {"type": "brunk", "x": 9, "y": 3, "dir": -1},
-            {"type": "grassgoober", "x": 4, "y": 1, "speed": 0.02, "path":[
-                {"x": 4, "y": 1},
-                {"x": 5, "y": 1}
-            ]},
             {"type":"rocket", "x": 7, "y": 1}
         ],
-        "playerX": 11,
-        "playerY": 3,
-        "startingCharge": 1,
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 0,
         "text":"Upper atmosphere"
     },
     "12.4": {
@@ -665,7 +661,8 @@
         "playerY": 7,
         "startingCharge": 0,
         "phones":[
-            {"x":7, "y": 3, "maxCharge": 1, "goto": 102, "load":"spacestation"}
+            {"x":7, "y": 3, "maxCharge": 1, "goto": 102, "load":"spacestation"},
+            {"x":-5, "y": 3, "maxCharge": 1,"goto":1}
         ],
          "batteries":[
             {"x":3, "y": 3}

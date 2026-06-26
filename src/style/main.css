@@ -85,7 +85,7 @@ span.powery {
     height: 100vh;
     object-fit: contain;
     background: black;
-    z-index: 9999;
+    z-index: 100;
 }
 #mobileDpad {
     position: fixed;
@@ -102,6 +102,7 @@ span.powery {
         "down . left right";
 
     gap: 10px;
+    display: none;
 }
 #mobileDpad legend {
     color: white;
@@ -120,10 +121,50 @@ span.powery {
     user-select: none;
 }
 
-#up    { grid-area: up; }
-#left  { grid-area: left; }
-#right { grid-area: right; }
-#down  { grid-area: down; }
+#up    { 
+    grid-area: up; 
+    background-image: url("../../data/sprites/UI/gamepad/up.png");
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#left  { 
+    grid-area: left; 
+    background-image: url("../../data/sprites/UI/gamepad/left.png");
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#right { 
+    grid-area: right; 
+    background-image: url("../../data/sprites/UI/gamepad/right.png");
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#down  { 
+    grid-area: down; 
+    background-image: url("../../data/sprites/UI/gamepad/down.png");
+    image-rendering: pixelated;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#up:active {
+    background-image: url("../../data/sprites/UI/gamepad/up-active.png");
+    border: 2px solid #003333
+}
+#left:active {
+    background-image: url("../../data/sprites/UI/gamepad/left-active.png");
+    border: 2px solid #003333
+}
+#right:active {
+    background-image: url("../../data/sprites/UI/gamepad/right-active.png");
+    border: 2px solid #003333
+}
+#down:active {
+    background-image: url("../../data/sprites/UI/gamepad/down-active.png");
+    border: 2px solid #003333
+}
 @media (max-width: 600px) {
     #Label {
         font-size: 0.8em;
@@ -142,5 +183,8 @@ span.powery {
     }
     #loading-text {
         font-size: 0.5em;
+    }
+    #mobileDpad {
+        display: grid;
     }
 }

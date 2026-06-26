@@ -1,5 +1,4 @@
 import resizeCanvas from "../canvas/helpers.js";
-import Saver from "./saver.js";
 import World from "./world.js";
 
 class Main {
@@ -34,10 +33,6 @@ class Main {
                 }
             }
         });
-        window.saver = new Saver("chargy-save");
-        await window.saver.load("data/defaultData.json");
-        window.saver.enableAutoSave();
-        
         
         this.world = new World(this.canvas, this.ctx);
         window.world = this.world; // for debugging

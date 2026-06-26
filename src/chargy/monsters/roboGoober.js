@@ -58,12 +58,12 @@ export default class RoboGoober {
         const target = this.path[this.nextPoint];
         const dx = target.x - this.x;
         const dy = target.y - this.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
+        let dist = Math.sqrt(dx * dx + dy * dy);
         if(dist < this.speed){
             this.x = target.x;
             this.y = target.y;
             this.nextPoint = (this.nextPoint + 1) % this.path.length;
-        } else {
+        } else if (dist !== 0) {
             this.x += (dx / dist) * this.speed;
             this.y += (dy / dist) * this.speed;
         }

@@ -1,0 +1,209 @@
+#settings-menu {
+    position: fixed;
+    background-color: #161616;
+    font-family: "Pixelify Sans", sans-serif;
+    color: white;
+    z-index: 30;
+    height: 100%;
+    top: 0;
+    right: 0;
+    font-size: 1.2rem;
+    overflow-y: scroll;
+}
+.hidden {
+    display: none;
+}
+
+@media (max-width: 720px) {
+    #settings-menu {
+        width: 100%;
+        height: 100%;
+        left:0;
+        right:auto;
+    }
+    #settings-menu h1 {
+        text-align: center;
+    }
+    #close-settings {
+        position: absolute;
+        bottom:0;
+        width: 100%;
+        background: #111;
+        border: none;
+        border-top: 0.2rem solid #00FFFF;
+        font-family: "Pixelify Sans", sans-serif;
+        color: white;
+        font-size: 1.5rem;
+        padding: 1rem;
+        margin: 0;
+    }
+    #close-settings:active {
+        background: #222;
+    }
+    
+}
+@media (min-width: 720px) {
+    #settings-menu {
+        border-left: 0.5rem solid #00FFFF;
+        width: 20rem;
+    }
+    #close-settings {
+        position: absolute;
+        background-color: transparent;
+        background-image: url("../../data/sprites/settings.png");
+        background-size: cover;
+        /*make it pixelated*/
+        image-rendering: pixelated;
+        width: 5em;
+        height: 5em;
+        border: none;
+        cursor: pointer;
+        right: 1rem;
+        top: 1rem;
+        color: transparent;
+    }
+    #close-settings:hover {
+        background-image: url("../../data/sprites/settings:hover.png");
+    }
+    #settings-menu h1 {
+        text-align: left;
+        padding-left: 2rem;
+    }
+    .setting-button:hover {
+        background: #333;
+    }
+    details summary:hover {
+        background: #333;
+    }
+}
+/* the little arrow thing to open it*/
+details summary {
+    position: relative;
+    padding-left: 2rem;
+    cursor: pointer;
+    display: block;
+    padding-bottom: 0.5rem;
+    border-bottom: 0.2rem solid #00FFFF;
+    padding-top: 0.5rem;
+}
+details summary::before {
+    content: '';
+    position: absolute;
+    left: 0.8rem;
+    top: 50%;
+    transform: translateY(calc(-50%)) rotate(-45deg);
+    width: 0.5rem;
+    height: 0.5rem;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transition: transform 0.2s ease;
+    transform-origin: center;
+}
+details[open] summary::before {
+    transform: translateY(calc(-50%)) rotate(45deg);
+}
+details[open]::details-content{
+    padding:1rem;
+    background-color: #111;
+    border-bottom: 0.2rem solid #00FFFF;
+}
+
+/*Sliders*/
+
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+
+    width: 100%;
+    height: 1.5rem;
+    background: transparent;
+    cursor: pointer;
+
+    margin-top: 1rem;
+}
+
+
+input[type="range"]::-webkit-slider-runnable-track {
+    height: 0.5rem;
+    background: #555;
+    image-rendering: pixelated;
+    box-shadow: 3px 3px 0 #000, inset 0 0 0 2px #111;
+    user-select: none;
+}
+
+
+input[type="range"]::-moz-range-track {
+    height: 0.5rem;
+    background: #555;
+    box-shadow: 3px 3px 0 #000, inset 0 0 0 2px #111;
+    user-select: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 1.2rem;
+    height: 1.2rem;
+    margin-top: -0.45rem;
+    background: #00FFFF;
+    border: 3px solid white;
+    box-shadow: 3px 3px 0 #000;
+    border-radius: 0;
+    transition: transform 0.1s ease;
+    user-select: none;
+}
+
+
+input[type="range"]::-moz-range-thumb {
+    width: 1.2rem;
+    height: 1.2rem;
+    background: #00FFFF;
+    border: 3px solid white;
+    box-shadow: 3px 3px 0 #000;
+    border-radius: 0;
+    transition: transform 0.1s ease;
+    user-select: none;
+}
+
+input[type="range"]:active::-webkit-slider-thumb {
+    background: #ff00ff;
+    transform: scale(0.9);
+}
+
+input[type="range"]:active::-moz-range-thumb {
+    background: #ff00ff;
+    transform: scale(0.9);
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="range"] {
+    accent-color: #00FFFF;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+
+
+.setting-button {
+    background: #222;
+    font-family: "Pixelify Sans", sans-serif;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border: none;
+    padding: 0.5rem 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+}
+.setting-button.last {
+    margin-bottom: 0;
+}
+
+.setting-button .hidden {
+    display: none;
+}

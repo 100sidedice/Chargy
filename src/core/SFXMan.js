@@ -3,12 +3,13 @@ export default class SFXMan {
         this.files = files;
         this.ctx = audioContext;
         this.buffers = {};
-        this.masterGain = null;
+        this.masterGain = 1;
     }
 
     async preload() {
         this.masterGain = this.ctx.createGain();
         this.masterGain.connect(this.ctx.destination);
+        this.masterGain.gain.value = 5;
 
         for (const [name, file] of Object.entries(this.files)) {
             const response = await fetch(file);

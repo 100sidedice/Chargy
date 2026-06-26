@@ -3,10 +3,14 @@ export default class musicMan {
         this.files = tracks;
         this.buffers = {};
         this.context = context;
+
         this.current = null;
         this.source = null;
         this.gain = null;
+
+        this.volume = 1;
         this.unlocked = false;
+        this.pending = null;
     }
 
     async preload() {
@@ -26,15 +30,21 @@ export default class musicMan {
 
         this.unlocked = true;
         console.log("Audio unlocked");
+
+        // Resume pending track if one exists
+        if (this.pending) {
+            const { name, volume } = this.pending;
+            this.pending = null;
+            this.start(name, volume);
+        }
     }
+
     stop() {
         if (!this.source) return;
 
         try {
             this.source.stop();
-        } catch (e) {
-            // Source may already be stopped.
-        }
+        } catch (e) {}
 
         this.source.disconnect();
 
@@ -67,7 +77,7 @@ export default class musicMan {
         this.source.buffer = buffer;
         this.source.loop = true;
 
-        this.gain.gain.value = volume;
+        this.gain.gain.value = volume * this.volume;
 
         this.source.connect(this.gain);
         this.gain.connect(this.context.destination);
@@ -84,30 +94,41 @@ export default class musicMan {
         const oldSource = this.source;
 
         this.source = this.context.createBufferSource();
-        const gain = this.context.createGain();
+        this.gain = this.context.createGain();
 
         this.source.buffer = buffer;
         this.source.loop = true;
 
-        this.source.connect(gain);
-        gain.connect(this.context.destination);
+        this.source.connect(this.gain);
+        this.gain.connect(this.context.destination);
 
-        gain.gain.value = 0;
+        this.gain.gain.value = 0;
 
         this.source.start();
 
         const now = this.context.currentTime;
 
-        gain.gain.linearRampToValueAtTime(
-            newVolume,
+        this.gain.gain.linearRampToValueAtTime(
+            newVolume * this.volume,
             now + duration / 1000
         );
 
         if (oldSource) {
             oldSource.stop(now + duration / 1000);
         }
-        this.currentTrack = name;
 
         this.current = name;
+    }
+
+    setVolume(volume = 1) {
+        this.volume = Math.max(0, Math.min(1, volume));
+
+        if (!this.gain) return;
+
+        this.gain.gain.setTargetAtTime(
+            this.volume,
+            this.context.currentTime,
+            0.01
+        );
     }
 }

@@ -13,12 +13,7 @@ export class Camera {
         this.hasPushed = false;
     }
     async clearKeyframes() { 
-        if (this.current()) {
-            await this.current().onEnd();
-            this.reset();
-        } else {
-            this.reset();
-        }
+        this.reset();
     }
     reset() {
         this.keyframes = {};
@@ -105,7 +100,8 @@ export class Camera {
             ...effectSettings
         };
         if (this.runningTime - current.startTime >= current.duration || this.fillFrames) {
-            current.push(ctx, settings, this.runningTime, this.fillFrames);
+            try {current.push(ctx, settings, this.runningTime, this.fillFrames);}
+            catch(e){console.warn("Error pushing camera keyframe:", e);}
             this.toPop.push(current);
             if (!this.fillFrames) this.finishCurrentKeyframe();
             return;

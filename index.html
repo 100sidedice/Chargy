@@ -6,24 +6,62 @@
     <title>Chargy</title>
     <link rel="stylesheet" href="src/canvas/canvas.css">
     <link rel="stylesheet" href="src/style/main.css">
-
-
+    <link rel="stylesheet" href="src/style/settings.css">
 </head>
 <body>
     <h1 style="color:White; left:50%; position:absolute; top: 50%; transform: translate(-50%, -50%); z-index: -1; font-family: 'Pixelify Sans', sans-serif;" id="loading-text">Loading!!!</h1>
     <canvas id="canvas" width="800" height="600"></canvas>
     <main id="UI">
         <h1 id="Label">Welcome, Chargy!</h1>
-        <button id="settings" onclick="window.switchLevel = [101, 'spacestation']"></button>
+        <button id="settings"></button>
         <div id="message"></div>
     </main>
     <fieldset id="mobileDpad">
         <legend>Mobile controls</legend>
-        <button id="up" class="mobile-dpad", onClick="window.keyDown('ArrowUp')"></button>
-        <button id="down" class="mobile-dpad", onClick="window.keyDown('ArrowDown')"></button>
-        <button id="left" class="mobile-dpad", onClick="window.keyDown('ArrowLeft')"></button>
-        <button id="right" class="mobile-dpad", onClick="window.keyDown('ArrowRight')"></button>
+        <button id="up" class="mobile-dpad" ></button>
+        <button id="down" class="mobile-dpad"></button>
+        <button id="left" class="mobile-dpad"></button>
+        <button id="right" class="mobile-dpad"></button>
     </fieldset>
+    
+    <aside id="settings-menu" class="hidden">
+        <h1>Settings</h1>
+        <button id="close-settings">Close</button>
+        <section>
+            <details>
+                <summary>Audio</summary>
+                <div class="setting">
+                    <label for="audio-music">Music</label>
+                    <input type="range" id="audio-music" name="music" min="0" max="100" value="50" step="5">
+                </div>
+                <div class="setting">
+                    <label for="audio-sfx">SFX</label>
+                    <input type="range" id="audio-sfx" name="sfx" min="0" max="100" value="50" step="5">
+                </div>
+            </details>
+            <details open>
+                <summary>Level</summary>
+                <div class="setting">
+                    <button id="reset-level" class="setting-button">Reset Level</button>
+                </div>
+                <div class="setting">
+                    <button id="exit-level" class="setting-button last">Exit Level</button>
+                </div>
+            </details>
+            <details>
+                <summary>Controls</summary>
+                <div class="setting">
+                    <button id="player-count" class="setting-button">Players: 1</button>
+                    <button id="swap-player" class="setting-button">Swap characters</button>
+                    <button id="player-1-input" class="setting-button">Player 1: Arrow Keys</button>
+                    <button id="player-2-input" class="setting-button hidden">Player 2: WASD</button>
+                </div>
+            </details>
+        </section>
+    </aside>
+
+    <script type="module" src="src/core/save.js"></script>
+    <script type="module" src="src/core/settings.js"></script>
     <script type="module" src="src/core/main.js"></script>
 </body>
 </html>
