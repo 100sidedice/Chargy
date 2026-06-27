@@ -1,0 +1,89 @@
+@media (min-width:601px){
+    body {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 8rem 1fr 1fr;
+        grid-template-areas:
+            "header header header"
+            ". main spacestation"
+            "gooberworld main .";
+        height: 100dvh
+    }
+    header {
+        grid-area: header;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 1rem;
+        gap: 1rem;
+    }     
+    [id="100sidedice-img"] {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 5rem;
+        height: 5rem;
+        transition: transform 0.1s ease-in-out;
+    }
+    [id="100sidedice-container"] {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        width: 5rem;
+        height: 5rem;
+    }
+    [id="100sidedice-img"]:hover {
+        cursor: pointer;
+        transform: rotate(10deg) scale(1.2)
+    }
+    [id="100sidedice-img"]:active {
+        cursor: grabbing;
+        transform: rotate(-5deg) scale(0.8)
+    }
+    #GooberWorld {
+        grid-area: gooberworld;
+        width: auto;
+        height: 100%;
+        justify-self: center;
+        align-self: center;
+    }
+    #spaceStation {
+        grid-area: spacestation;
+        width: auto;
+        height: 80%;
+        justify-self: center;
+        align-self: center;
+    }
+    #a-100sidedice {
+        display: none;
+    }
+    main {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        justify-content: start;
+        align-items: center;
+        gap: 1rem;
+    }
+    a.button {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Pixelify Sans', sans-serif;
+        background: #222222;
+        padding: 1rem 2rem;
+        font-size: 4rem;
+        width: 100%;
+        height: 4rem;
+        text-align: center;
+        transition: all 0.1s ease;
+    }
+    a.button:hover {
+        background: #444444;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+    a.button:active {
+        background: #000000;
+        transform: scale(0.9);
+        cursor: grabbing;
+    }
+}

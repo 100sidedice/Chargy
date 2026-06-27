@@ -13,7 +13,23 @@ export class Camera {
         this.hasPushed = false;
     }
     async clearKeyframes() { 
-        this.reset();
+        if (this.current()) {
+            await this.current().onEnd();
+            this.reset();
+        } else {
+            this.reset();
+        }
+    }
+    isAnimationPlaying(...keyframeNames) {
+        const current = keyframeNames.map((_, i) => this.keyframes[this.head + i]);
+
+        if (current.length !== keyframeNames.length) {
+            return false;
+        }
+
+        return current.every((keyframe, i) =>
+            keyframe && keyframe.name === keyframeNames[i]
+        );
     }
     reset() {
         this.keyframes = {};
@@ -27,6 +43,9 @@ export class Camera {
         this.keyframeTypes.set(name, keyframe);
     }
     addAnimation(...keyframeNames) {
+        if (this.isAnimationPlaying(...keyframeNames)) {
+            return;
+        }
         keyframeNames.forEach(keyframeName => {
             const keyframe = this.keyframeTypes.get(keyframeName);
 

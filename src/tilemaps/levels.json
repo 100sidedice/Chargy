@@ -98,8 +98,8 @@
         "tileSize": 16,
         "collisionLayer": "blocks",
         "phones":[
-            {"x":2, "y": 2, "maxCharge": 1, "goto": 8},
-            {"x":13, "y": 2, "maxCharge": 1, "goto": 8}
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 8, "multi":true},
+            {"x":13, "y": 2, "maxCharge": 1, "goto": 8, "multi":true}
         ],
         "batteries":[
             {"x":14, "y": 5}
@@ -673,6 +673,7 @@
             {"type": "oneway", "x": 5,"y":3,"dir":"right", "allowFall": false},
             {"type": "oneway", "x": 7,"y":6,"dir":"right", "allowFall": false},
             {"type": "oneway", "x": 7,"y":5,"dir":"right", "allowFall": false},
+            {"type": "oneway_locked", "x": 6,"y":4,"dir":"up", "allowFall": false},
             {"type": "button", "x":14, "y":2, "state": 0}
         ],
         "text":"Turn of events"

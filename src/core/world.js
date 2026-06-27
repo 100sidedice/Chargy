@@ -32,6 +32,8 @@ export default class World {
         this.levelTransition = {
             active: false,
         };
+        this.hoardMode = false;
+        this.lastHoardTeleport = 0; 
         this.updateHandlers = {}; // for things like messages that need to attach to the update loop
     }
     async preload(dataKey){
@@ -87,8 +89,24 @@ export default class World {
         
         // create player1
         this.input = new Input();
-        this.players[1] = new Player(this, 5, 5, 1, 1, "chargy", {"x":"Axis1", "y":"Axis2"}, this.input);  
-        
+        this.players[0] = new Player(this, 5, 5, 1, 1, "chargy", {"x":"Axis1", "y":"Axis2"}, this.input);  
+        // create 19 other players
+        if (this.hoardMode) {
+            for (let i = 1; i <= 49; i++) {
+                this.players[i] = new Player(this, 5, 5, 1, 1, "chargy-clone", {"x":"Axis1", "y":"Axis2"}, this.input);
+            }
+            Object.values(this.players).forEach(player => {
+                player.gravity = 0.015;
+                player.shrink = 6/16;
+                player.buffer = 1/16;
+            })
+        }
+        this.mouseX = 0;
+        this.mouseY = 0;
+        window.addEventListener("mousemove", (e) => {
+            this.mouseX = e.clientX;
+            this.mouseY = e.clientY;
+        })
         this.Camera = new Camera(this.canvas);
         this.lastChargeSteal = performance.now();
         this.chargeStealCooldown = 500; 
@@ -387,6 +405,37 @@ export default class World {
                 window.switchLevel = null;
             });
         }
+        if (this.hoardMode){
+            // teleport random player to player1
+            const now = performance.now();
+            if (now - this.lastHoardTeleport > 100) {
+                this.lastHoardTeleport = now;
+                const player1 = this.players[0];
+                const otherPlayers = Object.values(this.players).filter(p => p !== player1);
+                if (otherPlayers.length > 0) {
+                    const randomPlayer = otherPlayers[Math.floor(Math.random() * otherPlayers.length)];
+                    randomPlayer.x = player1.x+(Math.random()-0.5)*1/16;
+                    randomPlayer.y = player1.y+(Math.random()-0.5)*1/16;
+                }
+            }
+            // if player1 is in a tile region teleport them to the starting position
+            const player1 = this.players[0];
+            // tilemap does not make a method to check for a tile - use getCollisions() to get each collision rect, then check center point
+            const player1Center = { x: player1.x + 0.5, y: player1.y + 0.5 };
+            const collisions = this.getCollisions(this.region);
+            let inCollision = false;
+            collisions.forEach(rect => {
+                if (player1Center.x > rect.x && player1Center.x < rect.x + rect.w &&
+                    player1Center.y > rect.y && player1Center.y < rect.y + rect.h) {
+                    inCollision = true;
+                }
+            });
+            if (inCollision){
+                //player1.x = this.levelData[this.level].playerX;
+                //player1.y = this.levelData[this.level].playerY;
+                console.log("teleporting player1 to starting position", player1.x, player1.y);
+            }
+        }
         // displays all levels
         if (window.displayLevels){
             // display all levels available in level data as a grid in the console, with current level highlighted
@@ -423,7 +472,14 @@ export default class World {
 
 
         this.ParticleManager.update();
-        Object.values(this.players).forEach(player => player.update());
+        if(!this.hoardMode) Object.values(this.players).forEach(player => player.update());
+        else {
+            // update all players, but player1 last
+            for (let i = 1; i < Object.keys(this.players).length; i++) {
+                this.players[i].update();
+            }
+            this.players[0].update();
+        }
         Object.values(this.entities).forEach(entity => entity.update());
         Object.values(this.phones).forEach(phone => phone.update());
 
@@ -435,6 +491,7 @@ export default class World {
 
         if (allCharged && !this.levelTransition.active) {
             this.levelTransition.active = true;
+            console.log(this.phones)
 
             const firstPhone = this.phones["phone0"];
             queueMicrotask(() => {
@@ -446,7 +503,8 @@ export default class World {
             let phoneGroup = this.phones;
             phoneGroup = Object.values(phoneGroup).filter(phone => phone.load);
             Object.values(this.phones).forEach(phone => {
-                if (phone.chargeable){
+                if (phone.chargeable && !phone.otherData?.multi){
+                    console.log(phone.otherData)
                     // if the phone was charged, and has a hash + saveUntil, save state to window.saver
                     if (phone.charge >= phone.maxCharge && phone.otherData?.hash && phone.otherData?.saveUntil) {
                         let savedPhones = window.saver.getData("phones") ?? {};
@@ -607,7 +665,7 @@ export default class World {
         // create phones based on level data
         // add to entities so they get drawn and updated
         this.levelData[this.level].phones.forEach((phoneData, index) => {
-            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge, phoneData.goto ?? this.level+1, phoneData.load ?? null, {hash:phoneData.hash ?? null, saveUntil:phoneData.saveUntil ?? null});
+            this.phones[`phone${index}`] = new Phone(this, phoneData.x, phoneData.y, 1, 1, phoneData.maxCharge, phoneData.goto ?? this.level+1, phoneData.load ?? null, {hash:phoneData.hash ?? null, saveUntil:phoneData.saveUntil ?? null, multi: phoneData.multi ?? false});
         });
         // create enemies based on level data
         if(this.levelData[this.level].enemies){

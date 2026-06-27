@@ -1,0 +1,38 @@
+body {
+    background-color: #000814;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+
+    display: grid;
+}
+h1 {
+    color: rgb(255, 255, 255);
+    text-align: center;
+    font-family: 'Pixelify Sans', sans-serif;
+    font-size: 5rem;
+    margin: 0;
+    padding: 0;
+    -webkit-text-stroke: 2px #004646;
+}
+
+#spaceStation {
+    image-rendering: pixelated;
+}
+#GooberWorld {
+    image-rendering: pixelated;
+}
+
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+}
+.buttonImg {
+    width: auto;
+    height: 100%;
+    object-fit: contain;
+    right: 1rem;
+    image-rendering: pixelated;
+}

@@ -25,7 +25,7 @@
         text-align: center;
     }
     #close-settings {
-        position: absolute;
+        position: fixed;
         bottom:0;
         width: 100%;
         background: #111;
@@ -75,6 +75,13 @@
     details summary:hover {
         background: #333;
     }
+    #buffer {
+        display: none;
+    }
+}
+#buffer {
+    /*just a spacer so that the last setting is not cut off by the close button*/
+    height: 3.8rem;
 }
 /* the little arrow thing to open it*/
 details summary {
@@ -206,4 +213,9 @@ input[type="range"] {
 
 .setting-button .hidden {
     display: none;
+}
+a.setting-button {
+    text-decoration: none;
+    display: block;
+    text-align: center;
 }

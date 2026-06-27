@@ -88,6 +88,13 @@
         "w":16,
         "h":16
     },
+    "oneway_locked":{
+        "name":"Locked One Way",
+        "description":"A oneway that is locked in place. Buttons do not affect it.",
+        "filePath": "data/sprites/oneway_locked.png",
+        "w":16,
+        "h":16
+    },
     "button":{
         "name":"Button",
         "description":"A simple trigger. When pressed, changes states of some objects, for example reversing the direction of one way blocks.",

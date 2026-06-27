@@ -1,0 +1,92 @@
+@media (max-width: 600px) {
+    body {
+        grid-template-columns: 1fr;
+        grid-template-rows: 5rem 1fr auto;
+        grid-template-areas:
+            "header"
+            "main"
+            "footer";
+        min-height: 100vh;
+    }
+
+    main {
+        grid-area: main;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 4rem;
+    }
+
+    a.button {
+        color: #ffffff;
+        text-decoration: none;
+        font-family: 'Pixelify Sans', sans-serif;
+        background: #222222;
+        padding: 1rem 2rem;
+        font-size: 2rem;
+        width: 80%;
+        height: 3rem;
+        text-align: center;
+        transition: all 0.1s ease;
+    }
+
+    a.button:hover {
+        background: #444444;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
+    a.button:active {
+        background: #000000;
+        transform: scale(0.9);
+        cursor: grabbing;
+    }
+
+    footer {
+        grid-area: footer;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        font-family: 'Pixelify Sans', sans-serif;
+        color: white;
+    }
+
+    footer #footer-100sidedice {
+        width: 3rem;
+        height: 3rem;
+        box-sizing: border-box;
+    }
+    #GooberWorld {
+        display: none;
+    }
+    [id="100sidedice-container"]{
+        display: none;
+    }
+    #a-100sidedice {
+        display: flex;
+    }
+    [id="100sidedice-img"] {
+        position: absolute;
+        bottom: 1rem;
+        right:1rem;
+        width: 5rem;
+        height: 5rem;
+        transition: transform 0.1s ease-in-out;
+    }
+    [id="100sidedice-img"]:active {
+        cursor: grabbing;
+        transform: rotate(-5deg) scale(0.8)
+    }
+    [id="100sidedice-img"]:hover {
+        cursor: pointer;
+        transform: rotate(10deg) scale(1.2)
+    }
+    * {
+        user-select: none;
+    }
+}

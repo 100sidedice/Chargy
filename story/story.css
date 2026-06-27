@@ -13,10 +13,10 @@ body {
         "main"
         "footer"
     ;
-    overflow-x: hidden;
 }
 * {
     font-family: 'Pixelify Sans', sans-serif;
+    box-sizing: border-box;
 }
 header {
     padding: 1em;
@@ -106,6 +106,53 @@ main a.next:hover {
         padding-left: 1em;
         padding-right: 1em;
     }
+    #pc-header {
+        display: none;
+    }
+    #mobile-header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        height: auto;
+        padding: 0.5rem;
+        box-sizing: border-box;
+    }
+
+    #mobile-header h3 {
+        margin: 0;
+        color: #00FFFF !important;
+        font-size: 1rem;
+    }
+
+    #mobile-header nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.7rem;
+    }
+
+    #mobile-header nav a {
+        font-size: 0.9rem;
+    }
+    .keyword-colorcoded::after{
+        max-width: 7rem !important;
+    }
+    main p, main section.info{
+        font-size: 1.0em;
+    }
+}
+@media (min-width: 769px) {
+    #mobile-header {
+        display: none;
+    }
+    header nav {
+        gap: 1em;
+    }
+    header {
+        height: 3.2rem;
+    }
 }
 main a {
     text-decoration: none;
@@ -191,4 +238,8 @@ span.rainbowRoads {
 }
 .keyword-colorcoded:hover::after {
     opacity: 1;
+}
+img {
+    max-width: 100%;
+    height: auto;
 }
