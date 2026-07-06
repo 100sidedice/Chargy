@@ -73,6 +73,11 @@
                 "frames":10,
                 "frameRate": 2,
                 "row": 3
+            },
+            "off": {
+                "frames":1,
+                "frameRate": 0,
+                "row": 4
             }
         }
     },
@@ -149,6 +154,35 @@
                 "frames":2,
                 "frameRate": 4,
                 "row": 0
+            }
+        }
+    },
+    "rocktobot":{
+        "name":"Rocktobot",
+        "description":"A robot octopus which shoots rocks at anything it can see",
+        "filePath": "data/sprites/rocktobot.png",
+        "w":16,
+        "h":16,
+        "animations": {
+            "idle": {
+                "frames":2,
+                "frameRate": 8,
+                "row": 0
+            },
+            "attack": {
+                "frames":4,
+                "frameRate": 8,
+                "row": 1
+            },
+            "death": {
+                "frames":10,
+                "frameRate": 2,
+                "row": 2
+            },
+            "off": {
+                "frames":1,
+                "frameRate": 0,
+                "row": 3
             }
         }
     }

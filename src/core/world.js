@@ -12,7 +12,8 @@ import Texting from "./texting.js";
 import CutsceneManager from "../camera/CutsceneManager.js";
 
 export default class World {
-    constructor(canvas, ctx){
+    constructor(canvas, ctx, rasterizeCanvas){
+        this.rasterizeCanvas = rasterizeCanvas;
         this.tilemap = null;
         this.players = {};
         this.entities = {};
@@ -65,6 +66,8 @@ export default class World {
         loading.innerHTML = "Loading!!! <br> Getting battery"
         const battery = await fetch(data["battery"]).then(res => res.blob());
         this.images["battery"] = await createImageBitmap(battery);
+        const rock = await fetch(data["rock"]).then(res => res.blob());
+        this.images["rock"] = await createImageBitmap(rock);
         
         // load player images
         loading.innerHTML = "Loading!!! <br> Getting players"
@@ -155,19 +158,20 @@ export default class World {
         await this.switchLevel(this.level, this.level, this.world, true);
         // im exposing musicMan and sfxMan to window to allow entities and phones to play music and sfx without needing a reference to the world object
         window.musicMan = this.musicMan;
-        window.soundMan = this.sfxMan; 
+        window.soundMan = this.sfxMan;
         
 
-        // connect reset level button to reset the current level
+        // connect reset level button to rese=t the current level
         // it throws a resetLevel event
         window.addEventListener("resetLevel", () => {
-            this.switchLevel(this.level, this.level);
+            this.switchLevel(this.level, this.level, this.world, true);
         })
         // connect to exitLevel
         window.addEventListener("exitLevel", () => {
             // relevant spacestation level
-            if (this.world === "world1") this.switchLevel(101, 101, "spacestation");
-            if (this.world === "factory") this.switchLevel(102, 102, "spacestation");
+            if (this.world === "world1") this.switchLevel(101, 101, "spacestation", true);
+            if (this.world === "factory") this.switchLevel(102, 102, "spacestation", true);
+            if (this.world === "spacestation") this.switchLevel(this.level, this.level, this.world, true);
         })
         
     }
@@ -229,7 +233,7 @@ export default class World {
         // draw goober world background if we're in level 101
         if (this.level === 101) {
             ctx.save();
-
+            ctx.imageSmoothingEnabled = false;
             const gooberImg = this.images["gooberworld"];
             const worldX = xOffset + 6 * trueTileSize;
             const worldY = yOffset + -0.5 * trueTileSize;
@@ -255,6 +259,7 @@ export default class World {
             const worldY = yOffset + -1 * trueTileSize;
             const worldW = 10 * trueTileSize;
             const worldH = 10 * trueTileSize;
+            ctx.imageSmoothingEnabled = false;
 
             ctx.drawImage(
                 gooberImg,
@@ -504,7 +509,6 @@ export default class World {
             phoneGroup = Object.values(phoneGroup).filter(phone => phone.load);
             Object.values(this.phones).forEach(phone => {
                 if (phone.chargeable && !phone.otherData?.multi){
-                    console.log(phone.otherData)
                     // if the phone was charged, and has a hash + saveUntil, save state to window.saver
                     if (phone.charge >= phone.maxCharge && phone.otherData?.hash && phone.otherData?.saveUntil) {
                         let savedPhones = window.saver.getData("phones") ?? {};
@@ -604,24 +608,7 @@ export default class World {
             await this.texting.playMessage(this.levelData[this.level].message);
         }
         this.buttonState = 0; // reset button state on level switch
-        // now we set the main region's pos & size to the level's offset and size to make UI is clean
-        const ui =document.getElementById("UI")
-        if (ui) {
-            const scale = Math.min(
-                this.canvas.width / (16 * 16),
-                this.canvas.height / (9 * 16)
-            );
-            const trueTileSize = 16 * scale;
-            const renderWidth = 16 * trueTileSize;
-            const renderHeight = 9 * trueTileSize;
-            const xOffset = (this.canvas.width - renderWidth) / 2;
-            const yOffset = (this.canvas.height - renderHeight) / 2;
-            ui.style.position = "absolute";
-            ui.style.left = `${xOffset}px`;
-            ui.style.top = `${yOffset}px`;
-            ui.style.width = `${renderWidth}px`;
-            ui.style.height = `${renderHeight}px`;
-        }
+        this.rasterizeCanvas()
         if (!this.levelData[this.level]) {
             console.error(`Level ${this.level} not found in level data!`);
             this.level = 1;

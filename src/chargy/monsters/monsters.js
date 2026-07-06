@@ -4,9 +4,11 @@ import Wire from "./wire.js";
 import Oneway from "./oneway.js";
 import OnewayLocked from "./oneway_locked.js";
 import RoboGoober from "./roboGoober.js";
+import Rocktobot from "./rocktobot.js";
 import Button from "./button.js";
 import GooberWorld from "./gooberworld.js";
 import Rocket from "./rocket.js";
+import ChargePanel from "./chargePanels.js";
 
 export default function createMonsters(type, world, img=null, spriteData=null, monsterData=null){
     switch(type){
@@ -14,11 +16,13 @@ export default function createMonsters(type, world, img=null, spriteData=null, m
         case "roboGoober": return new RoboGoober(world, img, spriteData, monsterData);
         case "brunk": return new Brunk(world, img, spriteData, monsterData);
         case "wire": return new Wire(world, spriteData, monsterData);
+        case "chargePanel": return new ChargePanel(world, spriteData, monsterData);
         case "oneway": return new Oneway(world, img, spriteData, monsterData);
         case "oneway_locked": return new OnewayLocked(world, img, spriteData, monsterData);
         case "button": return new Button(world, img, spriteData, monsterData);
         case "gooberworld": return new GooberWorld(world, img, spriteData, monsterData);
         case "rocket": return new Rocket(world, img, spriteData, monsterData);
+        case "rocktobot": return new Rocktobot(world, img, spriteData, monsterData);
         default: throw new Error(`Unknown monster type: ${type}`);
     }
 }

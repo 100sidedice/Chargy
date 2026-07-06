@@ -661,8 +661,7 @@
         "playerY": 7,
         "startingCharge": 0,
         "phones":[
-            {"x":7, "y": 3, "maxCharge": 1, "goto": 102, "load":"spacestation"},
-            {"x":-5, "y": 3, "maxCharge": 1,"goto":1}
+            {"x":7, "y": 3, "maxCharge": 1, "goto": 20}
         ],
          "batteries":[
             {"x":3, "y": 3}
@@ -677,5 +676,170 @@
             {"type": "button", "x":14, "y":2, "state": 0}
         ],
         "text":"Turn of events"
-    }
+    },
+    "20": {
+        "origin": [34, 40],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":4, "y": 7, "maxCharge": 1, "goto": 21}
+        ],
+        "batteries":[
+            {"x":11, "y": 2}
+        ],
+        "enemies":[
+            {"type": "rocktobot", "x":14, "y": 6, "dir":-1, "range": 4},
+            {"type": "rocktobot", "x":14, "y": 3, "dir":-1, "range": 2},
+            {"type": "rocktobot", "x":14, "y": 1, "dir":-1, "range": 13},
+            {"type": "rocktobot", "x":12, "y": 4, "dir":-1, "range": 10}
+        ],
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"Rocktobots"
+    },
+    "21": {
+        "origin": [0, 50],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":2, "y": 2, "maxCharge": 1, "goto": 22}
+        ],
+        "batteries":[
+            {"x":11, "y": 4}
+        ],
+        "enemies":[
+            {"type": "rocktobot", "x":4, "y": 1, "dir":1, "range": 14},
+            {"type": "rocktobot", "x":10, "y": 7, "dir":-1, "range": 6},
+            {"type":"button", "x":13, "y": 2, "state": 0}
+        ],
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"Self destruct button"
+    },
+    "22": {
+        "origin": [17, 50],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":14, "y": 1, "maxCharge": 1, "goto": 23}
+        ],
+        "batteries":[
+            {"x":7, "y": 4}
+        ],
+        "enemies":[
+            {"type":"button", "x":2, "y": 3, "state": 1},
+            {"type":"button", "x":9, "y": 3, "state": 0, "rot": 180},
+            {"type":"oneway", "x":11, "y": 1, "dir":"left", "allowFall": false},
+            {"type":"roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 9, "y": 7},
+                {"x": 9, "y": 3,"rot":-90},
+                {"x": 9, "y": 7}
+            ]},
+            {"type":"chargePanel", "x":3, "y":2, "dir": 1},
+            {"type":"chargePanel", "x":3, "y":3, "dir": 1},
+            {"type":"chargePanel", "x":9, "y":3, "dir": 1},
+            {"type":"chargePanel", "x":9, "y":4, "dir": 1},
+            {"type":"chargePanel", "x":9, "y":5, "dir": 1},
+            {"type":"chargePanel", "x":9, "y":6, "dir": 1},
+            {"type":"chargePanel", "x":9, "y":7, "dir": 1},
+            {"type":"chargePanel", "x":6, "y":5, "dir": 1},
+            {"type":"chargePanel", "x":6, "y":6, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":1, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":2, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":3, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":4, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":5, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":6, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":7, "dir": 1}
+        ],
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"Charge panels"
+    },
+    "23": {
+        "origin": [34, 50],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":14, "y": 1, "maxCharge": 1, "goto": 24}
+        ],
+        "batteries":[
+            {"x":12, "y": 1}
+        ],
+        "enemies":[
+            {"type":"button", "x":12, "y": 4, "state": 0},
+            {"type":"button", "x":6, "y": 7, "state": 1}
+        ],
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "text":"Across the bridge"
+    },
+    "24": {
+        "origin": [0, 40],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "phones":[
+            {"x":13, "y": 5, "maxCharge": 1, "goto": 24.1}
+        ],
+        "batteries":[
+        ],
+        "enemies":[
+
+        ],
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 1,
+        "text":"A hallway"
+    },
+    "24.1": {
+        "world":"factory",
+        "origin": [17, 20],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 7,
+        "playerY": 5,
+        "startingCharge": 1,
+        "phones":[
+            {"x":-5, "y": 3, "maxCharge": 1, "goto": 20},
+            {"x":3, "y": 2, "maxCharge": 1, "goto": 20.2, "saveUntil":[20], "load":"factory", "hash":"fe3e107fe0cff2d87fdd21e28db94652"},
+            {"x":12, "y": 2, "maxCharge": 1, "goto": 20.3, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"},
+            {"x":13, "y": 7, "maxCharge": 1, "goto": 20.4, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"},
+            {"x":2, "y": 7, "maxCharge": 1, "goto": 20.5, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"}
+        ],
+         "batteries":[
+            {"x":8, "y": 5}
+        ],
+        "enemies":[
+            {"type": "roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 10, "y": 7}
+            ]},
+            {"type": "wire", "x": 5, "y": 5, "nodes":
+                [
+                    {"x":5,"y":5,"right":{"x":12,"y":5}},
+                    {"x":12,"y":5,"left":{"x":5,"y":5}}
+                ]
+            },
+            {"type": "wire", "x": 14, "y": 4, "nodes":
+                [
+                    {"x":14,"y":4,"up":{"x":14,"y":1}},
+                    {"x":14,"y":1,"left":{"x":12,"y":1}, "down":{"x":14,"y":4}},
+                    {"x":12,"y":1,"right":{"x":14,"y":1}}
+                ]
+
+            }
+        ],
+        "text":"The factory"
+   }
 }

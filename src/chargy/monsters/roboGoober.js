@@ -24,8 +24,15 @@ export default class RoboGoober {
             w: 1-0.8,
             h: 1-0.8
         }
+        this.rot = 0;
     }
     update(){
+        const buttonState = this.world.buttonState % 2 === 1;
+        if (buttonState) {
+            this.currentAnimation = "off";
+            this.frame = 0;
+            return;
+        }
         const anim = this.animations[this.currentAnimation];
         const frameRate = anim.frameRate
         this.frameTimer++;
@@ -58,6 +65,7 @@ export default class RoboGoober {
         const target = this.path[this.nextPoint];
         const dx = target.x - this.x;
         const dy = target.y - this.y;
+        
         let dist = Math.sqrt(dx * dx + dy * dy);
         if(dist < this.speed){
             this.x = target.x;
@@ -72,21 +80,44 @@ export default class RoboGoober {
         } else if (dx < 0) {
             this.lastDir = -1;
         }
+        if (target.rot !== undefined) {
+            this.rot = target.rot;
+        } else {
+            const prevPoint = this.path[(this.nextPoint - 1 + this.path.length) % this.path.length];
+            if (prevPoint.rot !== undefined) {
+                this.rot = prevPoint.rot;
+                if (Math.abs(this.rot % 180) === 90) {
+                    if (dy > 0) {
+                        this.lastDir = -1;
+                    } else {
+                        this.lastDir = 1;
+                    }
+                }
+            }else {
+                this.rot = 0;
+            }
+        }
+        if (this.currentAnimation === "off" && this.world.buttonState % 2 === 1) {
+            this.currentAnimation = "walk";
+            this.frame = 0;
+            this.frameTimer = 0;
+        }
         this.collide();
     }
-    draw(ctx){
+    draw(ctx) {
         const anim = this.animations[this.currentAnimation];
         const framex = this.width * this.frame;
-        const framey = this.height * anim.row; // Assuming single row of animations
-        let dir = this.lastDir;
-        if (dir === -1) {
-            ctx.save();
+        const framey = this.height * anim.row;
+        const w = this.width / 16;
+        const h = this.height / 16;
+        ctx.save();
+        ctx.translate(this.x + w / 2, this.y + h / 2);
+        ctx.rotate(this.rot * Math.PI / 180);
+        if (this.lastDir === -1) {
             ctx.scale(-1, 1);
-            ctx.drawImage(this.img, framex, framey, this.width, this.height, -this.x - this.width/16, this.y, this.width/16, this.height/16);
-            ctx.restore();
-        } else {
-            ctx.drawImage(this.img, framex, framey, this.width, this.height, this.x, this.y, this.width/16, this.height/16);
         }
+        ctx.drawImage(this.img,framex,framey,this.width,this.height,-w / 2,-h / 2,w,h);
+        ctx.restore();
     }
     collide(){
         if(this.currentAnimation === "compute")return;
@@ -123,6 +154,24 @@ export default class RoboGoober {
                     window.soundMan.play("compute", 0.5);
                     this.frame = 0;
                     this.frameTimer = 0;
+                }
+            }
+        });
+
+        // robo goobers can interact with buttons
+        // filter entities to only buttons
+        const buttons = Object.values(this.world.entities).filter(entity => entity.type === "button");
+        // no collide method on button, so just check if the roboGoober's hitbox overlaps with the button's hitbox
+        buttons.forEach(button => {
+            const buttonHitbox = button.attackHitbox;
+            if(this.attackHitbox.x < buttonHitbox.x + buttonHitbox.w &&
+                this.attackHitbox.x + this.attackHitbox.w > buttonHitbox.x &&
+                this.attackHitbox.y < buttonHitbox.y + buttonHitbox.h &&
+                this.attackHitbox.y + this.attackHitbox.h > buttonHitbox.y){
+                // if the roboGoober is touching the button, toggle the button state
+                if(button.state === this.world.buttonState % 2){
+                    this.world.buttonState++;
+                    window.soundMan.play("button", 0.5);
                 }
             }
         });

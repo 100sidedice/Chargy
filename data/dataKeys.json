@@ -10,6 +10,7 @@
     "purplephone": "data/sprites/purple_phone.png",
     "orangephone": "data/sprites/orange_phone.png",
     "battery": "data/sprites/battery.png",
+    "rock": "data/sprites/rock.png",
     "sprite-data": "data/descriptions.json",
 
     "player-images": {

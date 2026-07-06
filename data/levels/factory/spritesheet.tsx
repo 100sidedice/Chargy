@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.11.0" name="spritesheet" tilewidth="16" tileheight="16" tilecount="468" columns="18">
-  <image source="spritesheet.tileset.png" width="288" height="416"/>
+<tileset version="1.10" tiledversion="1.11.0" name="spritesheet" tilewidth="16" tileheight="16" tilecount="1073" columns="37">
+  <image source="spritesheet.tileset.png" width="592" height="464"/>
   <tile id="0">
+    <properties>
+      <property name="source_anim" value="anim"/>
+      <property name="source_index" type="int" value="0"/>
+    </properties>
+  </tile>
+  <tile id="37">
     <properties>
       <property name="source_anim" value="battery"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="1">
+  <tile id="38">
     <properties>
       <property name="source_anim" value="battery"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="2">
+  <tile id="39">
     <properties>
       <property name="source_anim" value="battery"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="3">
+  <tile id="40">
     <properties>
       <property name="source_anim" value="battery"/>
       <property name="source_index" type="int" value="3"/>
     </properties>
   </tile>
-  <tile id="18">
+  <tile id="74">
     <properties>
       <property name="source_anim" value="bg"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="19">
+  <tile id="75">
     <properties>
       <property name="source_anim" value="bg"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="20">
+  <tile id="76">
     <properties>
       <property name="source_anim" value="bg"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="36">
+  <tile id="111">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="0"/>
@@ -52,7 +58,7 @@
       <property name="source_base47_conn" value="0000000000"/>
     </properties>
   </tile>
-  <tile id="37">
+  <tile id="112">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="1"/>
@@ -61,7 +67,7 @@
       <property name="source_base47_conn" value="1000110000"/>
     </properties>
   </tile>
-  <tile id="38">
+  <tile id="113">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="2"/>
@@ -70,7 +76,7 @@
       <property name="source_base47_conn" value="1000110100"/>
     </properties>
   </tile>
-  <tile id="39">
+  <tile id="114">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="3"/>
@@ -79,7 +85,7 @@
       <property name="source_base47_conn" value="1000111000"/>
     </properties>
   </tile>
-  <tile id="40">
+  <tile id="115">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="4"/>
@@ -88,7 +94,7 @@
       <property name="source_base47_conn" value="1000111100"/>
     </properties>
   </tile>
-  <tile id="41">
+  <tile id="116">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="5"/>
@@ -97,7 +103,7 @@
       <property name="source_base47_conn" value="1001110100"/>
     </properties>
   </tile>
-  <tile id="42">
+  <tile id="117">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="6"/>
@@ -106,7 +112,7 @@
       <property name="source_base47_conn" value="1001111100"/>
     </properties>
   </tile>
-  <tile id="54">
+  <tile id="148">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="7"/>
@@ -115,7 +121,7 @@
       <property name="source_base47_conn" value="1010111110"/>
     </properties>
   </tile>
-  <tile id="55">
+  <tile id="149">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="8"/>
@@ -124,7 +130,7 @@
       <property name="source_base47_conn" value="1011111110"/>
     </properties>
   </tile>
-  <tile id="56">
+  <tile id="150">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="9"/>
@@ -133,7 +139,7 @@
       <property name="source_base47_conn" value="1100111000"/>
     </properties>
   </tile>
-  <tile id="57">
+  <tile id="151">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="10"/>
@@ -142,7 +148,7 @@
       <property name="source_base47_conn" value="1100111100"/>
     </properties>
   </tile>
-  <tile id="58">
+  <tile id="152">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="11"/>
@@ -151,7 +157,7 @@
       <property name="source_base47_conn" value="1101111100"/>
     </properties>
   </tile>
-  <tile id="59">
+  <tile id="153">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="12"/>
@@ -160,7 +166,7 @@
       <property name="source_base47_conn" value="1110111110"/>
     </properties>
   </tile>
-  <tile id="60">
+  <tile id="154">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="13"/>
@@ -169,7 +175,7 @@
       <property name="source_base47_conn" value="1111111100"/>
     </properties>
   </tile>
-  <tile id="72">
+  <tile id="185">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="14"/>
@@ -178,7 +184,7 @@
       <property name="source_base47_conn" value="0000111100"/>
     </properties>
   </tile>
-  <tile id="73">
+  <tile id="186">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="15"/>
@@ -187,7 +193,7 @@
       <property name="source_base47_conn" value="0100011000"/>
     </properties>
   </tile>
-  <tile id="74">
+  <tile id="187">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="16"/>
@@ -196,7 +202,7 @@
       <property name="source_base47_conn" value="0010001110"/>
     </properties>
   </tile>
-  <tile id="75">
+  <tile id="188">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="17"/>
@@ -205,7 +211,7 @@
       <property name="source_base47_conn" value="0001100100"/>
     </properties>
   </tile>
-  <tile id="76">
+  <tile id="189">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="18"/>
@@ -214,7 +220,7 @@
       <property name="source_base47_conn" value="0110011110"/>
     </properties>
   </tile>
-  <tile id="77">
+  <tile id="190">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="19"/>
@@ -223,7 +229,7 @@
       <property name="source_base47_conn" value="0011101110"/>
     </properties>
   </tile>
-  <tile id="78">
+  <tile id="191">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="20"/>
@@ -232,7 +238,7 @@
       <property name="source_base47_conn" value="0101111100"/>
     </properties>
   </tile>
-  <tile id="90">
+  <tile id="222">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="21"/>
@@ -241,7 +247,7 @@
       <property name="source_base47_conn" value="0000100000"/>
     </properties>
   </tile>
-  <tile id="91">
+  <tile id="223">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="22"/>
@@ -250,7 +256,7 @@
       <property name="source_base47_conn" value="0000010000"/>
     </properties>
   </tile>
-  <tile id="92">
+  <tile id="224">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="23"/>
@@ -259,7 +265,7 @@
       <property name="source_base47_conn" value="0000001000"/>
     </properties>
   </tile>
-  <tile id="93">
+  <tile id="225">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="24"/>
@@ -268,7 +274,7 @@
       <property name="source_base47_conn" value="0000000100"/>
     </properties>
   </tile>
-  <tile id="94">
+  <tile id="226">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="25"/>
@@ -277,7 +283,7 @@
       <property name="source_base47_conn" value="0110111110"/>
     </properties>
   </tile>
-  <tile id="95">
+  <tile id="227">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="26"/>
@@ -286,7 +292,7 @@
       <property name="source_base47_conn" value="0011111110"/>
     </properties>
   </tile>
-  <tile id="96">
+  <tile id="228">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="27"/>
@@ -295,7 +301,7 @@
       <property name="source_base47_conn" value="0100111100"/>
     </properties>
   </tile>
-  <tile id="108">
+  <tile id="259">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="28"/>
@@ -304,7 +310,7 @@
       <property name="source_base47_conn" value="0010111110"/>
     </properties>
   </tile>
-  <tile id="109">
+  <tile id="260">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="29"/>
@@ -313,7 +319,7 @@
       <property name="source_base47_conn" value="0001111100"/>
     </properties>
   </tile>
-  <tile id="110">
+  <tile id="261">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="30"/>
@@ -322,7 +328,7 @@
       <property name="source_base47_conn" value="0100111000"/>
     </properties>
   </tile>
-  <tile id="111">
+  <tile id="262">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="31"/>
@@ -331,7 +337,7 @@
       <property name="source_base47_conn" value="0010101110"/>
     </properties>
   </tile>
-  <tile id="112">
+  <tile id="263">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="32"/>
@@ -340,7 +346,7 @@
       <property name="source_base47_conn" value="0001110100"/>
     </properties>
   </tile>
-  <tile id="113">
+  <tile id="264">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="33"/>
@@ -349,7 +355,7 @@
       <property name="source_base47_conn" value="0100011100"/>
     </properties>
   </tile>
-  <tile id="114">
+  <tile id="265">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="34"/>
@@ -358,7 +364,7 @@
       <property name="source_base47_conn" value="0010011110"/>
     </properties>
   </tile>
-  <tile id="126">
+  <tile id="296">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="35"/>
@@ -367,7 +373,7 @@
       <property name="source_base47_conn" value="0001101100"/>
     </properties>
   </tile>
-  <tile id="127">
+  <tile id="297">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="36"/>
@@ -376,7 +382,7 @@
       <property name="source_base47_conn" value="0111111110"/>
     </properties>
   </tile>
-  <tile id="128">
+  <tile id="298">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="37"/>
@@ -385,7 +391,7 @@
       <property name="source_base47_conn" value="0000011100"/>
     </properties>
   </tile>
-  <tile id="129">
+  <tile id="299">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="38"/>
@@ -394,7 +400,7 @@
       <property name="source_base47_conn" value="0000101100"/>
     </properties>
   </tile>
-  <tile id="130">
+  <tile id="300">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="39"/>
@@ -403,7 +409,7 @@
       <property name="source_base47_conn" value="0000110100"/>
     </properties>
   </tile>
-  <tile id="131">
+  <tile id="301">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="40"/>
@@ -412,7 +418,7 @@
       <property name="source_base47_conn" value="0000111000"/>
     </properties>
   </tile>
-  <tile id="132">
+  <tile id="302">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="41"/>
@@ -421,7 +427,7 @@
       <property name="source_base47_conn" value="0000110000"/>
     </properties>
   </tile>
-  <tile id="146">
+  <tile id="335">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="42"/>
@@ -430,7 +436,7 @@
       <property name="source_base47_conn" value="0000011000"/>
     </properties>
   </tile>
-  <tile id="147">
+  <tile id="336">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="43"/>
@@ -439,7 +445,7 @@
       <property name="source_base47_conn" value="0000001100"/>
     </properties>
   </tile>
-  <tile id="148">
+  <tile id="337">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="44"/>
@@ -448,7 +454,7 @@
       <property name="source_base47_conn" value="0000100100"/>
     </properties>
   </tile>
-  <tile id="149">
+  <tile id="338">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="45"/>
@@ -457,7 +463,7 @@
       <property name="source_base47_conn" value="0000101000"/>
     </properties>
   </tile>
-  <tile id="150">
+  <tile id="339">
     <properties>
       <property name="source_anim" value="block2"/>
       <property name="source_index" type="int" value="46"/>
@@ -466,19 +472,19 @@
       <property name="source_base47_conn" value="0000010100"/>
     </properties>
   </tile>
-  <tile id="162">
+  <tile id="370">
     <properties>
       <property name="source_anim" value="button"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="163">
+  <tile id="371">
     <properties>
       <property name="source_anim" value="button"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="180">
+  <tile id="407">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="0"/>
@@ -487,7 +493,7 @@
       <property name="source_base47_conn" value="1000110000"/>
     </properties>
   </tile>
-  <tile id="181">
+  <tile id="408">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="1"/>
@@ -496,7 +502,7 @@
       <property name="source_base47_conn" value="0010001100"/>
     </properties>
   </tile>
-  <tile id="182">
+  <tile id="409">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="2"/>
@@ -505,7 +511,7 @@
       <property name="source_base47_conn" value="0100011000"/>
     </properties>
   </tile>
-  <tile id="183">
+  <tile id="410">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="3"/>
@@ -514,7 +520,7 @@
       <property name="source_base47_conn" value="0001100100"/>
     </properties>
   </tile>
-  <tile id="184">
+  <tile id="411">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="4"/>
@@ -523,7 +529,7 @@
       <property name="source_base47_conn" value="0000000000"/>
     </properties>
   </tile>
-  <tile id="185">
+  <tile id="412">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="5"/>
@@ -532,7 +538,7 @@
       <property name="source_base47_conn" value="1100111000"/>
     </properties>
   </tile>
-  <tile id="186">
+  <tile id="413">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="6"/>
@@ -541,7 +547,7 @@
       <property name="source_base47_conn" value="1001110100"/>
     </properties>
   </tile>
-  <tile id="198">
+  <tile id="444">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="7"/>
@@ -550,7 +556,7 @@
       <property name="source_base47_conn" value="0011101100"/>
     </properties>
   </tile>
-  <tile id="199">
+  <tile id="445">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="8"/>
@@ -559,7 +565,7 @@
       <property name="source_base47_conn" value="0110011100"/>
     </properties>
   </tile>
-  <tile id="200">
+  <tile id="446">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="9"/>
@@ -568,7 +574,7 @@
       <property name="source_base47_conn" value="1100111100"/>
     </properties>
   </tile>
-  <tile id="201">
+  <tile id="447">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="10"/>
@@ -577,7 +583,7 @@
       <property name="source_base47_conn" value="1001111100"/>
     </properties>
   </tile>
-  <tile id="202">
+  <tile id="448">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="11"/>
@@ -586,7 +592,7 @@
       <property name="source_base47_conn" value="0011111100"/>
     </properties>
   </tile>
-  <tile id="203">
+  <tile id="449">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="12"/>
@@ -595,7 +601,7 @@
       <property name="source_base47_conn" value="0110111100"/>
     </properties>
   </tile>
-  <tile id="204">
+  <tile id="450">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="13"/>
@@ -604,7 +610,7 @@
       <property name="source_base47_conn" value="0000001000"/>
     </properties>
   </tile>
-  <tile id="216">
+  <tile id="481">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="14"/>
@@ -613,7 +619,7 @@
       <property name="source_base47_conn" value="0000000100"/>
     </properties>
   </tile>
-  <tile id="217">
+  <tile id="482">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="15"/>
@@ -622,7 +628,7 @@
       <property name="source_base47_conn" value="0000100000"/>
     </properties>
   </tile>
-  <tile id="218">
+  <tile id="483">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="16"/>
@@ -631,7 +637,7 @@
       <property name="source_base47_conn" value="0000010000"/>
     </properties>
   </tile>
-  <tile id="219">
+  <tile id="484">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="17"/>
@@ -640,7 +646,7 @@
       <property name="source_base47_conn" value="1000111000"/>
     </properties>
   </tile>
-  <tile id="220">
+  <tile id="485">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="18"/>
@@ -649,7 +655,7 @@
       <property name="source_base47_conn" value="0010011100"/>
     </properties>
   </tile>
-  <tile id="221">
+  <tile id="486">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="19"/>
@@ -658,7 +664,7 @@
       <property name="source_base47_conn" value="0100111000"/>
     </properties>
   </tile>
-  <tile id="222">
+  <tile id="487">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="20"/>
@@ -667,7 +673,7 @@
       <property name="source_base47_conn" value="0001110100"/>
     </properties>
   </tile>
-  <tile id="234">
+  <tile id="518">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="21"/>
@@ -676,7 +682,7 @@
       <property name="source_base47_conn" value="1000110100"/>
     </properties>
   </tile>
-  <tile id="235">
+  <tile id="519">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="22"/>
@@ -685,7 +691,7 @@
       <property name="source_base47_conn" value="0010101100"/>
     </properties>
   </tile>
-  <tile id="236">
+  <tile id="520">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="23"/>
@@ -694,7 +700,7 @@
       <property name="source_base47_conn" value="0100011100"/>
     </properties>
   </tile>
-  <tile id="237">
+  <tile id="521">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="24"/>
@@ -703,7 +709,7 @@
       <property name="source_base47_conn" value="0001101100"/>
     </properties>
   </tile>
-  <tile id="238">
+  <tile id="522">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="25"/>
@@ -712,7 +718,7 @@
       <property name="source_base47_conn" value="1000111100"/>
     </properties>
   </tile>
-  <tile id="239">
+  <tile id="523">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="26"/>
@@ -721,7 +727,7 @@
       <property name="source_base47_conn" value="0010111100"/>
     </properties>
   </tile>
-  <tile id="240">
+  <tile id="524">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="27"/>
@@ -730,7 +736,7 @@
       <property name="source_base47_conn" value="0100111100"/>
     </properties>
   </tile>
-  <tile id="252">
+  <tile id="555">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="28"/>
@@ -739,7 +745,7 @@
       <property name="source_base47_conn" value="0001111100"/>
     </properties>
   </tile>
-  <tile id="253">
+  <tile id="556">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="29"/>
@@ -748,7 +754,7 @@
       <property name="source_base47_conn" value="0000101000"/>
     </properties>
   </tile>
-  <tile id="254">
+  <tile id="557">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="30"/>
@@ -757,7 +763,7 @@
       <property name="source_base47_conn" value="0000010100"/>
     </properties>
   </tile>
-  <tile id="255">
+  <tile id="558">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="31"/>
@@ -766,7 +772,7 @@
       <property name="source_base47_conn" value="0101111100"/>
     </properties>
   </tile>
-  <tile id="256">
+  <tile id="559">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="32"/>
@@ -775,7 +781,7 @@
       <property name="source_base47_conn" value="1010111100"/>
     </properties>
   </tile>
-  <tile id="257">
+  <tile id="560">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="33"/>
@@ -784,7 +790,7 @@
       <property name="source_base47_conn" value="0000111000"/>
     </properties>
   </tile>
-  <tile id="258">
+  <tile id="561">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="34"/>
@@ -793,7 +799,7 @@
       <property name="source_base47_conn" value="0000101100"/>
     </properties>
   </tile>
-  <tile id="270">
+  <tile id="592">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="35"/>
@@ -802,7 +808,7 @@
       <property name="source_base47_conn" value="0000110100"/>
     </properties>
   </tile>
-  <tile id="271">
+  <tile id="593">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="36"/>
@@ -811,7 +817,7 @@
       <property name="source_base47_conn" value="0000011100"/>
     </properties>
   </tile>
-  <tile id="272">
+  <tile id="594">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="37"/>
@@ -820,7 +826,7 @@
       <property name="source_base47_conn" value="1101111100"/>
     </properties>
   </tile>
-  <tile id="273">
+  <tile id="595">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="38"/>
@@ -829,7 +835,7 @@
       <property name="source_base47_conn" value="0111111100"/>
     </properties>
   </tile>
-  <tile id="274">
+  <tile id="596">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="39"/>
@@ -838,7 +844,7 @@
       <property name="source_base47_conn" value="1110111100"/>
     </properties>
   </tile>
-  <tile id="275">
+  <tile id="597">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="40"/>
@@ -847,7 +853,7 @@
       <property name="source_base47_conn" value="1011111100"/>
     </properties>
   </tile>
-  <tile id="276">
+  <tile id="598">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="41"/>
@@ -856,7 +862,7 @@
       <property name="source_base47_conn" value="0000001100"/>
     </properties>
   </tile>
-  <tile id="290">
+  <tile id="631">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="42"/>
@@ -865,7 +871,7 @@
       <property name="source_base47_conn" value="0000011000"/>
     </properties>
   </tile>
-  <tile id="291">
+  <tile id="632">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="43"/>
@@ -874,7 +880,7 @@
       <property name="source_base47_conn" value="0000110000"/>
     </properties>
   </tile>
-  <tile id="292">
+  <tile id="633">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="44"/>
@@ -883,7 +889,7 @@
       <property name="source_base47_conn" value="0000100100"/>
     </properties>
   </tile>
-  <tile id="293">
+  <tile id="634">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="45"/>
@@ -892,7 +898,7 @@
       <property name="source_base47_conn" value="1111111100"/>
     </properties>
   </tile>
-  <tile id="294">
+  <tile id="635">
     <properties>
       <property name="source_anim" value="caution"/>
       <property name="source_index" type="int" value="46"/>
@@ -901,345 +907,578 @@
       <property name="source_base47_conn" value="0000111100"/>
     </properties>
   </tile>
-  <tile id="306">
+  <tile id="666">
     <properties>
       <property name="source_anim" value="chargy"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="307">
+  <tile id="667">
     <properties>
       <property name="source_anim" value="chargy"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="324">
+  <tile id="703">
+    <properties>
+      <property name="source_anim" value="climber"/>
+      <property name="source_index" type="int" value="0"/>
+    </properties>
+  </tile>
+  <tile id="740">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="325">
+  <tile id="741">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="326">
+  <tile id="742">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="327">
+  <tile id="743">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="3"/>
     </properties>
   </tile>
-  <tile id="328">
+  <tile id="744">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="4"/>
     </properties>
   </tile>
-  <tile id="329">
+  <tile id="745">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="5"/>
     </properties>
   </tile>
-  <tile id="330">
+  <tile id="746">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="6"/>
     </properties>
   </tile>
-  <tile id="342">
+  <tile id="747">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="7"/>
+    </properties>
+  </tile>
+  <tile id="748">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="8"/>
+    </properties>
+  </tile>
+  <tile id="749">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="9"/>
+    </properties>
+  </tile>
+  <tile id="750">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="10"/>
+    </properties>
+  </tile>
+  <tile id="751">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="11"/>
+    </properties>
+  </tile>
+  <tile id="752">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="12"/>
+    </properties>
+  </tile>
+  <tile id="753">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="13"/>
+    </properties>
+  </tile>
+  <tile id="754">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="14"/>
+    </properties>
+  </tile>
+  <tile id="755">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="15"/>
+    </properties>
+  </tile>
+  <tile id="756">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="16"/>
+    </properties>
+  </tile>
+  <tile id="757">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="17"/>
+    </properties>
+  </tile>
+  <tile id="758">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="18"/>
+    </properties>
+  </tile>
+  <tile id="759">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="19"/>
+    </properties>
+  </tile>
+  <tile id="760">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="20"/>
+    </properties>
+  </tile>
+  <tile id="761">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="21"/>
+    </properties>
+  </tile>
+  <tile id="762">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="22"/>
+    </properties>
+  </tile>
+  <tile id="763">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="23"/>
+    </properties>
+  </tile>
+  <tile id="764">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="24"/>
+    </properties>
+  </tile>
+  <tile id="765">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="25"/>
+    </properties>
+  </tile>
+  <tile id="766">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="26"/>
+    </properties>
+  </tile>
+  <tile id="767">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="27"/>
+    </properties>
+  </tile>
+  <tile id="768">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="28"/>
+    </properties>
+  </tile>
+  <tile id="769">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="29"/>
+    </properties>
+  </tile>
+  <tile id="770">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="30"/>
+    </properties>
+  </tile>
+  <tile id="771">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="31"/>
+    </properties>
+  </tile>
+  <tile id="772">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="32"/>
+    </properties>
+  </tile>
+  <tile id="773">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="33"/>
+    </properties>
+  </tile>
+  <tile id="774">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="34"/>
+    </properties>
+  </tile>
+  <tile id="775">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="35"/>
+    </properties>
+  </tile>
+  <tile id="776">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="36"/>
+    </properties>
+  </tile>
+  <tile id="777">
+    <properties>
+      <property name="source_anim" value="idle"/>
+      <property name="source_index" type="int" value="0"/>
+    </properties>
+  </tile>
+  <tile id="814">
     <properties>
       <property name="source_anim" value="line"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="343">
+  <tile id="815">
     <properties>
       <property name="source_anim" value="line"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="344">
+  <tile id="816">
     <properties>
       <property name="source_anim" value="line"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="345">
+  <tile id="817">
     <properties>
       <property name="source_anim" value="line"/>
       <property name="source_index" type="int" value="3"/>
     </properties>
   </tile>
-  <tile id="346">
+  <tile id="818">
     <properties>
       <property name="source_anim" value="line"/>
       <property name="source_index" type="int" value="4"/>
     </properties>
   </tile>
-  <tile id="360">
+  <tile id="851">
     <properties>
       <property name="source_anim" value="oneway"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="378">
+  <tile id="888">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="379">
+  <tile id="889">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="380">
+  <tile id="890">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="381">
+  <tile id="891">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="3"/>
     </properties>
   </tile>
-  <tile id="382">
+  <tile id="892">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="4"/>
     </properties>
   </tile>
-  <tile id="383">
+  <tile id="893">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="5"/>
     </properties>
   </tile>
-  <tile id="384">
+  <tile id="894">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="6"/>
     </properties>
   </tile>
-  <tile id="385">
+  <tile id="895">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="7"/>
     </properties>
   </tile>
-  <tile id="386">
+  <tile id="896">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="8"/>
     </properties>
   </tile>
-  <tile id="387">
+  <tile id="897">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="9"/>
     </properties>
   </tile>
-  <tile id="388">
+  <tile id="898">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="10"/>
     </properties>
   </tile>
-  <tile id="389">
+  <tile id="899">
     <properties>
       <property name="source_anim" value="orangephone"/>
       <property name="source_index" type="int" value="11"/>
     </properties>
   </tile>
-  <tile id="396">
+  <tile id="925">
     <properties>
       <property name="source_anim" value="roboGoober"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="397">
+  <tile id="926">
     <properties>
       <property name="source_anim" value="roboGoober"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="398">
+  <tile id="927">
     <properties>
       <property name="source_anim" value="roboGoober"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="414">
+  <tile id="962">
     <properties>
       <property name="source_anim" value="rocktobot"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="415">
+  <tile id="963">
     <properties>
       <property name="source_anim" value="rocktobot"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="432">
+  <tile id="964">
+    <properties>
+      <property name="source_anim" value="rocktobot"/>
+      <property name="source_index" type="int" value="2"/>
+    </properties>
+  </tile>
+  <tile id="965">
+    <properties>
+      <property name="source_anim" value="rocktobot"/>
+      <property name="source_index" type="int" value="3"/>
+    </properties>
+  </tile>
+  <tile id="999">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="0"/>
     </properties>
   </tile>
-  <tile id="433">
+  <tile id="1000">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="1"/>
     </properties>
   </tile>
-  <tile id="434">
+  <tile id="1001">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="2"/>
     </properties>
   </tile>
-  <tile id="435">
+  <tile id="1002">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="3"/>
     </properties>
   </tile>
-  <tile id="436">
+  <tile id="1003">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="4"/>
     </properties>
   </tile>
-  <tile id="437">
+  <tile id="1004">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="5"/>
     </properties>
   </tile>
-  <tile id="438">
+  <tile id="1005">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="6"/>
     </properties>
   </tile>
-  <tile id="439">
+  <tile id="1006">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="7"/>
     </properties>
   </tile>
-  <tile id="440">
+  <tile id="1007">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="8"/>
     </properties>
   </tile>
-  <tile id="441">
+  <tile id="1008">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="9"/>
     </properties>
   </tile>
-  <tile id="442">
+  <tile id="1009">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="10"/>
     </properties>
   </tile>
-  <tile id="443">
+  <tile id="1010">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="11"/>
     </properties>
   </tile>
-  <tile id="444">
+  <tile id="1011">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="12"/>
     </properties>
   </tile>
-  <tile id="445">
+  <tile id="1012">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="13"/>
     </properties>
   </tile>
-  <tile id="446">
+  <tile id="1013">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="14"/>
     </properties>
   </tile>
-  <tile id="447">
+  <tile id="1014">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="15"/>
     </properties>
   </tile>
-  <tile id="448">
+  <tile id="1015">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="16"/>
     </properties>
   </tile>
-  <tile id="449">
+  <tile id="1016">
     <properties>
       <property name="source_anim" value="wire"/>
       <property name="source_index" type="int" value="17"/>
     </properties>
   </tile>
-  <tile id="450">
+  <tile id="1036">
     <properties>
-      <property name="source_anim" value="decor"/>
-      <property name="source_index" type="int" value="4"/>
+      <property name="source_anim" value="line"/>
+      <property name="source_index" type="int" value="0"/>
       <property name="source_rot" type="int" value="90"/>
     </properties>
   </tile>
-  <tile id="451">
+  <tile id="1037">
+    <properties>
+      <property name="source_anim" value="line"/>
+      <property name="source_index" type="int" value="2"/>
+      <property name="source_rot" type="int" value="270"/>
+    </properties>
+  </tile>
+  <tile id="1038">
     <properties>
       <property name="source_anim" value="decor"/>
       <property name="source_index" type="int" value="4"/>
       <property name="source_rot" type="int" value="180"/>
     </properties>
   </tile>
-  <tile id="452">
+  <tile id="1039">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="4"/>
+      <property name="source_rot" type="int" value="270"/>
+    </properties>
+  </tile>
+  <tile id="1040">
+    <properties>
+      <property name="source_anim" value="climber"/>
+      <property name="source_index" type="int" value="0"/>
+      <property name="source_rot" type="int" value="270"/>
+    </properties>
+  </tile>
+  <tile id="1041">
+    <properties>
+      <property name="source_anim" value="decor"/>
+      <property name="source_index" type="int" value="4"/>
+      <property name="source_rot" type="int" value="90"/>
+    </properties>
+  </tile>
+  <tile id="1042">
     <properties>
       <property name="source_anim" value="oneway"/>
       <property name="source_index" type="int" value="0"/>
       <property name="source_rot" type="int" value="90"/>
     </properties>
   </tile>
-  <tile id="453">
-    <properties>
-      <property name="source_anim" value="rocktobot"/>
-      <property name="source_index" type="int" value="3"/>
-    </properties>
-  </tile>
-  <tile id="454">
-    <properties>
-      <property name="source_anim" value="oneway"/>
-      <property name="source_index" type="int" value="0"/>
-      <property name="source_rot" type="int" value="180"/>
-    </properties>
-  </tile>
-  <tile id="455">
+  <tile id="1043">
     <properties>
       <property name="source_anim" value="oneway"/>
       <property name="source_index" type="int" value="0"/>
       <property name="source_rot" type="int" value="270"/>
+    </properties>
+  </tile>
+  <tile id="1044">
+    <properties>
+      <property name="source_anim" value="oneway"/>
+      <property name="source_index" type="int" value="0"/>
+      <property name="source_rot" type="int" value="180"/>
+    </properties>
+  </tile>
+  <tile id="1045">
+    <properties>
+      <property name="source_anim" value="button"/>
+      <property name="source_index" type="int" value="1"/>
+      <property name="source_rot" type="int" value="180"/>
     </properties>
   </tile>
 </tileset>

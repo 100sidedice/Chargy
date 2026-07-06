@@ -127,10 +127,14 @@ resetLevelButton.addEventListener("click", () => {
     // throw an event to reset the level
     const event = new Event("resetLevel");
     window.dispatchEvent(event);
+    // close the settings menu
+    settingsMenu.classList.toggle("hidden");
 })
 const exitLevelButton = document.getElementById("exit-level");
 exitLevelButton.addEventListener("click", () => {
     // throw an event to exit the level
     const event = new Event("exitLevel");
     window.dispatchEvent(event);
+    // close the settings menu
+    settingsMenu.classList.toggle("hidden");
 })
