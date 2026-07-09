@@ -165,7 +165,7 @@
         "collisionLayer": "blocks",
         "phones":[
             {"x":2, "y": 2, "maxCharge": 1, "goto": 11},
-            {"x":15, "y": 7, "maxCharge": 1, "goto": 13, "load":"spacestation"}
+            {"x":15, "y": 7, "maxCharge": 1, "goto": 13, "load":"factory"}
         ],
         "batteries":[
             {"x":1, "y": 2}
@@ -372,109 +372,96 @@
     "101":{
         "world":"spacestation",
         "origin": [0, 0],
-        "size": [16, 9],
+        "size": [18, 10],
         "tileSize": 16,
         "collisionLayer": "blocks",
         "playerX": 7,
-        "playerY": 5,
+        "playerY": 6,
         "startingCharge": 0,
         "text":"Goober world",
         "phones":[
             {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
-            {"x":2, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 1},
-            {"x":4, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 2},
-            {"x":6, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 3},
-            {"x":9, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 4},
-            {"x":11, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 5},
-            {"x":13, "y": 1, "maxCharge": 1 ,"load":"world1", "goto": 6},
-            {"x":2, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 7},
-            {"x":4, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 8},
-            {"x":6, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 9},
-            {"x":9, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 10},
-            {"x":11, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 11},
-            {"x":13, "y": 7, "maxCharge": 1 ,"load":"world1", "goto": 12},
-            {"x":14, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 102}
+            {"x":1, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 1},
+            {"x":3, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 2},
+            {"x":5, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 3},
+            {"x":7, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 4},
+            {"x":9, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 5},
+            {"x":11, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 6},
+            {"x":13, "y": 8, "maxCharge": 1 ,"load":"world1", "goto": 7},
+            {"x":11, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 8},
+            {"x":9, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 9},
+            {"x":7, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 10},
+            {"x":5, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 11},
+            {"x":3, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 12},
+            {"x":1, "y": 1, "maxCharge": 1 ,"load":"spacestation", "goto": 102}
         ],
         "batteries":[
-            {"x":7, "y": 5}
+            {"x":7, "y": 6}
         ],
         "enemies":[
-            {"type": "wire", "x": 2, "y": 1, "nodes":
-                [
-                    {"x":2,"y":1,"down":{"x":2,"y":3}},
-                    {"x":4,"y":1,"down":{"x":4,"y":3}},
-                    {"x":6,"y":1,"down":{"x":6,"y":3}},
-                    {"x":9,"y":1,"down":{"x":9,"y":3}},
-                    {"x":11,"y":1,"down":{"x":11,"y":3}},
-                    {"x":13,"y":1,"down":{"x":13,"y":3}},
-                    {"x":2,"y":3,"up":{"x":2,"y":1}, "right":{"x":4,"y":3}},
-                    {"x":4,"y":3,"up":{"x":4,"y":1}, "right":{"x":6,"y":3}, "left":{"x":2,"y":3}},
-                    {"x":6,"y":3,"up":{"x":6,"y":1}, "right":{"x":9,"y":3}, "left":{"x":4,"y":3}},
-                    {"x":9,"y":3,"up":{"x":9,"y":1}, "right":{"x":11,"y":3}, "left":{"x":6,"y":3}},
-                    {"x":11,"y":3,"up":{"x"   :11,"y":1}, "right":{"x":13,"y":3}, "left":{"x":9,"y":3}},
-                    {"x":13,"y":3,"up":{"x":13,"y":1}, "left": {"x":11,"y":3}}
-                ]
-            },
-            {"type":"oneway", "x":2,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":4,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":6,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":9,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":11,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
+            {"type":"oneway", "x":1,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":3,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":5,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":7,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":13,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":3,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":5,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":7,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":2,"dir":"up", "allowFall": true}
         ]
     },
     "102":{
         "world":"spacestation",
-        "origin": [0, 0],
-        "size": [16, 9],
+        "origin": [19, 0],
+        "size": [18, 10],
         "tileSize": 16,
         "collisionLayer": "blocks",
         "playerX": 7,
-        "playerY": 5,
+        "playerY": 6,
         "startingCharge": 0,
         "text":"Goober world [Dark side]",
         "phones":[
             {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
-            {"x":2, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 13},
-            {"x":4, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 14},
-            {"x":6, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 15},
-            {"x":9, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 16},
-            {"x":11, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 17},
-            {"x":13, "y": 1, "maxCharge": 1 ,"load":"factory", "goto": 18},
-            {"x":2, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 19},
-            {"x":4, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 20},
-            {"x":6, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 21},
-            {"x":9, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 22},
-            {"x":11, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 23},
-            {"x":13, "y": 7, "maxCharge": 1 ,"load":"factory", "goto": 24},
-            {"x":1, "y": 4, "maxCharge": 1 ,"load":"spacestation", "goto": 101}
+            {"x":3, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 13},
+            {"x":5, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 14},
+            {"x":7, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 15},
+            {"x":9, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 16},
+            {"x":11, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 17},
+            {"x":13, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 18},
+            {"x":13, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 19},
+            {"x":11, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 20},
+            {"x":9, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 21},
+            {"x":7, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 22},
+            {"x":5, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 23},
+            {"x":3, "y": 3, "maxCharge": 1 ,"load":"factory", "goto": 24},
+            {"x":1, "y": 6, "maxCharge": 1 ,"load":"spacestation", "goto": 101}
         ],
         "batteries":[
-            {"x":7, "y": 5}
+            {"x":7, "y": 6}
         ],
         "enemies":[
-            {"type": "wire", "x": 2, "y": 1, "nodes":
-                [
-                    {"x":2,"y":1,"down":{"x":2,"y":3}},
-                    {"x":4,"y":1,"down":{"x":4,"y":3}},
-                    {"x":6,"y":1,"down":{"x":6,"y":3}},
-                    {"x":9,"y":1,"down":{"x":9,"y":3}},
-                    {"x":11,"y":1,"down":{"x":11,"y":3}},
-                    {"x":13,"y":1,"down":{"x":13,"y":3}},
-                    {"x":2,"y":3,"up":{"x":2,"y":1}, "right":{"x":4,"y":3}},
-                    {"x":4,"y":3,"up":{"x":4,"y":1}, "right":{"x":6,"y":3}, "left":{"x":2,"y":3}},
-                    {"x":6,"y":3,"up":{"x":6,"y":1}, "right":{"x":9,"y":3}, "left":{"x":4,"y":3}},
-                    {"x":9,"y":3,"up":{"x":9,"y":1}, "right":{"x":11,"y":3}, "left":{"x":6,"y":3}},
-                    {"x":11,"y":3,"up":{"x"   :11,"y":1}, "right":{"x":13,"y":3}, "left":{"x":9,"y":3}},
-                    {"x":13,"y":3,"up":{"x":13,"y":1}, "left": {"x":11,"y":3}}
-                ]
-            },
-            {"type":"oneway", "x":2,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":4,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":6,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":9,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":11,"y":6,"dir":"up", "allowFall": true},
-            {"type":"oneway", "x":13,"y":6,"dir":"up", "allowFall": true}
+            {"type":"oneway", "x":13,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":3,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":5,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":7,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":13,"y":7,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":3,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":5,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":7,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":9,"y":2,"dir":"up", "allowFall": true},
+            {"type":"oneway", "x":11,"y":2,"dir":"up", "allowFall": true},
+            {"type":"chargePanel", "x":16, "y":1, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":2, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":3, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":4, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":5, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":6, "dir": 1},
+            {"type":"chargePanel", "x":16, "y":7, "dir": 1}
         ]
     },
     "13": {

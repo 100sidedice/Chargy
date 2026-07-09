@@ -634,8 +634,10 @@ export default class World {
         else document.getElementById("Label").style.color = "#000000AA";
         const nextX = this.levelData[this.level].origin[0];
         const nextY = this.levelData[this.level].origin[1];
-        this.region = this.tilemap.pushRegion([nextX, nextY], [16, 9], 16, ['bg', 'bgdecor', 'blocks'], true, true);
-        this.overlayRegion = this.tilemap.pushRegion([nextX, nextY], [16, 9], 16, ['blocks', 'blockDecor'], false, true);
+        const nextW = this.levelData[this.level].size[0];
+        const nextH = this.levelData[this.level].size[1];
+        this.region = this.tilemap.pushRegion([nextX, nextY], [nextW, nextH], 16, ['bg', 'bgdecor', 'blocks'], true, true);
+        this.overlayRegion = this.tilemap.pushRegion([nextX, nextY], [nextW, nextH], 16, ['blocks', 'blockDecor'], false, true);
         Object.values(this.players).forEach(player => {
             player.x = this.levelData[this.level].playerX;
             player.y = this.levelData[this.level].playerY;
