@@ -18,6 +18,7 @@ export default class RoboGoober {
         this.attackDir = 1;
         this.attackedPlayer = null;
         this.attackLoops = 0;
+        this.state = data.state || 0;
         this.attackHitbox = {
             x: this.x+0.4,
             y: this.y+0.4,
@@ -27,7 +28,7 @@ export default class RoboGoober {
         this.rot = 0;
     }
     update(){
-        const buttonState = this.world.buttonState % 2 === 1;
+        const buttonState = this.world.buttonState % 2 === this.state;
         if (buttonState) {
             this.currentAnimation = "off";
             this.frame = 0;
@@ -97,7 +98,7 @@ export default class RoboGoober {
                 this.rot = 0;
             }
         }
-        if (this.currentAnimation === "off" && this.world.buttonState % 2 === 1) {
+        if (this.currentAnimation === "off" && this.world.buttonState % 2 === this.state) {
             this.currentAnimation = "walk";
             this.frame = 0;
             this.frameTimer = 0;

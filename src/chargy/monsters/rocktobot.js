@@ -24,6 +24,7 @@ export default class Rocktobot {
             w: 1-0.8,
             h: 1-0.8
         }
+        this.state = data.state || 1;
     }
     update(){
         // if rocks are out of range, remove them
@@ -31,11 +32,15 @@ export default class Rocktobot {
         this.rocks.forEach((rockDistance, index) => {
             this.rocks[index] += 0.1; // move rocks forward
         });
-        const buttonState = this.world.buttonState % 2 === 1;
+        const buttonState = this.world.buttonState % 2 === this.state;
         if (buttonState) {
             this.currentAnimation = "off";
             this.frame = 0;
             return;
+        }else if (this.currentAnimation === "off") {
+            this.currentAnimation = "idle";
+            this.frame = 0;
+            this.frameTimer = 0;
         }
         const anim = this.animations[this.currentAnimation];
         const frameRate = anim.frameRate
@@ -86,6 +91,7 @@ export default class Rocktobot {
         });
     }
     collide(){
+        if (this.world.buttonState % 2 === this.state) return;
         if(this.currentAnimation === "compute")return;
         this.attackHitbox = {
             x: this.x+0.4,

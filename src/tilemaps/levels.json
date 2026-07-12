@@ -482,7 +482,7 @@
             {"type": "roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 6, "y": 7},
                 {"x": 10, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "wire", "x": 5, "y": 5, "nodes":
                 [
                     {"x":5,"y":5,"right":{"x":12,"y":5}},
@@ -519,7 +519,7 @@
             {"type": "roboGoober", "x": 11, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 7, "y": 7},
                 {"x": 14, "y": 7}
-            ]}
+            ], "state": 1}
         ],
         "text":"RoboGoobers"
     },
@@ -542,7 +542,7 @@
             {"type": "roboGoober", "x": 8, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 5, "y": 7},
                 {"x": 11, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "oneway", "x": 4,"y":6,"dir":"right", "allowFall": false},
             {"type": "oneway", "x": 5,"y":5,"dir":"down", "allowFall": false},
             {"type": "oneway", "x": 7,"y":5,"dir":"up", "allowFall": true},
@@ -573,15 +573,15 @@
             {"type": "roboGoober", "x": 1, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 0.95, "y": 7},
                 {"x": 1.05, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "roboGoober", "x": 4, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 3, "y": 7},
                 {"x": 7, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "roboGoober", "x": 12, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 10, "y": 7},
                 {"x": 14, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "oneway", "x": 1,"y":5,"dir":"down", "allowFall": false},
             {"type": "oneway", "x": 6,"y":1,"dir":"left", "allowFall": false},
             {"type": "oneway", "x": 6,"y":2,"dir":"left", "allowFall": false},
@@ -611,7 +611,7 @@
             {"type": "roboGoober", "x": 7, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 6, "y": 7},
                 {"x": 14, "y": 7}
-            ]}
+            ], "state": 1}
         ],
         "text":"A Trampoline effect"
     },
@@ -633,7 +633,7 @@
             {"type": "roboGoober", "x": 9, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
                 {"x": 7, "y": 7},
                 {"x": 14, "y": 7}
-            ]},
+            ], "state": 1},
             {"type": "oneway", "x": 12,"y":5,"dir":"up", "allowFall": false}
         ],
         "text":"High-bounces"
@@ -700,7 +700,8 @@
         "enemies":[
             {"type": "rocktobot", "x":4, "y": 1, "dir":1, "range": 14},
             {"type": "rocktobot", "x":10, "y": 7, "dir":-1, "range": 6},
-            {"type":"button", "x":13, "y": 2, "state": 0}
+            {"type":"button", "x":13, "y": 2, "state": 0},
+            {"type":"oneway_locked", "x":14, "y": 7, "dir":"up", "allowFall": true}
         ],
         "playerX": 2,
         "playerY": 7,
@@ -719,10 +720,10 @@
             {"x":7, "y": 4}
         ],
         "enemies":[
-            {"type":"button", "x":2, "y": 3, "state": 1},
-            {"type":"button", "x":9, "y": 3, "state": 0, "rot": 180},
+            {"type":"button", "x":2, "y": 3, "state": 0},
+            {"type":"button", "x":9, "y": 3, "state": 1, "rot": 180},
             {"type":"oneway", "x":11, "y": 1, "dir":"left", "allowFall": false},
-            {"type":"roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+            {"type":"roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1,"state":1, "path":[
                 {"x": 6, "y": 7},
                 {"x": 9, "y": 7},
                 {"x": 9, "y": 3,"rot":-90},
@@ -763,7 +764,20 @@
         ],
         "enemies":[
             {"type":"button", "x":12, "y": 4, "state": 0},
-            {"type":"button", "x":6, "y": 7, "state": 1}
+            {"type":"button", "x":6, "y": 7, "state": 1},
+            {"type":"roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "state":1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 14, "y": 7}
+            ]},
+            {"type":"rocktobot", "x":5, "y": 4, "dir":-1, "range": 1},
+            {"type":"rocktobot", "x":11, "y": 4, "dir":-1, "range": 2},
+            {"type":"chargePanel", "x":14, "y":1, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":2, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":3, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":4, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":5, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":6, "dir": 1},
+            {"type":"chargePanel", "x":14, "y":7, "dir": 1}
         ],
         "playerX": 2,
         "playerY": 7,
@@ -798,35 +812,111 @@
         "playerY": 5,
         "startingCharge": 1,
         "phones":[
-            {"x":-5, "y": 3, "maxCharge": 1, "goto": 20},
-            {"x":3, "y": 2, "maxCharge": 1, "goto": 20.2, "saveUntil":[20], "load":"factory", "hash":"fe3e107fe0cff2d87fdd21e28db94652"},
-            {"x":12, "y": 2, "maxCharge": 1, "goto": 20.3, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"},
-            {"x":13, "y": 7, "maxCharge": 1, "goto": 20.4, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"},
-            {"x":2, "y": 7, "maxCharge": 1, "goto": 20.5, "saveUntil":[20], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"}
+            {"x":-5, "y": 3, "maxCharge": 1, "goto": 24},
+            {"x":3, "y": 2, "maxCharge": 1, "goto": 24.2, "saveUntil":[24], "load":"factory", "hash":"fe3e107fe0cff2d87fdd21e28db94652"},
+            {"x":12, "y": 2, "maxCharge": 1, "goto": 24.3, "saveUntil":[24], "load":"factory", "hash":"0d3b79a4b88f2b234c10e5d5a58cf680"},
+            {"x":13, "y": 7, "maxCharge": 1, "goto": 24.4, "saveUntil":[24], "load":"factory", "hash":"0d3b79a4b88f2b234c19e5d5a58cf680"},
+            {"x":2, "y": 7, "maxCharge": 1, "goto": 24.5, "saveUntil":[24], "load":"factory", "hash":"0d3b79a4b88f2b234c14e5d5a58cf680"}
         ],
          "batteries":[
             {"x":8, "y": 5}
         ],
         "enemies":[
-            {"type": "roboGoober", "x": 6, "y": 7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
-                {"x": 6, "y": 7},
-                {"x": 10, "y": 7}
-            ]},
-            {"type": "wire", "x": 5, "y": 5, "nodes":
-                [
-                    {"x":5,"y":5,"right":{"x":12,"y":5}},
-                    {"x":12,"y":5,"left":{"x":5,"y":5}}
-                ]
-            },
-            {"type": "wire", "x": 14, "y": 4, "nodes":
-                [
-                    {"x":14,"y":4,"up":{"x":14,"y":1}},
-                    {"x":14,"y":1,"left":{"x":12,"y":1}, "down":{"x":14,"y":4}},
-                    {"x":12,"y":1,"right":{"x":14,"y":1}}
-                ]
-
-            }
         ],
         "text":"The factory"
+   },
+   "24.2": {
+        "world":"factory",
+        "origin": [34, 20],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 7,
+        "playerY": 5,
+        "startingCharge": 0,
+        "phones":[
+            {"x":1, "y": 4, "maxCharge": 1, "goto": 24.1}
+        ],
+         "batteries":[
+            {"x":14, "y": 2}
+        ],
+        "enemies":[
+            {"type":"rocktobot", "x":2,"y":4, "dir":1, "range": 0},
+            {"type":"button", "x":1, "y": 2, "state": 0}
+        ],
+        "text":"Dejavu?"
+   },
+   "24.3": {
+        "world":"factory",
+        "origin": [0, 30],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 1,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":1, "y": 2, "maxCharge": 1, "goto": 24.1}
+        ],
+         "batteries":[
+            {"x":14, "y": 2}
+        ],
+        "enemies":[
+            {"type":"roboGoober", "x":6,"y":7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 6, "y": 7},
+                {"x": 13, "y": 7}            
+            ], "state":1}
+        ],
+        "text":"Dejavu?"
+   },
+   "24.4": {
+        "world":"factory",
+        "origin": [17, 30],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 7,
+        "playerY": 1,
+        "startingCharge": 0,
+        "phones":[
+            {"x":11, "y": 7, "maxCharge": 1, "goto": 24.1}
+        ],
+         "batteries":[
+            {"x":4, "y": 7}
+        ],
+        "enemies":[
+            {"type":"roboGoober", "x":2,"y":7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 2, "y": 7},
+                {"x": 6, "y": 7}            
+            ], "state":1},
+            {"type":"roboGoober", "x":9,"y":7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 9, "y": 7},
+                {"x": 13, "y": 7}            
+            ], "state":1}
+        ],
+        "text":"Dejavu?"
+   },
+   "24.5": {
+        "world":"factory",
+        "origin": [34, 30],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 6,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":1, "y": 2, "maxCharge": 1, "goto": 24.1}
+        ],
+         "batteries":[
+            {"x":14, "y": 1}
+        ],
+        "enemies":[
+            {"type":"roboGoober", "x":1,"y":7, "speed": 0.02, "attackSpeed":0.1,"dir": 1, "path":[
+                {"x": 1, "y": 7},
+                {"x": 4, "y": 7}            
+            ], "state":1}
+        ],
+        "text":"Dejavu?"
    }
 }
