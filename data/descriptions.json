@@ -133,6 +133,20 @@
             }
         }
     },
+    "rainbowroads":{
+        "name":"Rainbow Roads",
+        "description":"A mysterious set of high energy streams throughout the universe",
+        "filePath": "data/sprites/large/rainbowRoads.png",
+        "w":876,
+        "h":181,
+        "animations": {
+            "static": {
+                "frames":1,
+                "frameRate": 1,
+                "row": 0
+            }
+        }
+    },
     "rocket":{
         "name":"Rocket",
         "description":"A rocket. Used to travel to different planets.",

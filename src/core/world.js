@@ -271,6 +271,31 @@ export default class World {
 
             ctx.restore();
         }
+        // if 103, draw rainbow roads
+        if (this.level === 103) {
+            ctx.save();
+            ctx.imageSmoothingEnabled = false;
+            const rainbowRoads = this.images["rainbowroads"];
+            const center = {
+                x: xOffset + 10 * trueTileSize,
+                y: yOffset + 6 * trueTileSize
+            };
+            const scale = 0.25;
+            const height = 10 * trueTileSize * scale;
+            const width = height * rainbowRoads.width / rainbowRoads.height;
+
+            ctx.translate(center.x, center.y);
+            ctx.drawImage(
+                rainbowRoads,
+                0, 0,
+                rainbowRoads.width, rainbowRoads.height,
+                -width / 2, -height / 2,
+                width, height
+            );
+
+            ctx.restore();
+        }
+
         // draw tilemap (bg + main layer)
         this.tilemap.drawRegion(
             ctx,
