@@ -32,6 +32,8 @@ export default class Player {
             homingStrength: 0.03
         }
         this.chargeParticles = [];
+        this.chargeColor = "#00FFFF";
+        this.overchargedImage = null;
         this.chargeCallback = (currCharge, amount)=>{
            // for phones to hook into and update display
         }; 
@@ -44,6 +46,7 @@ export default class Player {
         if(this.world.levelTransition.active) return; // skip update if level transition is active
         // charge particles
         this.updateChargeParticles();
+        this.chargeColor = this.charge >= 2 && this.charge < 3 ? "#ff0000" : "#00FFFF";
         if (this.charge < 0 && this.charging) {
             this.charge = 0;
             this.charging = false;
@@ -102,6 +105,9 @@ export default class Player {
         let image = this.world.images[`${player}`];
         if (this.charge >= 1) {
             image = this.world.images[`${player}_charged`];
+            if (player === "chargy" && this.chargeColor === "#ff0000") {
+                image = this.getOverchargedImage(image);
+            }
         }
         let dir = "_eye";
         // if vy < 0, show eye up
@@ -137,6 +143,27 @@ export default class Player {
 
         ctx.restore();
     }
+    getOverchargedImage(image){
+        if (this.overchargedImage) return this.overchargedImage;
+        const canvas = document.createElement("canvas");
+        canvas.width = image.width;
+        canvas.height = image.height;
+        const imageContext = canvas.getContext("2d");
+        imageContext.drawImage(image, 0, 0);
+        const pixels = imageContext.getImageData(0, 0, image.width, image.height);
+        const maskIndex = (15 * image.width) * 4;
+        const maskColor = [pixels.data[maskIndex], pixels.data[maskIndex + 1], pixels.data[maskIndex + 2]];
+        for (let index = 0; index < pixels.data.length; index += 4) {
+            if (pixels.data[index] === maskColor[0] && pixels.data[index + 1] === maskColor[1] && pixels.data[index + 2] === maskColor[2]) {
+                pixels.data[index] = 255;
+                pixels.data[index + 1] = 0;
+                pixels.data[index + 2] = 0;
+            }
+        }
+        imageContext.putImageData(pixels, 0, 0);
+        this.overchargedImage = canvas;
+        return this.overchargedImage;
+    }
     collide(extraCollisions = [], onCollide = ()=>{}) {
         this.collidingSides = {top: false, bottom: false, left: false, right: false};
         for (let poly of this.world.getCollisions()){
@@ -158,7 +185,7 @@ export default class Player {
                 if (bounce === 1) this.canBounce = false; // cannot bounce again until player lands fully
                 else this.canBounce = true;
                 this.canJump = true;
-                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});
+                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": [this.chargeColor]});
             }
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
@@ -186,7 +213,7 @@ export default class Player {
                 if (bounce === 1) this.canBounce = false; // cannot bounce again until player lands fully
                 else this.canBounce = true;
                 this.canJump = true;
-                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": ["#41c9ff"]});
+                if(spawnParticles) this.world.ParticleManager.spawnAt(this.x+1/2, this.y+1-this.shrink-0.1, {"speed": 0.1+this.vy, "accelY": 0, "accelX": 0.7, "colors": [this.chargeColor]});
             }
             this.vx = collision.vlos.x;
             this.vy = collision.vlos.y;
@@ -284,7 +311,7 @@ export default class Player {
     }
     drawChargeParticles(ctx){
         this.chargeParticles.forEach(p => {
-            ctx.fillStyle = this.chargeParticleSettings.color;
+            ctx.fillStyle = this.chargeColor;
             ctx.fillRect(p.x - p.size/2, p.y - p.size/2, p.size, p.size);
         });
     }

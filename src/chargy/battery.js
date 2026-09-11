@@ -1,5 +1,5 @@
 export default class Battery {
-    constructor(world, x, y, w, h) {
+    constructor(world, x, y, w, h, amount = 1) {
         this.x = x;
         this.y = y;
         this.w = w;
@@ -7,6 +7,7 @@ export default class Battery {
         this.vx = 0;
         this.vy = 0;
         this.world = world;
+        this.amount = amount;
         this.timer = 0;
         this.frame = 0;
         this.players = world.players; // reference to players for charging
@@ -26,20 +27,20 @@ export default class Battery {
             const dy = (player.y+0.5) - (this.y + 0.5);
             const dist = Math.sqrt(dx*dx + dy*dy);
             if (dist < 0.75) {
-                if(player.charge < 1) {
-                    this.world.ParticleManager.spawnAt(this.x+0.5, this.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
-                    window.soundMan.play("battery", 1);
-                }
-                player.charge = 1;
+                const chargePlayer = (targetPlayer) => {
+                    if (targetPlayer.charge < this.amount - 1) return;
+                    if (targetPlayer.charge < this.amount) {
+                        this.world.ParticleManager.spawnAt(targetPlayer.x+0.5, targetPlayer.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
+                        window.soundMan.play("battery", 1);
+                        targetPlayer.charge = this.amount;
+                    }
+                };
+                chargePlayer(player);
                 // give other players charge as well
                 Object.keys(this.players).forEach(otherKey => {
                     if (otherKey !== key) {
                         const otherPlayer = this.players[otherKey];
-                        if (otherPlayer.charge < 1) {
-                            otherPlayer.charge = 1;
-                            this.world.ParticleManager.spawnAt(otherPlayer.x+0.5, otherPlayer.y+0.5, {"speed": 0.1, "colors": ["#41c9ff"]});
-                            window.soundMan.play("battery", 1);
-                        }
+                        chargePlayer(otherPlayer);
                     }
                 });
             }
@@ -52,7 +53,7 @@ export default class Battery {
         if (this.frame > this.frameCount-1) this.frame = 0;
     }
     draw(ctx){
-        let image = this.world.images["battery"];
+        let image = this.world.images[this.amount > 1 ? "overcharge" : "battery"];
         const frameWidth = image.width / (this.frameCount);
         ctx.drawImage(image, this.frame * frameWidth, 0, frameWidth, image.height, this.x, this.y, this.w, this.h);
     }

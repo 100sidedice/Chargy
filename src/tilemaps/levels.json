@@ -474,7 +474,7 @@
         "playerX": 7,
         "playerY": 6,
         "startingCharge": 0,
-        "text":"Goober world [Dark side]",
+        "text":"The rainbow roads - Warm colors",
         "phones":[
             {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
             {"x":3, "y": 8, "maxCharge": 1 ,"load":"lavaworld", "goto": 25},
@@ -998,17 +998,21 @@
         "size": [16, 9],
         "tileSize": 16,
         "collisionLayer": "blocks",
-        "playerX": 1,
-        "playerY": 1,
+        "playerX": 7,
+        "playerY": 4,
         "startingCharge": 0,
         "phones":[
-            {"x":13, "y": 7, "maxCharge": 1, "goto": 27}
+            {"x":4, "y": 6, "maxCharge": 1, "goto": 27}
+        ],
+        "batteries":[
+            {"x":7, "y": 1},
+            {"x":14, "y": 4, "amount": 2}
         ],
         "enemies":[
-            {"type":"lava", "x":11, "y":6, "w":4, "h":2, "immuneCharge":2},
-            {"type":"lava", "x":11, "y":6, "w":4, "h":2, "immuneCharge":2}
+            {"type":"lava", "x":1, "y":4, "w":5, "h":4, "immuneCharge":2},
+            {"type":"lava", "x":10, "y":6, "w":4, "h":2, "immuneCharge":2}
         ],
-        "text":"Lavaworld"
+        "text":"Overcharged"
    },
    "27": {
         "world":"lavaworld",
@@ -1016,12 +1020,21 @@
         "size": [16, 9],
         "tileSize": 16,
         "collisionLayer": "blocks",
-        "playerX": 2,
-        "playerY": 7,
+        "playerX": 1,
+        "playerY": 2,
         "startingCharge": 0,
-        "phones":[
-            {"x":13, "y": 7, "maxCharge": 1, "load":"spacestation", "goto": 103}
+        "batteries":[
+            {"x":3, "y": 2},
+            {"x":8, "y": 3, "amount": 2}
         ],
-        "text":"Lavaworld"
+        "phones":[
+            {"x":2, "y": 7, "maxCharge": 1, "goto": 25, "multi":true},
+            {"x":14, "y": 4, "maxCharge": 1, "goto": 25, "multi":true}
+        ],
+        "enemies":[
+            {"type":"lava", "x":2, "y":6, "w":2, "h":2, "immuneCharge":2},
+            {"type":"lava", "x":7, "y":6, "w":4, "h":2, "immuneCharge":2}
+        ],
+        "text":"Resist the heat"
    }
 }

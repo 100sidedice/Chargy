@@ -66,6 +66,8 @@ export default class World {
         loading.innerHTML = "Loading!!! <br> Getting battery"
         const battery = await fetch(data["battery"]).then(res => res.blob());
         this.images["battery"] = await createImageBitmap(battery);
+        const overcharge = await fetch(data["overcharge"]).then(res => res.blob());
+        this.images["overcharge"] = await createImageBitmap(overcharge);
         const rock = await fetch(data["rock"]).then(res => res.blob());
         this.images["rock"] = await createImageBitmap(rock);
         
@@ -695,7 +697,7 @@ export default class World {
         // batteries
         if(this.levelData[this.level].batteries) {
             this.levelData[this.level].batteries.forEach((batteryData, index) => {
-                this.entities[`battery${index}`] = new Battery(this, batteryData.x, batteryData.y, 1, 1);
+                this.entities[`battery${index}`] = new Battery(this, batteryData.x, batteryData.y, 1, 1, batteryData.amount ?? 1);
             });
         }
         this.updateCollisions();
