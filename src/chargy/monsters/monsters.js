@@ -9,6 +9,7 @@ import Button from "./button.js";
 import GooberWorld from "./gooberworld.js";
 import Rocket from "./rocket.js";
 import ChargePanel from "./chargePanels.js";
+import Lava from "./lava.js";
 
 export default function createMonsters(type, world, img=null, spriteData=null, monsterData=null){
     switch(type){
@@ -17,6 +18,7 @@ export default function createMonsters(type, world, img=null, spriteData=null, m
         case "brunk": return new Brunk(world, img, spriteData, monsterData);
         case "wire": return new Wire(world, spriteData, monsterData);
         case "chargePanel": return new ChargePanel(world, spriteData, monsterData);
+        case "lava": return new Lava(world, monsterData);
         case "oneway": return new Oneway(world, img, spriteData, monsterData);
         case "oneway_locked": return new OnewayLocked(world, img, spriteData, monsterData);
         case "button": return new Button(world, img, spriteData, monsterData);

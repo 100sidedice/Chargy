@@ -171,6 +171,7 @@ export default class World {
             // relevant spacestation level
             if (this.world === "world1") this.switchLevel(101, 101, "spacestation", true);
             if (this.world === "factory") this.switchLevel(102, 102, "spacestation", true);
+            if (this.world === "lavaworld") this.switchLevel(103, 103, "spacestation", true);
             if (this.world === "spacestation") this.switchLevel(this.level, this.level, this.world, true);
         })
         

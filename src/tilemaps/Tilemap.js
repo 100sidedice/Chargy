@@ -63,6 +63,8 @@ export default class Tilemap {
                         }
                     }
                     region.layers[layer] = tiles;
+                } else {
+                    region.layers[layer] = new Array(w * h).fill(0); // If layer doesn't exist, fill with empty tiles
                 }
             });
         }

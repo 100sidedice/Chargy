@@ -477,9 +477,9 @@
         "text":"Goober world [Dark side]",
         "phones":[
             {"x":-5, "y": 1, "maxCharge": 1 , "goto": 1},
-            {"x":3, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 13},
-            {"x":5, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 14},
-            {"x":7, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 15},
+            {"x":3, "y": 8, "maxCharge": 1 ,"load":"lavaworld", "goto": 25},
+            {"x":5, "y": 8, "maxCharge": 1 ,"load":"lavaworld", "goto": 26},
+            {"x":7, "y": 8, "maxCharge": 1 ,"load":"lavaworld", "goto": 27},
             {"x":9, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 16},
             {"x":11, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 17},
             {"x":13, "y": 8, "maxCharge": 1 ,"load":"factory", "goto": 18},
@@ -960,7 +960,7 @@
         "phones":[
             {"x":1, "y": 2, "maxCharge": 1, "goto": 24.1}
         ],
-         "batteries":[
+        "batteries":[
             {"x":14, "y": 1}
         ],
         "enemies":[
@@ -970,5 +970,58 @@
             ], "state":1}
         ],
         "text":"Dejavu?"
+   },
+   "25": {
+        "world":"lavaworld",
+        "origin": [0, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 1,
+        "playerY": 1,
+        "startingCharge": 0,
+        "phones":[
+            {"x":13, "y": 1, "maxCharge": 1, "goto": 26}
+        ],
+        "batteries":[
+            {"x":10, "y": 1}
+        ],
+        "enemies":[
+            {"type":"lava", "x":3, "y":5, "w":4, "h":1, "immuneCharge":2},
+            {"type":"lava", "x":11, "y":6, "w":4, "h":2, "immuneCharge":2}
+        ],
+        "text":"Lavaworld"
+   },
+   "26": {
+        "world":"lavaworld",
+        "origin": [17, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 1,
+        "playerY": 1,
+        "startingCharge": 0,
+        "phones":[
+            {"x":13, "y": 7, "maxCharge": 1, "goto": 27}
+        ],
+        "enemies":[
+            {"type":"lava", "x":11, "y":6, "w":4, "h":2, "immuneCharge":2},
+            {"type":"lava", "x":11, "y":6, "w":4, "h":2, "immuneCharge":2}
+        ],
+        "text":"Lavaworld"
+   },
+   "27": {
+        "world":"lavaworld",
+        "origin": [34, 0],
+        "size": [16, 9],
+        "tileSize": 16,
+        "collisionLayer": "blocks",
+        "playerX": 2,
+        "playerY": 7,
+        "startingCharge": 0,
+        "phones":[
+            {"x":13, "y": 7, "maxCharge": 1, "load":"spacestation", "goto": 103}
+        ],
+        "text":"Lavaworld"
    }
 }
