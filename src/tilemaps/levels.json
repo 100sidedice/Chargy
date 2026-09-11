@@ -393,7 +393,7 @@
             {"x":7, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 10},
             {"x":5, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 11},
             {"x":3, "y": 3, "maxCharge": 1 ,"load":"world1", "goto": 12},
-            {"x":1, "y": 1, "maxCharge": 1 ,"load":"spacestation", "goto": 101}
+            {"x":1, "y": 1, "maxCharge": 1 ,"load":"spacestation", "goto": 102}
         ],
         "batteries":[
             {"x":7, "y": 6}
